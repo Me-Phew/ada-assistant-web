@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
   site: {
-    indexable: process.env.APP_ENV === "production",
+    indexable: process.env.NODE_ENV === "production",
     url: process.env.SITE_URL,
     name: "ADA Voice Assistant",
   },
