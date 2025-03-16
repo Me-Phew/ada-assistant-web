@@ -1,8 +1,20 @@
+ARG NODE_ENV
+ARG APP_VERSION
+ARG SITE_URL
+ARG API_BASE_URL
+
 ARG NODE_VERSION=22.14.0
 ARG PNPM_VERSION=10.6.3
 
 # Create build stage
 FROM node:${NODE_VERSION}-slim AS build
+
+# Define environment variables
+ENV HOST=127.0.0.1
+ENV NODE_ENV=$NODE_ENV
+ENV APP_VERSION=$APP_VERSION
+ENV SITE_URL=$SITE_URL
+ENV API_BASE_URL=$API_BASE_URL
 
 # Install pnpm
 RUN npm install -g pnpm@${PNPM_VERSION}
@@ -31,10 +43,6 @@ WORKDIR /app
 
 # Copy the output from the build stage to the working directory
 COPY --from=build /app/.output ./
-
-# Define environment variables
-ENV HOST=0.0.0.0 NODE_ENV=production
-ENV NODE_ENV=production
 
 # Expose the port the application will run on
 EXPOSE 3000

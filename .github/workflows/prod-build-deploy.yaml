@@ -45,12 +45,17 @@ jobs:
 
       - name: Build Docker image
         env:
-          APP_ENV: "production"
+          NODE_ENV: "production"
           APP_VERSION: ${{ steps.tag_version.outputs.new_tag }}
           SITE_URL: "https://heyada.pl/"
           API_BASE_URL: "https://api.heyada.pl/"
         run: |
-          docker build -t $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:${{ steps.tag_version.outputs.new_tag }} .
+          docker build \
+            --build-arg NODE_ENV=${{ env.NODE_ENV }} \
+            --build-arg APP_VERSION=${{ env.APP_VERSION }} \
+            --build-arg SITE_URL=${{ env.SITE_URL }} \
+            --build-arg API_BASE_URL=${{ env.API_BASE_URL }} \
+            -t $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:${{ steps.tag_version.outputs.new_tag }} .
 
       - name: Push Docker image to registry
         run: |
