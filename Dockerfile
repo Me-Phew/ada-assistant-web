@@ -30,6 +30,7 @@ WORKDIR /app
 # Copy package.json and pnpm-lock.yaml files to the working directory
 COPY ./package.json /app/
 COPY ./pnpm-lock.yaml /app/
+COPY .npmrc /app/
 
 ## Install dependencies
 RUN pnpm install --frozen-lockfile
