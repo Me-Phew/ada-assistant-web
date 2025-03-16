@@ -3,10 +3,10 @@ name: Staging build and deployment
 on:
   push:
     branches:
-      - 'staging'
+      - "staging"
   pull_request:
     branches:
-      - 'staging'
+      - "staging"
   workflow_dispatch:
 
 jobs:
@@ -16,36 +16,48 @@ jobs:
       name: Staging
       url: https://staging.heyada.pl
     env:
-      DOCKER_REGISTRY: 'docker.mateuszbasiaga.pl'
-      DOCKER_IMAGE_NAME: 'ada-web-staging'
-      DOCKER_CONTAINER_NAME: 'ada-web-staging'
-      DEPLOYMENT_SERVER: 'mateuszbasiaga.pl'
+      DOCKER_REGISTRY: "docker.mateuszbasiaga.pl"
+      DOCKER_IMAGE_NAME: "ada-web-staging"
+      DOCKER_CONTAINER_NAME: "ada-web-staging"
+      DEPLOYMENT_SERVER: "mateuszbasiaga.pl"
       DEPLOYMENT_PORT: 4200
     steps:
       - name: Get latest code
         uses: actions/checkout@v4
 
+      - name: Log in to Docker registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.DOCKER_REGISTRY}}
+          username: ${{ secrets.DOCKER_REGISTRY_USER }}
+          password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Log in to Docker registry
-        run: |
-          echo ${{ secrets.DOCKER_REGISTRY_PASSWORD }} | docker login $DOCKER_REGISTRY -u ${{ secrets.DOCKER_REGISTRY_USER }} --password-stdin
 
-      - name: Build Docker image
-        env:
-          APP_ENV: 'staging'
-          APP_VERSION: ${{ github.sha }}
-          SITE_URL: 'https://staging.heyada.pl/'
-          API_BASE_URL: 'https://staging.api.heyada.pl/'
-        run: |
-          docker build -t $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:${{ github.sha }} .
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          platforms: linux/amd64,linux/arm64
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
+          build-args: |
+            NODE_ENV=staging
+            APP_VERSION=${{ github.sha }}
+            SITE_URL=https://staging.heyada.pl/
+            API_BASE_URL=https://staging.api.heyada.pl/
 
-      - name: Push Docker image to registry
-        run: |
-          docker push $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:${{ github.sha }}
+      - name: Set up SSH Agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOYMENT_SSH_KEY }}
 
-      - name: Deploy to server
-        run: | 
-          docker pull $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:${{ github.sha }} && docker stop $DOCKER_CONTAINER_NAME || true && docker rm $DOCKER_CONTAINER_NAME || true && docker run -d --name $DOCKER_CONTAINER_NAME -p $DEPLOYMENT_PORT:3000 $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:${{ github.sha }}
-          sleep 2
-          curl -f --silent --show-error localhost:$DEPLOYMENT_PORT 1>/dev/null && echo success           
+      - name: Deploy to the server
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOYMENT_USERNAME }}@$DEPLOYMENT_SERVER "
+            docker pull $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:${{ github.sha }} && docker stop $DOCKER_CONTAINER_NAME || true && docker rm $DOCKER_CONTAINER_NAME || true && docker run -d --name $DOCKER_CONTAINER_NAME -p $DEPLOYMENT_PORT:3000 $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:${{ github.sha }}
+            sleep 2
+            curl -f --silent --show-error localhost:$DEPLOYMENT_PORT 1>/dev/null && echo success
+          "
