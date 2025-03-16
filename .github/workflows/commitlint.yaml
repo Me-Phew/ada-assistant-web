@@ -9,21 +9,6 @@ jobs:
     steps:
       - name: Get latest code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Install commitlint
-        run: pmpm add @commitlint/{cli,config-conventional} commitlint@latest
-
-      - name: Validate current commit (last commit) with commitlint
-        if: github.event_name == 'push'
-        run: pnpm commitlint --last --verbose
-
-      - name: Validate PR commits with commitlint
-        if: github.event_name == 'pull_request'
-        run: pnpm commitlint --from ${{ github.event.pull_request.head.sha }}~${{ github.event.pull_request.commits }} --to ${{ github.event.pull_request.head.sha }} --verbose
+      - name: Validate commits with commitlint
+        uses: wagoid/commitlint-github-action@v6
