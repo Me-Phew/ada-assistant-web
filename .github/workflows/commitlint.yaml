@@ -18,14 +18,12 @@ jobs:
           node-version: 22
 
       - name: Install commitlint
-        run: |
-          npm install @commitlint/{cli,config-conventional} -g
-          npm install commitlint@latest -g
+        run: pmpm add @commitlint/{cli,config-conventional} commitlint@latest
 
       - name: Validate current commit (last commit) with commitlint
         if: github.event_name == 'push'
-        run: npx commitlint --last --verbose
+        run: pnpm commitlint --last --verbose
 
       - name: Validate PR commits with commitlint
         if: github.event_name == 'pull_request'
-        run: npx commitlint --from ${{ github.event.pull_request.head.sha }}~${{ github.event.pull_request.commits }} --to ${{ github.event.pull_request.head.sha }} --verbose
+        run: pnpm commitlint --from ${{ github.event.pull_request.head.sha }}~${{ github.event.pull_request.commits }} --to ${{ github.event.pull_request.head.sha }} --verbose
