@@ -16,6 +16,9 @@ ENV APP_VERSION=$APP_VERSION
 ENV SITE_URL=$SITE_URL
 ENV API_BASE_URL=$API_BASE_URL
 
+# Print SITE_URL for debugging
+RUN echo "SITE_URL is: $SITE_URL"
+
 # Install pnpm
 RUN npm install -g pnpm@${PNPM_VERSION}
 
