@@ -6,5 +6,6 @@
   "printWidth": 100,
   "trailingComma": "all",
   "singleAttributePerLine": true,
-  "endOfLine": "auto"
+  "endOfLine": "auto",
+  "plugins": ["prettier-plugin-organize-imports"]
 }
