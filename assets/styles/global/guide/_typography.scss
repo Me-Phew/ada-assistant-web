@@ -1,0 +1,134 @@
+@use "sass:math";
+
+@mixin wordmark() {
+  font-family: "Arlon", sans-serif;
+  font-weight: 700;
+  font-size: 3.2rem;
+  line-height: 140.6%;
+}
+
+@mixin h1() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  font-size: 5.6rem;
+  line-height: math.div(76, 56);
+}
+
+@mixin h2() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  font-size: 3.6rem;
+  line-height: math.div(44, 36);
+}
+
+@mixin h3() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  font-size: 2.8rem;
+  line-height: math.div(36, 28);
+}
+
+@mixin h4() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: math.div(28, 20);
+}
+
+@mixin body-regular-1() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 1.8rem;
+  line-height: math.div(28, 18);
+}
+
+@mixin body-regular-2() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: math.div(24, 16);
+}
+
+@mixin body-regular-3() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 1.4rem;
+  line-height: math.div(20, 14);
+}
+
+@mixin body-regular-4() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 1.2rem;
+  line-height: math.div(16, 12);
+}
+
+@mixin body-medium-1() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 1.8rem;
+  line-height: math.div(28, 18);
+}
+
+@mixin body-medium-2() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: math.div(24, 16);
+}
+
+@mixin body-medium-3() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 1.4rem;
+  line-height: math.div(20, 14);
+}
+
+@mixin body-medium-4() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 1.2rem;
+  line-height: math.div(16, 12);
+}
+
+@mixin button-normal() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 1.8rem;
+  line-height: math.div(21.1, 18);
+}
+
+@mixin button-medium() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: math.div(18.8, 16);
+}
+
+@mixin button-small() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 1.4rem;
+  line-height: math.div(16.4, 14);
+}
+
+@mixin link-normal() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 1.8rem;
+  line-height: math.div(24, 18);
+}
+
+@mixin link-medium() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: math.div(20, 16);
+}
+
+@mixin link-small() {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 1.4rem;
+  line-height: math.div(16, 14);
+}

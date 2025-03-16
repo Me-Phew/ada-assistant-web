@@ -1,0 +1,16 @@
+@mixin base-grid() {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 1.25rem;
+  padding: 0 1.875rem;
+}
+
+@mixin base-grid-full-width-item($left: true, $right: true) {
+  @if $left {
+    margin-left: -1.875rem;
+  }
+
+  @if $right {
+    margin-right: -1.875rem;
+  }
+}

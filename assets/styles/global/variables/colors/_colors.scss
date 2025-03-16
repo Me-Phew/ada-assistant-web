@@ -1,0 +1,91 @@
+@use "light_theme" as *;
+@use "dark_theme" as *;
+@use "blue_theme" as *;
+
+// Use light theme as default
+$color_background_primary: $color_background_primary_light_theme;
+$color_background_secondary: $color_background_secondary_light_theme;
+$color_background_variant: $color_background_variant_light_theme;
+
+$color_text_primary: $color_text_primary_light_theme;
+$color_text_secondary: $color_text_secondary_light_theme;
+$color_text_variant: $color_text_variant_light_theme;
+
+$color_primary: $color_primary_light_theme;
+$color_secondary: $color_secondary_light_theme;
+
+$color_info: $color_info_light_theme;
+$color_warning: $color_warning_light_theme;
+$color_error: $color_error_light_theme;
+$color_success: $color_success_light_theme;
+
+html.dark-theme {
+  --color-background-primary: #{$color_background_primary_dark_theme};
+  --color-background-secondary: #{$color_background_secondary_dark_theme};
+  --color-background-variant: #{$color_background_variant_dark_theme};
+
+  --color-text-primary: #{$color_text_primary_dark_theme};
+  --color-text-secondary: #{$color_text_secondary_dark_theme};
+  --color-text-variant: #{$color_text_variant_dark_theme};
+
+  --color-primary: #{$color_primary_dark_theme};
+  --color-secondary: #{$color_secondary_dark_theme};
+
+  --color-info: #{$color_info_dark_theme};
+  --color-warning: #{$color_warning_dark_theme};
+  --color-error: #{$color_error_dark_theme};
+  --color-success: #{$color_success_dark_theme};
+}
+
+html.light-theme {
+  --color-background-primary: #{$color_background_primary};
+  --color-background-secondary: #{$color_background_secondary};
+  --color-background-variant: #{$color_background_variant};
+
+  --color-text-primary: #{$color_text_primary};
+  --color-text-secondary: #{$color_text_secondary};
+  --color-text-variant: #{$color_text_variant};
+
+  --color-primary: #{$color_primary};
+  --color-secondary: #{$color_secondary};
+
+  --color-info: #{$color_info};
+  --color-warning: #{$color_warning};
+  --color-error: #{$color_error};
+  --color-success: #{$color_success};
+}
+
+html.blue-theme {
+  --color-background-primary: #{$color_background_primary_blue_theme};
+  --color-background-secondary: #{$color_background_secondary_blue_theme};
+  --color-background-variant: #{$color_background_variant_blue_theme};
+
+  --color-text-primary: #{$color_text_primary_blue_theme};
+  --color-text-secondary: #{$color_text_secondary_blue_theme};
+  --color-text-variant: #{$color_text_variant_blue_theme};
+
+  --color-primary: #{$color_primary_blue_theme};
+  --color-secondary: #{$color_secondary_blue_theme};
+
+  --color-info: #{$color_info_blue_theme};
+  --color-warning: #{$color_warning_blue_theme};
+  --color-error: #{$color_error_blue_theme};
+  --color-success: #{$color_success_blue_theme};
+}
+
+// Redefine according to the current theme
+$color_background_primary: var(--color-background-primary);
+$color_background_secondary: var(--color-background-secondary);
+$color_background_variant: var(--color-background-variant);
+
+$color_text_primary: var(--color-text-primary);
+$color_text_secondary: var(--color-text-secondary);
+$color_text_variant: var(--color-text-variant);
+
+$color_primary: var(--color-primary);
+$color_secondary: var(--color-secondary);
+
+$color_info: var(--color-info);
+$color_warning: var(--color-warning);
+$color_error: var(--color-error);
+$color_success: var(--color-success);

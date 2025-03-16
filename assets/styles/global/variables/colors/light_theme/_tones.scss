@@ -1,0 +1,46 @@
+@use "sass:color";
+
+@use "light_theme" as *;
+
+// neutral colors
+$color_background_variant_tone_1_light_theme: color.adjust(
+  $color_background_variant_light_theme,
+  $alpha: -0.2
+);
+$color_background_variant_tone_2_light_theme: color.adjust(
+  $color_background_variant_light_theme,
+  $alpha: -0.95
+);
+
+$color_text_primary_tone_1_light_theme: color.adjust(
+  $color_text_primary_light_theme,
+  $alpha: -0.15
+);
+$color_text_secondary_tone_1_light_theme: color.adjust(
+  $color_text_secondary_light_theme,
+  $alpha: -0.3
+);
+
+// accent colors
+$color_primary_tone_1_light_theme: color.adjust(
+  $color_primary_light_theme,
+  $alpha: -0.15
+);
+
+// semantic colors
+$color_info_tone_1_light_theme: color.adjust(
+  $color_info_light_theme,
+  $alpha: -0.85
+);
+$color_warning_tone_1_light_theme: color.adjust(
+  $color_warning_light_theme,
+  $alpha: -0.85
+);
+$color_error_tone_1_light_theme: color.adjust(
+  $color_error_light_theme,
+  $alpha: -0.85
+);
+$color_success_tone_1_light_theme: color.adjust(
+  $color_success_light_theme,
+  $alpha: -0.85
+);

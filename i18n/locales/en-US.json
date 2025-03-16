@@ -1,0 +1,87 @@
+{
+  "common": {
+    "back": "Back",
+    "next": "Next",
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "with": "with",
+    "or": "or",
+    "fileSize": "File size",
+    "copy": "Copy",
+    "free": "Free",
+    "validation": {
+      "min": " hast to contain at least ",
+      "max": " cannot contain more than ",
+      "inputs": {
+        "email": {
+          "label": "Email address",
+          "placeholder": {
+            "address": "johndoe",
+            "domain": "gmail.com"
+          },
+          "validation": {
+            "errorMessages": {
+              "required": "Enter your email address",
+              "invalid": "Enter a valid email address"
+            }
+          }
+        },
+        "password": {
+          "label": "Password",
+          "validation": {
+            "errorMessages": {
+              "containsLowercaseLetter": "Password has to contain at least one lowercase letter",
+              "containsUppercaseLetter": "Password has to contain at least one uppercase letter",
+              "containsDigit": "Password has to contain at least one digit",
+              "containsSpecialCharacter": "Password has to contain at least one special character"
+            }
+          }
+        },
+        "rePassword": {
+          "validation": {
+            "errorMessages": {
+              "matchesPassword": "Provided passwords must match"
+            }
+          }
+        }
+      }
+    },
+    "plural": {
+      "char": "{n} character | {n} characters",
+      "chapter": "{n} chapter | {n} chapters"
+    },
+    "inputs": {
+      "password": {
+        "showPassword": "Show password",
+        "hidePassword": "Hide password"
+      }
+    },
+    "errorMessages": {
+      "failedToCheckEmailValidityAndAvailability": "Failed to check email address availability",
+      "failedToFetchUserData": "Failed to download user data",
+      "failedToLogOut": "Failed to log out",
+      "failedToSendMessage": "Failed to send message",
+      "noInternetConnection": "No Internet connection"
+    },
+    "successMessages": {
+      "messageSent": "Message has been sent",
+      "loggedOut": "Logged out"
+    },
+    "emails": {
+      "actions": {
+        "resend": "Resend"
+      },
+      "hints": {
+        "messageLost": "The message was lost? You can send it again",
+        "troubleFindingMessage": "Can't find the message? Check the spam folder."
+      },
+      "errorMessages": {
+        "messageRateLimitExceeded": "A message has already been sent to this email address in the last 15 minutes",
+        "emailAlreadyVerified": "Email address has already been verified"
+      }
+    }
+  },
+  "components": {},
+  "pages": {}
+}

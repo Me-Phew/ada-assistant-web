@@ -1,0 +1,59 @@
+{
+  "name": "ada-assistant",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.6.3",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxt/eslint": "^1.1.0",
+    "@nuxt/fonts": "^0.11.0",
+    "@nuxt/image": "^1.9.0",
+    "@nuxtjs/color-mode": "3.5.2",
+    "@nuxt/icon": "^1.11.0",
+    "@nuxtjs/fontaine": "0.5.0",
+    "@nuxtjs/google-fonts": "3.2.0",
+    "@nuxtjs/i18n": "^9.3.1",
+    "@nuxtjs/seo": "^3.0.1",
+    "@nuxt/test-utils": "3.17.2",
+    "eslint": "^9.0.0",
+    "@pinia/nuxt": "^0.10.1",
+    "@vueuse/nuxt": "^13.0.0",
+    "nuxt": "^3.16.0",
+    "nuxt-security": "^2.2.0",
+    "pinia-plugin-persistedstate": "^4.2.0",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@iconify-json/mdi": "^1.2.3",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-security": "^3.0.1",
+    "sass-embedded": "^1.85.1",
+    "stylelint-scss": "^6.11.1",
+    "ts-toolbelt": "^9.6.0",
+    "typescript": "^5.8.2",
+    "vue-tsc": "^2.2.8"
+  },
+  "overrides": {
+    "vue": "latest"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild",
+      "sharp"
+    ],
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild",
+      "sharp"
+    ]
+  }
+}

@@ -1,0 +1,76 @@
+@use "light_theme" as *;
+@use "dark_theme" as *;
+@use "blue_theme" as *;
+
+// Use light theme as default
+$color_background_variant_tone_1: $color_background_variant_tone_1_light_theme;
+$color_background_variant_tone_2: $color_background_variant_tone_2_light_theme;
+
+$color_text_primary_tone_1: $color_text_primary_tone_1_light_theme;
+$color_text_secondary_tone_1: $color_text_secondary_tone_1_light_theme;
+
+$color_primary_tone_1: $color_primary_tone_1_light_theme;
+
+$color_info_tone_1: $color_info_tone_1_light_theme;
+$color_warning_tone_1: $color_warning_tone_1_light_theme;
+$color_error_tone_1: $color_error_tone_1_light_theme;
+$color_success_tone_1: $color_success_tone_1_light_theme;
+
+html.dark-theme {
+  --color-background-variant-tone-1: #{$color_background_variant_tone_1_dark_theme};
+  --color-background-variant-tone-2: #{$color_background_variant_tone_2_dark_theme};
+
+  --color-text-primary-tone-1: #{$color_text_primary_tone_1_dark_theme};
+  --color-text-secondary-tone-1: #{$color_text_secondary_tone_1_dark_theme};
+
+  --color-primary-tone-1: #{$color_primary_tone_1_dark_theme};
+
+  --color-info-tone-1: #{$color_info_tone_1_dark_theme};
+  --color-warning-tone-1: #{$color_warning_tone_1_dark_theme};
+  --color-error-tone-1: #{$color_error_tone_1_dark_theme};
+  --color-success-tone-1: #{$color_success_tone_1_dark_theme};
+}
+
+html.light-theme {
+  --color-background-variant-tone-1: #{$color_background_variant_tone_1_light_theme};
+  --color-background-variant-tone-2: #{$color_background_variant_tone_2_light_theme};
+
+  --color-text-primary-tone-1: #{$color_text_primary_tone_1_light_theme};
+  --color-text-secondary-tone-1: #{$color_text_secondary_tone_1_light_theme};
+
+  --color-primary-tone-1: #{$color_primary_tone_1_light_theme};
+
+  --color-info-tone-1: #{$color_info_tone_1_light_theme};
+  --color-warning-tone-1: #{$color_warning_tone_1_light_theme};
+  --color-error-tone-1: #{$color_error_tone_1_light_theme};
+  --color-success-tone-1: #{$color_success_tone_1_light_theme};
+}
+
+html.blue-theme {
+  --color-background-variant-tone-1: #{$color_background_variant_tone_1_blue_theme};
+  --color-background-variant-tone-2: #{$color_background_variant_tone_2_blue_theme};
+
+  --color-text-primary-tone-1: #{$color_text_primary_tone_1_blue_theme};
+  --color-text-secondary-tone-1: #{$color_text_secondary_tone_1_blue_theme};
+
+  --color-primary-tone-1: #{$color_primary_tone_1_blue_theme};
+
+  --color-info-tone-1: #{$color_info_tone_1_blue_theme};
+  --color-warning-tone-1: #{$color_warning_tone_1_blue_theme};
+  --color-error-tone-1: #{$color_error_tone_1_blue_theme};
+  --color-success-tone-1: #{$color_success_tone_1_blue_theme};
+}
+
+// Redefine according to the current theme
+$color_background_variant_tone_1: var(--color-background-variant-tone-1);
+$color_background_variant_tone_2: var(--color-background-variant-tone-2);
+
+$color_text_primary_tone_1: var(--color-text-primary-tone-1);
+$color_text_secondary_tone_1: var(--color-text-secondary-tone-1);
+
+$color_primary_tone_1: var(--color-primary-tone-1);
+
+$color_info_tone_1: var(--color-info-tone-1);
+$color_warning_tone_1: var(--color-warning-tone-1);
+$color_error_tone_1: var(--color-error-tone-1);
+$color_success_tone_1: var(--color-success-tone-1);
