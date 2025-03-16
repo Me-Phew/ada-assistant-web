@@ -1,13 +1,14 @@
+ARG NODE_VERSION=22.14.0
+
+# Create build stage
+FROM node:${NODE_VERSION}-slim AS build
+
+ARG PNPM_VERSION=10.6.3
+
 ARG NODE_ENV
 ARG APP_VERSION
 ARG SITE_URL
 ARG API_BASE_URL
-
-ARG NODE_VERSION=22.14.0
-ARG PNPM_VERSION=10.6.3
-
-# Create build stage
-FROM node:${NODE_VERSION}-slim AS build
 
 # Define environment variables
 ENV HOST=127.0.0.1
@@ -16,8 +17,9 @@ ENV APP_VERSION=${APP_VERSION}
 ENV SITE_URL=${SITE_URL}
 ENV API_BASE_URL=${API_BASE_URL}
 
-# Print SITE_URL for debugging
+# Debugging
 RUN echo "SITE_URL is: ${SITE_URL}"
+RUN echo "API_BASE_URL is: ${API_BASE_URL}"
 
 # Install pnpm
 RUN npm install -g pnpm@${PNPM_VERSION}
