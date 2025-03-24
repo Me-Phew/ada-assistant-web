@@ -20,7 +20,7 @@
 .home-quote-testimonial {
   @include base-grid;
 
-  background-color: $color_background_secondary;
+  background-color: $color_background_variant;
   min-height: 33rem;
 
   &__content {
@@ -47,7 +47,7 @@
     @include body-medium-3;
 
     margin-top: 2.4rem;
-    color: $color_text_secondary;
+    color: $color_text_variant;
   }
 }
 </style>
