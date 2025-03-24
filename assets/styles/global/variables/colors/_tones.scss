@@ -8,6 +8,7 @@ $color_background_variant_tone_2: $color_background_variant_tone_2_light_theme;
 
 $color_text_primary_tone_1: $color_text_primary_tone_1_light_theme;
 $color_text_secondary_tone_1: $color_text_secondary_tone_1_light_theme;
+$color_text_variant_tone_1: $color_text_variant_tone_1_light_theme;
 
 $color_primary_tone_1: $color_primary_tone_1_light_theme;
 
@@ -22,6 +23,7 @@ html.dark-theme {
 
   --color-text-primary-tone-1: #{$color_text_primary_tone_1_dark_theme};
   --color-text-secondary-tone-1: #{$color_text_secondary_tone_1_dark_theme};
+  --color-text-variant-tone-1: #{$color_text_variant_tone_1_dark_theme};
 
   --color-primary-tone-1: #{$color_primary_tone_1_dark_theme};
 
@@ -37,6 +39,7 @@ html.light-theme {
 
   --color-text-primary-tone-1: #{$color_text_primary_tone_1_light_theme};
   --color-text-secondary-tone-1: #{$color_text_secondary_tone_1_light_theme};
+  --color-text-variant-tone-1: #{$color_text_variant_tone_1_light_theme};
 
   --color-primary-tone-1: #{$color_primary_tone_1_light_theme};
 
@@ -52,6 +55,7 @@ html.blue-theme {
 
   --color-text-primary-tone-1: #{$color_text_primary_tone_1_blue_theme};
   --color-text-secondary-tone-1: #{$color_text_secondary_tone_1_blue_theme};
+  --color-text-variant-tone-1: #{$color_text_variant_tone_1_blue_theme};
 
   --color-primary-tone-1: #{$color_primary_tone_1_blue_theme};
 
@@ -67,6 +71,7 @@ $color_background_variant_tone_2: var(--color-background-variant-tone-2);
 
 $color_text_primary_tone_1: var(--color-text-primary-tone-1);
 $color_text_secondary_tone_1: var(--color-text-secondary-tone-1);
+$color_text_variant_tone_1: var(--color-text-variant-tone-1);
 
 $color_primary_tone_1: var(--color-primary-tone-1);
 

@@ -13,35 +13,18 @@ $color_background_variant_tone_2_dark_theme: color.adjust(
   $alpha: -0.95
 );
 
-$color_text_primary_tone_1_dark_theme: color.adjust(
-  $color_text_primary_dark_theme,
-  $alpha: -0.15
-);
+$color_text_primary_tone_1_dark_theme: color.adjust($color_text_primary_dark_theme, $alpha: -0.15);
 $color_text_secondary_tone_1_dark_theme: color.adjust(
   $color_text_secondary_dark_theme,
   $alpha: -0.3
 );
+$color_text_variant_tone_1_dark_theme: color.adjust($color_text_variant_dark_theme, $alpha: -0.3);
 
 // accent colors
-$color_primary_tone_1_dark_theme: color.adjust(
-  $color_primary_dark_theme,
-  $alpha: -0.15
-);
+$color_primary_tone_1_dark_theme: color.adjust($color_primary_dark_theme, $alpha: -0.15);
 
 // semantic colors
-$color_info_tone_1_dark_theme: color.adjust(
-  $color_info_dark_theme,
-  $alpha: -0.85
-);
-$color_warning_tone_1_dark_theme: color.adjust(
-  $color_warning_dark_theme,
-  $alpha: -0.85
-);
-$color_error_tone_1_dark_theme: color.adjust(
-  $color_error_dark_theme,
-  $alpha: -0.85
-);
-$color_success_tone_1_dark_theme: color.adjust(
-  $color_success_dark_theme,
-  $alpha: -0.85
-);
+$color_info_tone_1_dark_theme: color.adjust($color_info_dark_theme, $alpha: -0.85);
+$color_warning_tone_1_dark_theme: color.adjust($color_warning_dark_theme, $alpha: -0.85);
+$color_error_tone_1_dark_theme: color.adjust($color_error_dark_theme, $alpha: -0.85);
+$color_success_tone_1_dark_theme: color.adjust($color_success_dark_theme, $alpha: -0.85);
