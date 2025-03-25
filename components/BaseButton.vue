@@ -14,7 +14,7 @@ const props = withDefaults(
     size: "normal",
     icon: undefined,
     to: undefined,
-  }
+  },
 );
 
 const NuxtLink = resolveComponent("NuxtLink");
@@ -65,6 +65,10 @@ const component = computed(() => (props.to ? NuxtLink : "button"));
 
   &:hover {
     background-color: $color_background_variant_tone_1;
+
+    &#{$self}--secondary {
+      background-color: $color_background_variant_tone_2;
+    }
   }
 
   &--primary {
@@ -72,7 +76,10 @@ const component = computed(() => (props.to ? NuxtLink : "button"));
   }
 
   &--secondary {
-    border: 1px solid $color_background_secondary;
+    border: 1px solid $color_background_variant;
+
+    background-color: $color_background_primary;
+    color: $color_text_primary;
   }
 
   &--small {

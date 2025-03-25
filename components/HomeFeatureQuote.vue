@@ -71,7 +71,7 @@ withDefaults(
   }
 
   &--right-secondary {
-    background-color: $color_background_secondary;
+    background-color: $color_background_variant;
   }
 
   &__media {
@@ -111,6 +111,10 @@ withDefaults(
   &__title {
     @include h3;
     color: $color_text_primary;
+
+    #{$self}--right-secondary & {
+      color: $color_text_variant;
+    }
   }
 
   &__description {
@@ -118,6 +122,10 @@ withDefaults(
 
     margin-top: 1.6rem;
     color: $color_text_primary;
+
+    #{$self}--right-secondary & {
+      color: $color_text_variant;
+    }
   }
 
   &__quote {
@@ -125,6 +133,10 @@ withDefaults(
 
     margin-top: 1.6rem;
     color: $color_text_secondary;
+
+    #{$self}--right-secondary & {
+      color: $color_text_variant_tone_1;
+    }
   }
 
   &__author-wrapper {
@@ -143,6 +155,10 @@ withDefaults(
     @include body-regular-2;
 
     color: $color_text_secondary;
+
+    #{$self}--right-secondary & {
+      color: $color_text_variant_tone_1;
+    }
   }
 }
 </style>
