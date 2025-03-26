@@ -101,6 +101,9 @@ export default defineNuxtConfig({
     enabled: process.env.NODE_ENV === "production",
   },
   i18n: {
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
     strategy: "no_prefix",
     lazy: true,
     langDir: "locales",
