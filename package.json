@@ -2,7 +2,6 @@
   "name": "ada-assistant",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.6.3",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -61,5 +60,8 @@
       "esbuild",
       "sharp"
     ]
-  }
+  },
+  "trustedDependencies": [
+    "@parcel/watcher"
+  ]
 }
