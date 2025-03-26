@@ -62,7 +62,7 @@ jobs:
       - name: Deploy to the server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOYMENT_USERNAME }}@$DEPLOYMENT_SERVER "
-            docker pull $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:${{ steps.tag_version.outputs.new_tag }} && docker stop $DOCKER_CONTAINER_NAME || true && docker rm $DOCKER_CONTAINER_NAME || true && docker run -d --name $DOCKER_CONTAINER_NAME -p $DEPLOYMENT_PORT:3000 $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:${{ steps.tag_version.outputs.new_tag }}
+            docker pull $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:${{ steps.tag_version.outputs.new_tag }} && docker stop $DOCKER_CONTAINER_NAME || true && docker rm $DOCKER_CONTAINER_NAME || true && docker run -d --restart unless-stopped --name $DOCKER_CONTAINER_NAME -p $DEPLOYMENT_PORT:3000 $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:${{ steps.tag_version.outputs.new_tag }}
             sleep 2
             curl -f --silent --show-error localhost:$DEPLOYMENT_PORT 1>/dev/null && echo success
           "
