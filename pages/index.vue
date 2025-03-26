@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import featureQuotePrivacyPhotoFront from "@/assets/img/feature_quote_privacy_media_front.jpg";
-import featureQuotePrivacyPhotoBack from "@/assets/img/feature_quote_privacy_media_back.jpg";
 import featureQuotePrivacyAuthorPhoto from "@/assets/img/feature_quote_privacy_author.jpg";
+import featureQuotePrivacyPhotoBack from "@/assets/img/feature_quote_privacy_media_back.jpg";
+import featureQuotePrivacyPhotoFront from "@/assets/img/feature_quote_privacy_media_front.jpg";
 
-import featureQuoteConfigurationPhotoFront from "@/assets/img/feature_quote_configuration_media_front.jpg";
-import featureQuoteConfigurationPhotoBack from "@/assets/img/feature_quote_configuration_media_back.jpg";
 import featureQuoteConfigurationAuthorPhoto from "@/assets/img/feature_quote_configuration_author.jpg";
+import featureQuoteConfigurationPhotoBack from "@/assets/img/feature_quote_configuration_media_back.jpg";
+import featureQuoteConfigurationPhotoFront from "@/assets/img/feature_quote_configuration_media_front.jpg";
 </script>
 
 <template>
@@ -17,14 +17,12 @@ import featureQuoteConfigurationAuthorPhoto from "@/assets/img/feature_quote_con
       photo-front-alt=""
       :photo-back="featureQuotePrivacyPhotoBack"
       photo-back-alt=""
-      title="Pełna prywatność, zero śledzenia"
-      description="Twój asystent działa tylko dla Ciebie – bez zbierania danych, analizowania rozmów czy
-        przesyłania informacji do korporacji. Twoje komendy pozostają Twoje."
-      quote="W końcu asystent, któremu mogę zaufać! Wiem, że moje rozmowy zostają tam, gdzie powinny –
-        tylko u mnie."
+      :title="$t('pages.home.featureQuotePrivacy.title')"
+      :description="$t('pages.home.featureQuotePrivacy.description')"
+      :quote="$t('pages.home.featureQuotePrivacy.quote')"
       :author-photo="featureQuotePrivacyAuthorPhoto"
       author-photo-alt=""
-      author-description="Kamil Gruca, sponsor kampanii na Kickstarterze"
+      :author-description="$t('pages.home.featureQuotePrivacy.authorDescription')"
     />
     <HomeFeatureQuote
       variant="right-secondary"
@@ -32,12 +30,12 @@ import featureQuoteConfigurationAuthorPhoto from "@/assets/img/feature_quote_con
       photo-front-alt=""
       :photo-back="featureQuoteConfigurationPhotoBack"
       photo-back-alt=""
-      title="Prosta konfiguracja, pełna personalizacja"
-      description="Z łatwością skonfiguruj swojego asystenta głosowego i dostosuj go do swoich potrzeb. Niezależnie od tego, czy chcesz zmieniać ustawienia, czy sterować urządzeniami – wszystko dostępne jednym głosem."
-      quote="Projektowanie z myślą o użytkownikach to klucz do sukcesu. Każdy element interfejsu jest przemyślany, aby było łatwo i przyjemnie z niego korzystać."
+      :title="$t('pages.home.featureQuoteConfiguration.title')"
+      :description="$t('pages.home.featureQuoteConfiguration.description')"
+      :quote="$t('pages.home.featureQuoteConfiguration.quote')"
       :author-photo="featureQuoteConfigurationAuthorPhoto"
       author-photo-alt=""
-      author-description="Marcin Dudek, Kierownik Produkcji"
+      :author-description="$t('pages.home.featureQuoteConfiguration.authorDescription')"
     />
     <HomeMobileApp />
     <HomeQuoteTestimonial />

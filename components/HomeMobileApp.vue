@@ -7,15 +7,14 @@
     />
 
     <div class="home-mobile-app__content">
-      <p class="home-mobile-app__title">Pełna kontrola w Twojej kieszeni</p>
+      <p class="home-mobile-app__title">{{ $t("pages.home.mobileApp.title") }}</p>
       <p class="home-mobile-app__description">
-        Zarządzaj swoim asystentem wygodnie z poziomu aplikacji mobilnej – konfiguruj ustawienia,
-        sprawdzaj historię poleceń i steruj urządzeniami, gdziekolwiek jesteś.
+        {{ $t("pages.home.mobileApp.description") }}
       </p>
       <BaseButton
-        class="home-mobile-app__cta"
+        class="home-mobile-app__cta-button"
         type="secondary"
-        >Pobierz aplikację</BaseButton
+        >{{ $t("pages.home.mobileApp.cta") }}</BaseButton
       >
     </div>
   </section>
@@ -53,7 +52,7 @@
     color: $color_text_primary;
   }
 
-  &__cta {
+  &__cta-button {
     margin-top: 1.6rem;
   }
 }

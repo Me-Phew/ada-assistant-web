@@ -11,7 +11,7 @@
     "copy": "Copy",
     "free": "Free",
     "validation": {
-      "min": " hast to contain at least ",
+      "min": " must contain at least ",
       "max": " cannot contain more than ",
       "inputs": {
         "email": {
@@ -31,17 +31,17 @@
           "label": "Password",
           "validation": {
             "errorMessages": {
-              "containsLowercaseLetter": "Password has to contain at least one lowercase letter",
-              "containsUppercaseLetter": "Password has to contain at least one uppercase letter",
-              "containsDigit": "Password has to contain at least one digit",
-              "containsSpecialCharacter": "Password has to contain at least one special character"
+              "containsLowercaseLetter": "Password must contain at least one lowercase letter",
+              "containsUppercaseLetter": "Password must contain at least one uppercase letter",
+              "containsDigit": "Password must contain at least one digit",
+              "containsSpecialCharacter": "Password must contain at least one special character"
             }
           }
         },
         "rePassword": {
           "validation": {
             "errorMessages": {
-              "matchesPassword": "Provided passwords must match"
+              "matchesPassword": "Passwords must match"
             }
           }
         }
@@ -58,14 +58,14 @@
       }
     },
     "errorMessages": {
-      "failedToCheckEmailValidityAndAvailability": "Failed to check email address availability",
-      "failedToFetchUserData": "Failed to download user data",
+      "failedToCheckEmailValidityAndAvailability": "Failed to check email availability",
+      "failedToFetchUserData": "Failed to fetch user data",
       "failedToLogOut": "Failed to log out",
       "failedToSendMessage": "Failed to send message",
-      "noInternetConnection": "No Internet connection"
+      "noInternetConnection": "No internet connection"
     },
     "successMessages": {
-      "messageSent": "Message has been sent",
+      "messageSent": "Message sent",
       "loggedOut": "Logged out"
     },
     "emails": {
@@ -73,8 +73,8 @@
         "resend": "Resend"
       },
       "hints": {
-        "messageLost": "The message was lost? You can send it again",
-        "troubleFindingMessage": "Can't find the message? Check the spam folder."
+        "messageLost": "Message lost? You can resend it",
+        "troubleFindingMessage": "Can't find the message? Check your spam folder"
       },
       "errorMessages": {
         "messageRateLimitExceeded": "A message has already been sent to this email address in the last 15 minutes",
@@ -82,6 +82,49 @@
       }
     }
   },
-  "components": {},
-  "pages": {}
+  "components": {
+    "baseHeader": {
+      "login": "Log in",
+      "register": "Register"
+    },
+    "baseFooter": {
+      "resources": "Resources",
+      "madeBy": "Made with ❤️ by",
+      "privacyTos": "Privacy policy and terms of service",
+      "allRightsReserved": "All rights reserved"
+    }
+  },
+  "pages": {
+    "home": {
+      "hero": {
+        "title": "21st Century AI Assistant",
+        "subtitle": "A voice assistant that works for you, not against you. No tracking, no unnecessary data collection – full control in your hands.",
+        "cta": "Buy now"
+      },
+      "integrations": {
+        "title": "Seamless integration with your favorite services"
+      },
+      "featureQuotePrivacy": {
+        "title": "Full privacy, zero tracking",
+        "description": "Your assistant works only for you – no data collection, no conversation analysis, no information being sent to corporations. Your commands remain yours.",
+        "quote": "Finally, an assistant I can trust! I know my conversations stay where they should – with me.",
+        "authorDescription": "Kamil Gruca, Kickstarter campaign sponsor"
+      },
+      "featureQuoteConfiguration": {
+        "title": "Easy setup, full customization",
+        "description": "Easily configure your voice assistant and tailor it to your needs. Whether you want to change settings or control devices – everything is accessible with just your voice.",
+        "quote": "User-centered design is key to success. Every interface element is designed to be intuitive and enjoyable to use.",
+        "authorDescription": "Marcin Dudek, Production Manager"
+      },
+      "mobileApp": {
+        "title": "Full control in your pocket",
+        "description": "Manage your assistant conveniently from the mobile app – configure settings, check command history, and control devices wherever you are.",
+        "cta": "Download the app"
+      },
+      "quoteTestimonial": {
+        "quote": "“Your best and wisest refuge from all your troubles is in your science.”",
+        "authorName": "Ada Lovelace"
+      }
+    }
+  }
 }

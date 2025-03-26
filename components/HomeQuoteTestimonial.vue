@@ -2,7 +2,7 @@
   <section class="home-quote-testimonial">
     <div class="home-quote-testimonial__content">
       <p class="home-quote-testimonial__quote">
-        “Najlepszym i najmądrzejszym sposobem na ucieczkę od wszelkich trosk jest nauka.”
+        {{ $t("pages.home.quoteTestimonial.quote") }}
       </p>
 
       <img
@@ -11,7 +11,9 @@
         alt=""
       />
 
-      <p class="home-quote-testimonial__author-name">Ada Lovelace</p>
+      <p class="home-quote-testimonial__author-name">
+        {{ $t("pages.home.quoteTestimonial.authorName") }}
+      </p>
     </div>
   </section>
 </template>
