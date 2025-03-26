@@ -33,6 +33,7 @@ export default defineNuxtConfig({
     compressPublicAssets: {
       brotli: true,
     },
+    preset: "bun",
   },
   alias: {
     "@components": "~/components/",
