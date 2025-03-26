@@ -52,7 +52,9 @@ const component = computed(() => (props.to ? NuxtLink : "button"));
   cursor: pointer;
   border: none;
   outline: none;
-  width: 19rem;
+  height: 5.6rem;
+  min-width: 19.2rem;
+  max-width: fit-content;
   padding: 1.6rem 2.4rem;
   border-radius: 0.6rem;
   color: $color_text_variant;
@@ -82,8 +84,14 @@ const component = computed(() => (props.to ? NuxtLink : "button"));
     color: $color_text_primary;
   }
 
+  &--medium {
+    min-width: 16rem;
+    height: 4.8rem;
+  }
+
   &--small {
-    min-width: 10.3rem;
+    min-width: 12.8rem;
+    height: 4rem;
     padding: 0.8rem 2.1rem;
   }
 
