@@ -1,7 +1,5 @@
 # use the official Bun image
-# see all versions at https://hub.docker.com/r/oven/bun/tags
-FROM oven/bun:1 AS base
-WORKDIR /usr/src/app
+FROM oven/bun:1 AS build
 
 ARG NODE_ENV
 ARG APP_VERSION
@@ -15,43 +13,36 @@ ENV APP_VERSION=${APP_VERSION}
 ENV SITE_URL=${SITE_URL}
 ENV API_BASE_URL=${API_BASE_URL}
 
-# install dependencies into temp directory
-# this will cache them and speed up future builds
-FROM base AS install
-RUN mkdir -p /temp/dev
-COPY package.json bun.lock /temp/dev/
-RUN cd /temp/dev && bun install --frozen-lockfile
+# Debugging
+RUN echo "SITE_URL is: ${SITE_URL}"
+RUN echo "API_BASE_URL is: ${API_BASE_URL}"
 
-# install with --production (exclude devDependencies)
-RUN mkdir -p /temp/prod
-COPY package.json bun.lock /temp/prod/
-RUN cd /temp/prod && bun install --frozen-lockfile --production
+# Set the working directory inside the container
+WORKDIR /app
 
-# copy node_modules from temp directory
-# then copy all (non-ignored) project files into the image
-FROM base AS prerelease
-COPY --from=install /temp/dev/node_modules node_modules
-COPY . .
+# Copy package.json and bun.lock files to the working directory
+COPY package.json bun.lock ./
 
-# [optional] run tests
-# RUN bun test
+# Install dependencies
+RUN bun install --frozen-lockfile
+
+# Copy the rest of the application files to the working directory
+COPY . ./
 
 # Build the application
 RUN bun run build
 
-# copy production dependencies and source code into final image
-FROM base AS release
-COPY --from=install /temp/prod/node_modules node_modules
-COPY --from=prerelease /usr/src/app/index.ts .
-COPY --from=prerelease /usr/src/app/package.json .
+# Create a new stage for the production image
+FROM oven/bun:1
 
-# Copy the output from the build stage to the working directory
-COPY --from=build /usr/src/app/.output ./
+# Set the working directory inside the container
+WORKDIR /app
 
-USER bun
+# Copy only the necessary files from the build stage
+COPY --from=build /app/.output ./
 
 # Expose the port the application will run on
-EXPOSE 3000/tcp
+EXPOSE 3000
 
 # Install pm2
 RUN npm install pm2@latest -g
