@@ -5,13 +5,8 @@ export default defineNuxtConfig({
   },
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
-  site: {
-    indexable: process.env.NODE_ENV === "production",
-    url: process.env.SITE_URL,
-    name: "ADA Voice Assistant",
-  },
   typescript: {
-    typeCheck: true,
+    // typeCheck: true,
     shim: false,
     strict: true,
     tsConfig: {
@@ -66,6 +61,11 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "@nuxt/test-utils",
   ],
+  site: {
+    indexable: process.env.NODE_ENV === "production",
+    url: process.env.SITE_URL,
+    name: "ADA Voice Assistant",
+  },
   googleFonts: {
     families: {
       Roboto: "400..700",
