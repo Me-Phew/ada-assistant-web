@@ -36,6 +36,7 @@
   &__quote {
     @include h3;
 
+    color: $color_text_variant;
     text-align: center;
   }
 
