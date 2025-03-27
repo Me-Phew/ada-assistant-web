@@ -50,4 +50,4 @@ EXPOSE 3000
 RUN bun install -g pm2
 
 # Start the application
-CMD ["pm2-runtime", "--interpreter", "/root/.bun/bin/bun", "server/index.mjs"]
+CMD ["sh", "-c", "pm2-runtime --interpreter $(which bun) server/index.mjs"]
