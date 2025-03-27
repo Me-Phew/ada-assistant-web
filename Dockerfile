@@ -1,10 +1,16 @@
 # use the official Bun image
-FROM oven/bun:1 AS build
+FROM oven/bun:alpine AS build
 
 ARG NODE_ENV
 ARG APP_VERSION
 ARG SITE_URL
 ARG API_BASE_URL
+
+# Validate env vars
+RUN if [ -z "$NODE_ENV" ]; then echo "ERROR: NODE_ENV not set" && exit 1; fi
+RUN if [ -z "$APP_VERSION" ]; then echo "ERROR: APP_VERSION not set" && exit 1; fi
+RUN if [ -z "$SITE_URL" ]; then echo "ERROR: SITE_URL not set" && exit 1; fi
+RUN if [ -z "$API_BASE_URL" ]; then echo "ERROR: API_BASE_URL not set" && exit 1; fi
 
 # Define environment variables
 ENV HOST=127.0.0.1
@@ -12,10 +18,6 @@ ENV NODE_ENV=${NODE_ENV}
 ENV APP_VERSION=${APP_VERSION}
 ENV SITE_URL=${SITE_URL}
 ENV API_BASE_URL=${API_BASE_URL}
-
-# Debugging
-RUN echo "SITE_URL is: ${SITE_URL}"
-RUN echo "API_BASE_URL is: ${API_BASE_URL}"
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -33,7 +35,7 @@ COPY . ./
 RUN bun run build
 
 # Create a new stage for the production image
-FROM oven/bun:1
+FROM oven/bun:alpine
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -45,7 +47,7 @@ COPY --from=build /app/.output ./
 EXPOSE 3000
 
 # Install pm2
-RUN npm install pm2@latest -g
+RUN bun install -g pm2
 
 # Start the application
-CMD ["pm2-runtime", "--interpreter ~/.bun/bin/bun", "server/index.mjs"]
+CMD ["pm2-runtime", "--interpreter", "/root/.bun/bin/bun", "server/index.mjs"]
