@@ -5,13 +5,8 @@ export default defineNuxtConfig({
   },
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
-  site: {
-    indexable: process.env.NODE_ENV === "production",
-    url: process.env.SITE_URL,
-    name: "ADA Voice Assistant",
-  },
   typescript: {
-    typeCheck: true,
+    // typeCheck: true,
     shim: false,
     strict: true,
     tsConfig: {
@@ -33,6 +28,7 @@ export default defineNuxtConfig({
     compressPublicAssets: {
       brotli: true,
     },
+    preset: "bun",
   },
   alias: {
     "@components": "~/components/",
@@ -65,6 +61,11 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "@nuxt/test-utils",
   ],
+  site: {
+    indexable: process.env.NODE_ENV === "production",
+    url: process.env.SITE_URL,
+    name: "ADA Voice Assistant",
+  },
   googleFonts: {
     families: {
       Roboto: "400..700",
@@ -101,6 +102,9 @@ export default defineNuxtConfig({
     enabled: process.env.NODE_ENV === "production",
   },
   i18n: {
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
     strategy: "no_prefix",
     lazy: true,
     langDir: "locales",

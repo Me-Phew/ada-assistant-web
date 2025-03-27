@@ -1,6 +1,6 @@
 <template>
   <section class="home-integrations">
-    <p class="home-integrations__title">Płynna integracja z Twoimi ulubionymi usługami</p>
+    <p class="home-integrations__title">{{ $t("pages.home.integrations.title") }}</p>
 
     <ul class="home-integrations__ul">
       <li class="home-integrations__li">

@@ -1,3 +1,5 @@
 .prettierignore
 .husky/*
 Dockerfile
+.dockerignore
+bun.lock

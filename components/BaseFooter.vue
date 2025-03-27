@@ -6,7 +6,7 @@
           <BaseLink
             type="secondary"
             size="small"
-            >Zasoby</BaseLink
+            >{{ $t("components.baseFooter.resources") }}</BaseLink
           >
         </li>
 
@@ -25,7 +25,7 @@
 
       <BaseSeparator class="base-footer__separator" />
 
-      <p class="base-footer__designed-by">Stworzone z ❤️ przez</p>
+      <p class="base-footer__designed-by">{{ $t("components.baseFooter.madeBy") }}</p>
 
       <ul class="base-footer__gh-links-ul">
         <li class="base-footer__gh-links-li">
@@ -47,9 +47,9 @@
         </li>
       </ul>
 
-      <p class="base-footer__privacy-tos">Polityka prywatności i warunki korzystania</p>
+      <p class="base-footer__privacy-tos">{{ $t("components.baseFooter.privacyTos") }}</p>
       <p class="base-footer__copyright">
-        © {{ new Date().getFullYear() }} Wszelkie prawa zastrzeżone
+        © {{ new Date().getFullYear() }} {{ $t("components.baseFooter.allRightsReserved") }}
       </p>
     </div>
   </footer>
