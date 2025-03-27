@@ -1,6 +1,6 @@
 <template>
   <section class="home-integrations">
-    <p class="home-integrations__title">Płynna integracja z Twoimi ulubionymi usługami</p>
+    <p class="home-integrations__title">{{ $t("pages.home.integrations.title") }}</p>
 
     <ul class="home-integrations__ul">
       <li class="home-integrations__li">
@@ -38,7 +38,7 @@
   $spotify-green: #1ed760;
 
   min-height: 33rem;
-  background-color: $color_background_secondary;
+  background-color: $color_background_variant;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,7 +48,7 @@
 
     margin-top: 10rem;
     grid-column: 4/10;
-    color: $color_text_primary;
+    color: $color_text_variant;
   }
 
   &__ul {

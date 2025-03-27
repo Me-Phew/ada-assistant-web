@@ -1,14 +1,16 @@
-ARG NODE_VERSION=22.14.0
-
-# Create build stage
-FROM node:${NODE_VERSION}-slim AS build
-
-ARG PNPM_VERSION=10.6.3
+# use the official Bun image
+FROM oven/bun:alpine AS build
 
 ARG NODE_ENV
 ARG APP_VERSION
 ARG SITE_URL
 ARG API_BASE_URL
+
+# Validate env vars
+RUN if [ -z "$NODE_ENV" ]; then echo "ERROR: NODE_ENV not set" && exit 1; fi
+RUN if [ -z "$APP_VERSION" ]; then echo "ERROR: APP_VERSION not set" && exit 1; fi
+RUN if [ -z "$SITE_URL" ]; then echo "ERROR: SITE_URL not set" && exit 1; fi
+RUN if [ -z "$API_BASE_URL" ]; then echo "ERROR: API_BASE_URL not set" && exit 1; fi
 
 # Define environment variables
 ENV HOST=127.0.0.1
@@ -17,44 +19,35 @@ ENV APP_VERSION=${APP_VERSION}
 ENV SITE_URL=${SITE_URL}
 ENV API_BASE_URL=${API_BASE_URL}
 
-# Debugging
-RUN echo "SITE_URL is: ${SITE_URL}"
-RUN echo "API_BASE_URL is: ${API_BASE_URL}"
-
-# Install pnpm
-RUN npm install -g pnpm@${PNPM_VERSION}
-
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and pnpm-lock.yaml files to the working directory
-COPY ./package.json /app/
-COPY ./pnpm-lock.yaml /app/
-COPY .npmrc /app/
+# Copy package.json and bun.lock files to the working directory
+COPY package.json bun.lock ./
 
-## Install dependencies
-RUN pnpm install --frozen-lockfile
+# Install dependencies
+RUN bun install --frozen-lockfile
 
 # Copy the rest of the application files to the working directory
 COPY . ./
 
 # Build the application
-RUN pnpm build
+RUN bun run build
 
 # Create a new stage for the production image
-FROM node:${NODE_VERSION}-slim
+FROM oven/bun:alpine
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the output from the build stage to the working directory
+# Copy only the necessary files from the build stage
 COPY --from=build /app/.output ./
 
 # Expose the port the application will run on
 EXPOSE 3000
 
 # Install pm2
-RUN npm install pm2@latest -g
+RUN bun install -g pm2
 
 # Start the application
-CMD ["pm2-runtime", "server/index.mjs"]
+CMD ["sh", "-c", "pm2-runtime --interpreter $(which bun) server/index.mjs"]

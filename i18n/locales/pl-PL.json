@@ -1,87 +1,130 @@
 {
   "common": {
-    "back": "Back",
-    "next": "Next",
-    "close": "Close",
-    "cancel": "Cancel",
-    "save": "Save",
-    "with": "with",
-    "or": "or",
-    "fileSize": "File size",
-    "copy": "Copy",
-    "free": "Free",
+    "back": "Wstecz",
+    "next": "Dalej",
+    "close": "Zamknij",
+    "cancel": "Anuluj",
+    "save": "Zapisz",
+    "with": "z",
+    "or": "lub",
+    "fileSize": "Rozmiar pliku",
+    "copy": "Kopiuj",
+    "free": "Darmowy",
     "validation": {
-      "min": " hast to contain at least ",
-      "max": " cannot contain more than ",
+      "min": " musi zawierać co najmniej ",
+      "max": " nie może zawierać więcej niż ",
       "inputs": {
         "email": {
-          "label": "Email address",
+          "label": "Adres e-mail",
           "placeholder": {
             "address": "johndoe",
             "domain": "gmail.com"
           },
           "validation": {
             "errorMessages": {
-              "required": "Enter your email address",
-              "invalid": "Enter a valid email address"
+              "required": "Wprowadź swój adres e-mail",
+              "invalid": "Wprowadź prawidłowy adres e-mail"
             }
           }
         },
         "password": {
-          "label": "Password",
+          "label": "Hasło",
           "validation": {
             "errorMessages": {
-              "containsLowercaseLetter": "Password has to contain at least one lowercase letter",
-              "containsUppercaseLetter": "Password has to contain at least one uppercase letter",
-              "containsDigit": "Password has to contain at least one digit",
-              "containsSpecialCharacter": "Password has to contain at least one special character"
+              "containsLowercaseLetter": "Hasło musi zawierać przynajmniej jedną małą literę",
+              "containsUppercaseLetter": "Hasło musi zawierać przynajmniej jedną wielką literę",
+              "containsDigit": "Hasło musi zawierać przynajmniej jedną cyfrę",
+              "containsSpecialCharacter": "Hasło musi zawierać przynajmniej jeden znak specjalny"
             }
           }
         },
         "rePassword": {
           "validation": {
             "errorMessages": {
-              "matchesPassword": "Provided passwords must match"
+              "matchesPassword": "Hasła muszą się zgadzać"
             }
           }
         }
       }
     },
     "plural": {
-      "char": "{n} character | {n} characters",
-      "chapter": "{n} chapter | {n} chapters"
+      "char": "{n} znak | {n} znaki",
+      "chapter": "{n} rozdział | {n} rozdziały"
     },
     "inputs": {
       "password": {
-        "showPassword": "Show password",
-        "hidePassword": "Hide password"
+        "showPassword": "Pokaż hasło",
+        "hidePassword": "Ukryj hasło"
       }
     },
     "errorMessages": {
-      "failedToCheckEmailValidityAndAvailability": "Failed to check email address availability",
-      "failedToFetchUserData": "Failed to download user data",
-      "failedToLogOut": "Failed to log out",
-      "failedToSendMessage": "Failed to send message",
-      "noInternetConnection": "No Internet connection"
+      "failedToCheckEmailValidityAndAvailability": "Nie udało się sprawdzić dostępności adresu e-mail",
+      "failedToFetchUserData": "Nie udało się pobrać danych użytkownika",
+      "failedToLogOut": "Nie udało się wylogować",
+      "failedToSendMessage": "Nie udało się wysłać wiadomości",
+      "noInternetConnection": "Brak połączenia z Internetem"
     },
     "successMessages": {
-      "messageSent": "Message has been sent",
-      "loggedOut": "Logged out"
+      "messageSent": "Wiadomość została wysłana",
+      "loggedOut": "Wylogowano"
     },
     "emails": {
       "actions": {
-        "resend": "Resend"
+        "resend": "Wyślij ponownie"
       },
       "hints": {
-        "messageLost": "The message was lost? You can send it again",
-        "troubleFindingMessage": "Can't find the message? Check the spam folder."
+        "messageLost": "Wiadomość została zgubiona? Możesz wysłać ją ponownie",
+        "troubleFindingMessage": "Nie możesz znaleźć wiadomości? Sprawdź folder spam"
       },
       "errorMessages": {
-        "messageRateLimitExceeded": "A message has already been sent to this email address in the last 15 minutes",
-        "emailAlreadyVerified": "Email address has already been verified"
+        "messageRateLimitExceeded": "Wiadomość została już wysłana na ten adres e-mail w ciągu ostatnich 15 minut",
+        "emailAlreadyVerified": "Adres e-mail został już zweryfikowany"
       }
     }
   },
-  "components": {},
-  "pages": {}
+  "components": {
+    "baseHeader": {
+      "login": "Zaloguj się",
+      "register": "Zarejestruj się"
+    },
+    "baseFooter": {
+      "resources": "Zasoby",
+      "madeBy": "Stworzone z ❤️ przez",
+      "privacyTos": "Polityka prywatności i warunki korzystania",
+      "allRightsReserved": "Wszelkie prawa zastrzeżone"
+    }
+  },
+  "pages": {
+    "home": {
+      "hero": {
+        "title": "Asystent AI XXI wieku",
+        "subtitle": "Asystent głosowy, który działa dla Ciebie, a nie na Ciebie. Bez śledzenia, bez zbędnego gromadzenia danych – pełna kontrola w Twoich rękach.",
+        "cta": "Kup teraz"
+      },
+      "integrations": {
+        "title": "Płynna integracja z Twoimi ulubionymi usługami"
+      },
+      "featureQuotePrivacy": {
+        "title": "Pełna prywatność, zero śledzenia",
+        "description": "Twój asystent działa tylko dla Ciebie – bez zbierania danych, analizowania rozmów czy przesyłania informacji do korporacji. Twoje komendy pozostają Twoje.",
+        "quote": "W końcu asystent, któremu mogę zaufać! Wiem, że moje rozmowy zostają tam, gdzie powinny – tylko u mnie.",
+        "authorDescription": "Kamil Gruca, sponsor kampanii na Kickstarterze"
+      },
+      "featureQuoteConfiguration": {
+        "title": "Prosta konfiguracja, pełna personalizacja",
+        "description": "Z łatwością skonfiguruj swojego asystenta głosowego i dostosuj go do swoich potrzeb. Niezależnie od tego, czy chcesz zmieniać ustawienia, czy sterować urządzeniami – wszystko dostępne jednym głosem.",
+        "quote": "Projektowanie z myślą o użytkownikach to klucz do sukcesu. Każdy element interfejsu jest przemyślany, aby było łatwo i przyjemnie z niego korzystać.",
+        "authorDescription": "Marcin Dudek, Kierownik Produkcji"
+      },
+      "mobileApp": {
+        "title": "Pełna kontrola w Twojej kieszeni",
+        "description": "Zarządzaj swoim asystentem wygodnie z poziomu aplikacji mobilnej – konfiguruj ustawienia, sprawdzaj historię poleceń i steruj urządzeniami, gdziekolwiek jesteś.",
+        "cta": "Pobierz aplikację"
+      },
+      "quoteTestimonial": {
+        "quote": "“Najlepszym i najmądrzejszym sposobem na ucieczkę od wszelkich trosk jest nauka.”",
+        "authorName": "Ada Lovelace"
+      }
+    }
+  }
 }

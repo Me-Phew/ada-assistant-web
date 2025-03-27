@@ -12,12 +12,12 @@
           <BaseLink
             to="/login"
             type="secondary"
-            >Zaloguj się</BaseLink
+            >{{ $t("components.baseHeader.login") }}</BaseLink
           >
         </li>
 
         <li class="base-header__li">
-          <BaseButton to="/register">Utwórz konto</BaseButton>
+          <BaseButton to="/register">{{ $t("components.baseHeader.register") }}</BaseButton>
         </li>
       </ul>
     </nav>

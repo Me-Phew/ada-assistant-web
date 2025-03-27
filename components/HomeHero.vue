@@ -1,14 +1,11 @@
 <template>
   <section class="home-hero">
     <aside class="home-hero__text-wrapper">
-      <h1 class="home-hero__title">Asystent AI XXI wieku</h1>
+      <h1 class="home-hero__title">{{ $t("pages.home.hero.title") }}</h1>
 
-      <p class="home-hero__subtitle">
-        Asystent głosowy, który działa dla Ciebie, a nie na Ciebie. Bez śledzenia, bez zbędnego
-        gromadzenia danych – pełna kontrola w Twoich rękach.
-      </p>
+      <p class="home-hero__subtitle">{{ $t("pages.home.hero.subtitle") }}</p>
 
-      <BaseButton class="home-hero__buy-button">Kup teraz</BaseButton>
+      <BaseButton class="home-hero__cta-button">{{ $t("pages.home.hero.cta") }}</BaseButton>
     </aside>
   </section>
 </template>
@@ -36,7 +33,7 @@
     margin-top: 1.6rem;
   }
 
-  &__buy-button {
+  &__cta-button {
     margin-top: 3.2rem;
   }
 }
