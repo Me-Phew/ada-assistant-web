@@ -12,8 +12,8 @@ defineProps<{
 
 <style lang="scss" scoped>
 .login-container {
-  width: 100%;
-  max-width: 42rem;
+  width: 42rem;
+  max-width: calc(100% - 3.2rem);
   margin: 0 auto;
   padding: 3.2rem;
   background-color: $color_background_primary;
@@ -21,10 +21,9 @@ defineProps<{
   border-radius: $corner_radius_medium;
   box-shadow: 0 0.4rem 2.4rem rgba(0, 0, 0, 0.05);
 
-  @include mobile {
-    padding: 2.4rem 2rem;
-    margin: 0 2rem;
-    max-width: none;
+  @media (max-width: 480px) {
+    padding: 2rem 1.6rem;
+    border-radius: $corner_radius_small;
   }
 }
 </style>

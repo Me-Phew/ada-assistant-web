@@ -1,5 +1,3 @@
-<script lang="ts" setup></script>
-
 <template>
   <header class="login-header">
     <div class="login-header__register-prompt">
@@ -20,8 +18,13 @@
   display: flex;
   justify-content: flex-end;
 
-  @include mobile {
-    padding: 1.6rem 1.6rem;
+  @media (max-width: 768px) {
+    padding: 1.8rem 2.4rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.6rem;
+    justify-content: center;
   }
 
   &__register-prompt {
@@ -29,14 +32,24 @@
     align-items: center;
     gap: 1.6rem;
 
-    @include mobile {
+    @media (max-width: 480px) {
+      flex-direction: row;
       gap: 1rem;
+      width: auto;
+      justify-content: center;
     }
   }
 
   &__register-text {
     @include body-regular-2;
     color: $color_text_primary;
+    white-space: nowrap;
+  }
+
+  &__register-button {
+    @media (max-width: 480px) {
+      width: auto;
+    }
   }
 }
 </style>

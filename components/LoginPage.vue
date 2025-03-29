@@ -27,17 +27,29 @@ defineProps<{
 .login-page {
   min-height: 100vh;
   background-color: $color_background_primary;
+  display: flex;
+  flex-direction: column;
 
   &__container {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem 0;
+    justify-content: flex-start;
+    padding-bottom: 3rem;
+    width: 100%;
   }
 
   &__logo-wrapper {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin: 3rem 0;
+
+    @media (max-width: 768px) {
+      margin: 2rem 0;
+    }
+
+    @media (max-width: 480px) {
+      margin: 1.5rem 0;
+    }
   }
 
   &__logo-link {
@@ -57,6 +69,16 @@ defineProps<{
   &__logo {
     height: 6.4rem;
     width: 6.4rem;
+
+    @media (max-width: 768px) {
+      height: 5.6rem;
+      width: 5.6rem;
+    }
+
+    @media (max-width: 480px) {
+      height: 4.8rem;
+      width: 4.8rem;
+    }
   }
 }
 </style>

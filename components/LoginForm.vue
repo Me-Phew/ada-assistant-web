@@ -36,31 +36,31 @@ const handleSubmit = () => {
     </p>
 
     <BaseInput
+      id="email"
       :model-value="email"
-      @update:model-value="emit('update:email', $event)"
       :label="$t('pages.login.emailLabel')"
       type="email"
-      id="email"
       required
       autofocus
+      @update:model-value="emit('update:email', $event)"
     />
 
     <BaseInput
+      id="password"
       :model-value="password"
-      @update:model-value="emit('update:password', $event)"
       :label="$t('pages.login.passwordLabel')"
       type="password"
-      id="password"
       required
+      @update:model-value="emit('update:password', $event)"
     />
 
     <div class="login-form__actions">
       <BaseCheckbox
-        :model-value="rememberMe"
-        @update:model-value="emit('update:rememberMe', $event)"
-        :label="$t('pages.login.rememberMe')"
         id="remember"
+        :model-value="rememberMe"
+        :label="$t('pages.login.rememberMe')"
         class="login-form__remember-me"
+        @update:model-value="emit('update:rememberMe', $event)"
       />
 
       <BaseLink
@@ -87,11 +87,19 @@ const handleSubmit = () => {
   &__header {
     text-align: center;
     margin-bottom: 2.4rem;
+
+    @include mobile {
+      margin-bottom: 2rem;
+    }
   }
 
   &__title {
     @include h3;
     color: $color_text_primary;
+
+    @include mobile {
+      font-size: 2.4rem;
+    }
   }
 
   &__subtitle {
@@ -116,10 +124,11 @@ const handleSubmit = () => {
     align-items: center;
     margin-bottom: 2rem;
 
-    @include mobile {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1.2rem;
+    @media (max-width: 480px) {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
     }
   }
 
@@ -137,6 +146,10 @@ const handleSubmit = () => {
     min-width: 100% !important;
     max-width: 100% !important;
     margin-top: 1rem;
+
+    @include mobile {
+      height: 5rem;
+    }
   }
 }
 </style>

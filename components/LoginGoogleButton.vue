@@ -31,6 +31,11 @@ const handleClick = () => {
   min-width: 100% !important;
   max-width: 100% !important;
 
+  @include mobile {
+    height: 5rem;
+    font-size: 1.5rem;
+  }
+
   &__content {
     display: flex;
     align-items: center;
