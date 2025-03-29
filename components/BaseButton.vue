@@ -61,6 +61,13 @@ const component = computed(() => (props.to ? NuxtLink : "button"));
   text-decoration: none;
   transition: background-color 0.3s;
 
+  @include mobile {
+    min-width: auto;
+    height: 4.8rem;
+    padding: 1.2rem 1.8rem;
+    font-size: 1.6rem;
+  }
+
   &:focus {
     outline: 0.2rem solid $color_primary;
   }
@@ -87,12 +94,21 @@ const component = computed(() => (props.to ? NuxtLink : "button"));
   &--medium {
     min-width: 16rem;
     height: 4.8rem;
+
+    @include mobile {
+      min-width: auto;
+    }
   }
 
   &--small {
     min-width: 12.8rem;
     height: 4rem;
     padding: 0.8rem 2.1rem;
+
+    @include mobile {
+      min-width: auto;
+      padding: 0.8rem 1.6rem;
+    }
   }
 
   &--icon {
