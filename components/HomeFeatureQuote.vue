@@ -66,6 +66,11 @@ withDefaults(
 
   min-height: 60rem;
 
+  @include mobile {
+    min-height: auto;
+    padding-bottom: 5rem;
+  }
+
   &--left-primary {
     background-color: $color_background_primary;
   }
@@ -81,20 +86,85 @@ withDefaults(
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 
     #{$self}--right-secondary & {
       grid-column: 7/12;
+    }
+
+    @media (max-width: 1200px) {
+      grid-column: 2/5;
+
+      #{$self}--right-secondary & {
+        grid-column: 8/12;
+      }
+    }
+
+    @include tablet-and-below {
+      grid-column: 3/11;
+      margin-top: 5rem;
+      height: auto;
+      max-height: 40rem;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 4rem;
+
+      #{$self}--right-secondary & {
+        grid-column: 3/11;
+        grid-row: 1;
+      }
+    }
+
+    @include mobile {
+      grid-column: 2/12;
+      height: auto;
+      max-height: 35rem;
+      margin-top: 3rem;
+      margin-bottom: 2rem;
     }
   }
 
   &__photo {
     width: 40rem;
     border-radius: $corner_radius_large;
+    object-fit: cover;
+    max-width: 100%;
+
+    @media (max-width: 1200px) {
+      width: 30rem;
+    }
+
+    @include tablet {
+      width: 30rem;
+    }
+
+    @include mobile {
+      width: 90%;
+      max-width: 28rem;
+    }
+
+    &--back {
+      @include tablet-and-below {
+        display: none;
+      }
+    }
 
     &--front {
       position: absolute;
       top: 10%;
       left: 20%;
+      z-index: 2;
+
+      @media (max-width: 1200px) {
+        top: 5%;
+        left: 10%;
+      }
+
+      @include tablet-and-below {
+        position: static;
+        margin: 0 auto;
+        display: block;
+      }
     }
   }
 
@@ -106,6 +176,32 @@ withDefaults(
       grid-row: 1;
       grid-column: 2/6;
     }
+
+    @media (max-width: 1200px) {
+      grid-column: 6/12;
+      margin-top: 14rem;
+
+      #{$self}--right-secondary & {
+        grid-column: 2/8;
+      }
+    }
+
+    @include tablet-and-below {
+      grid-column: 2/12;
+      margin-top: 0;
+      padding: 0 4rem 3rem;
+
+      #{$self}--right-secondary & {
+        grid-column: 2/12;
+        grid-row: 2;
+        margin-top: 0;
+      }
+    }
+
+    @include mobile {
+      grid-column: 2/12;
+      padding: 0 2rem 3rem;
+    }
   }
 
   &__title {
@@ -114,6 +210,10 @@ withDefaults(
 
     #{$self}--right-secondary & {
       color: $color_text_variant;
+    }
+
+    @include mobile {
+      font-size: 2.4rem;
     }
   }
 
