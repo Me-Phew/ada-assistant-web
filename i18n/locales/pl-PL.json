@@ -141,6 +141,24 @@
         "invalidCredentials": "Nieprawidłowy email lub hasło",
         "serverError": "Wystąpił błąd podczas logowania. Spróbuj ponownie później."
       }
+    },
+    "register": {
+      "title": "Zarejestruj się",
+      "subtitle": "Utwórz nowe konto",
+      "emailLabel": "Email",
+      "passwordLabel": "Hasło",
+      "confirmPasswordLabel": "Powtórz hasło",
+      "acceptTerms": "Akceptuję regulamin i politykę prywatności",
+      "register": "Zarejestruj się",
+      "registering": "Rejestrowanie...",
+      "haveAccount": "Masz już konto?",
+      "login": "Zaloguj się",
+      "errors": {
+        "emailInUse": "Ten adres email jest już używany",
+        "passwordsNotMatch": "Hasła nie są zgodne",
+        "termsNotAccepted": "Zaakceptuj warunki korzystania z serwisu",
+        "serverError": "Wystąpił błąd podczas rejestracji. Spróbuj ponownie później."
+      }
     }
   }
 }

@@ -141,6 +141,24 @@
         "invalidCredentials": "Invalid email or password",
         "serverError": "An error occurred while logging in. Please try again later."
       }
+    },
+    "register": {
+      "title": "Sign up",
+      "subtitle": "Create a new account",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm password",
+      "acceptTerms": "I accept the terms and privacy policy",
+      "register": "Sign up",
+      "registering": "Registering...",
+      "haveAccount": "Already have an account?",
+      "login": "Log in",
+      "errors": {
+        "emailInUse": "This email address is already in use",
+        "passwordsNotMatch": "Passwords do not match",
+        "termsNotAccepted": "You must accept the terms of service",
+        "serverError": "An error occurred during registration. Please try again later."
+      }
     }
   }
 }
