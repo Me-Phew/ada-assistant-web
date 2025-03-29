@@ -31,6 +31,13 @@
   &__photo {
     margin-top: 5.6rem;
     grid-column: 3/6;
+
+    @include tablet-and-below {
+      grid-column: 2/12;
+      max-width: 100%;
+      margin: 5.6rem auto 0;
+      display: block;
+    }
   }
 
   &__content {
@@ -38,22 +45,36 @@
     display: flex;
     flex-direction: column;
     grid-column: 7/11;
+
+    @include tablet-and-below {
+      grid-column: 2/12;
+      margin-top: 4rem;
+      padding: 0 2rem;
+    }
   }
 
   &__title {
     @include h3;
     color: $color_text_primary;
+
+    @include mobile {
+      font-size: 2.4rem;
+    }
   }
 
   &__description {
     @include body-regular-1;
-
     margin-top: 1.6rem;
     color: $color_text_primary;
   }
 
   &__cta-button {
     margin-top: 1.6rem;
+
+    @include mobile {
+      width: 100%;
+      max-width: none;
+    }
   }
 }
 </style>
