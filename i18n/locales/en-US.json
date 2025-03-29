@@ -176,6 +176,23 @@
         "tooManyRequests": "Too many password reset requests. Please try again later.",
         "serverError": "An error occurred while sending the link. Please try again later."
       }
+    },
+    "resetPassword": {
+      "title": "New Password",
+      "subtitle": "Enter and confirm your new password",
+      "newPasswordLabel": "New password",
+      "confirmPasswordLabel": "Confirm password",
+      "savePassword": "Save new password",
+      "saving": "Saving...",
+      "successMessage": "Your password has been changed",
+      "passwordChangedInfo": "You can now log in using your new password",
+      "backToLogin": "Go to login",
+      "errors": {
+        "passwordsNotMatch": "Passwords do not match",
+        "invalidLink": "The password reset link is invalid or has expired",
+        "passwordTooWeak": "The password is too weak. It should contain at least 8 characters, one uppercase letter, one number, and one special character.",
+        "serverError": "An error occurred while resetting the password. Please try again later."
+      }
     }
   }
 }

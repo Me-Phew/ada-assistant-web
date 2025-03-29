@@ -176,6 +176,23 @@
         "tooManyRequests": "Wysłano zbyt wiele próśb o reset hasła. Spróbuj ponownie później.",
         "serverError": "Wystąpił błąd podczas wysyłania linku. Spróbuj ponownie później."
       }
+    },
+    "resetPassword": {
+      "title": "Nowe hasło",
+      "subtitle": "Wprowadź i potwierdź nowe hasło",
+      "newPasswordLabel": "Nowe hasło",
+      "confirmPasswordLabel": "Potwierdź hasło",
+      "savePassword": "Zapisz nowe hasło",
+      "saving": "Zapisywanie...",
+      "successMessage": "Twoje hasło zostało zmienione",
+      "passwordChangedInfo": "Możesz teraz zalogować się przy użyciu nowego hasła",
+      "backToLogin": "Przejdź do logowania",
+      "errors": {
+        "passwordsNotMatch": "Hasła nie są zgodne",
+        "invalidLink": "Link do resetowania hasła jest nieprawidłowy lub wygasł",
+        "passwordTooWeak": "Hasło jest zbyt słabe. Powinno zawierać co najmniej 8 znaków, jedną dużą literę, jedną cyfrę i jeden znak specjalny.",
+        "serverError": "Wystąpił błąd podczas resetowania hasła. Spróbuj ponownie później."
+      }
     }
   }
 }
