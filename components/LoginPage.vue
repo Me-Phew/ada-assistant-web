@@ -7,6 +7,7 @@ defineProps<{
 <template>
   <div class="login-page">
     <LoginHeader v-if="withHeader" />
+    <slot name="before-content"></slot>
 
     <section class="login-page__container">
       <div class="login-page__logo-wrapper">
@@ -25,7 +26,7 @@ defineProps<{
 
 <style lang="scss" scoped>
 .login-page {
-  min-height: 100vh;
+  width: 100%;
   background-color: $color_background_primary;
   display: flex;
   flex-direction: column;

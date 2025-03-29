@@ -5,6 +5,7 @@
       <BaseButton
         to="/register"
         size="medium"
+        class="login-header__register-button centered-button"
       >
         {{ $t("pages.login.register") }}
       </BaseButton>
@@ -51,5 +52,12 @@
       width: auto;
     }
   }
+}
+
+:global(.centered-button) {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
 }
 </style>
