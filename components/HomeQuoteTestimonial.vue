@@ -32,6 +32,11 @@
     flex-direction: column;
     align-items: center;
     padding-bottom: 5rem;
+
+    @include mobile {
+      grid-column: 2/12;
+      padding: 0 2rem 5rem;
+    }
   }
 
   &__quote {
@@ -39,6 +44,10 @@
 
     color: $color_text_variant;
     text-align: center;
+
+    @include mobile {
+      font-size: 2.2rem;
+    }
   }
 
   &__author-image {
@@ -49,7 +58,6 @@
 
   &__author-name {
     @include body-medium-3;
-
     margin-top: 2.4rem;
     color: $color_text_variant;
   }
