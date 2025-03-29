@@ -37,16 +37,17 @@
 
   $spotify-green: #1ed760;
 
-  min-height: 33rem;
+  min-height: 20rem;
   background-color: $color_background_variant;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 5rem;
 
   &__title {
     @include h3;
 
-    margin-top: 10rem;
+    margin-top: 5rem;
     grid-column: 4/10;
     color: $color_text_variant;
   }

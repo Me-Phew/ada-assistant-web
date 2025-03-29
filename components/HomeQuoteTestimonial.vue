@@ -23,14 +23,15 @@
   @include base-grid;
 
   background-color: $color_background_variant;
-  min-height: 33rem;
+  min-height: 20rem;
 
   &__content {
-    margin-top: 10rem;
+    margin-top: 5rem;
     grid-column: 3/11;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-bottom: 5rem;
   }
 
   &__quote {
