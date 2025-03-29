@@ -159,6 +159,23 @@
         "termsNotAccepted": "Zaakceptuj warunki korzystania z serwisu",
         "serverError": "Wystąpił błąd podczas rejestracji. Spróbuj ponownie później."
       }
+    },
+    "forgotPassword": {
+      "title": "Resetowanie hasła",
+      "subtitle": "Podaj swój adres email, a wyślemy Ci link do resetowania hasła",
+      "emailLabel": "Email",
+      "sendLink": "Wyślij link resetujący",
+      "sending": "Wysyłanie...",
+      "rememberPassword": "Pamiętasz swoje hasło?",
+      "login": "Zaloguj się",
+      "successMessage": "Link do resetowania hasła został wysłany na podany adres email.",
+      "checkEmail": "Sprawdź swoją skrzynkę email. Jeśli nie widzisz wiadomości, sprawdź folder spam.",
+      "backToLogin": "Powrót do logowania",
+      "errors": {
+        "emailNotFound": "Konto z podanym adresem email nie istnieje",
+        "tooManyRequests": "Wysłano zbyt wiele próśb o reset hasła. Spróbuj ponownie później.",
+        "serverError": "Wystąpił błąd podczas wysyłania linku. Spróbuj ponownie później."
+      }
     }
   }
 }

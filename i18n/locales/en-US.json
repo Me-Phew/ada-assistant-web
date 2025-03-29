@@ -159,6 +159,23 @@
         "termsNotAccepted": "You must accept the terms of service",
         "serverError": "An error occurred during registration. Please try again later."
       }
+    },
+    "forgotPassword": {
+      "title": "Password Reset",
+      "subtitle": "Enter your email address, and we'll send you a password reset link",
+      "emailLabel": "Email",
+      "sendLink": "Send reset link",
+      "sending": "Sending...",
+      "rememberPassword": "Remember your password?",
+      "login": "Log in",
+      "successMessage": "A password reset link has been sent to the provided email address.",
+      "checkEmail": "Check your inbox. If you don't see the email, check your spam folder.",
+      "backToLogin": "Back to login",
+      "errors": {
+        "emailNotFound": "No account found with the provided email address",
+        "tooManyRequests": "Too many password reset requests. Please try again later.",
+        "serverError": "An error occurred while sending the link. Please try again later."
+      }
     }
   }
 }
