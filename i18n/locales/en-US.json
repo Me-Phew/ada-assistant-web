@@ -125,6 +125,22 @@
         "quote": "“Your best and wisest refuge from all your troubles is in your science.”",
         "authorName": "Ada Lovelace"
       }
+    },
+    "login": {
+      "title": "Log in",
+      "subtitle": "Enter your login details",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "login": "Log in",
+      "loggingIn": "Logging in...",
+      "noAccount": "Don't have an account yet?",
+      "register": "Sign up",
+      "errors": {
+        "invalidCredentials": "Invalid email or password",
+        "serverError": "An error occurred while logging in. Please try again later."
+      }
     }
   }
 }

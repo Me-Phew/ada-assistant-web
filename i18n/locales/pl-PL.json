@@ -125,6 +125,22 @@
         "quote": "“Najlepszym i najmądrzejszym sposobem na ucieczkę od wszelkich trosk jest nauka.”",
         "authorName": "Ada Lovelace"
       }
+    },
+    "login": {
+      "title": "Zaloguj się",
+      "subtitle": "Wprowadź dane logowania",
+      "emailLabel": "Email",
+      "passwordLabel": "Hasło",
+      "rememberMe": "Zapamiętaj mnie",
+      "forgotPassword": "Zapomniałeś hasła?",
+      "login": "Zaloguj się",
+      "loggingIn": "Logowanie...",
+      "noAccount": "Nie masz jeszcze konta?",
+      "register": "Zarejestruj się",
+      "errors": {
+        "invalidCredentials": "Nieprawidłowy email lub hasło",
+        "serverError": "Wystąpił błąd podczas logowania. Spróbuj ponownie później."
+      }
     }
   }
 }
