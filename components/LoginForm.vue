@@ -67,7 +67,7 @@ const handleSubmit = () => {
         to="/forgot-password"
         type="secondary"
         size="small"
-        class="login-form__forgot-password"
+        class="login-form__forgot-password no-hover-bg"
       >
         {{ $t("pages.login.forgotPassword") }}
       </BaseLink>
@@ -138,6 +138,10 @@ const handleSubmit = () => {
 
   &__forgot-password {
     white-space: nowrap;
+
+    &:hover {
+      color: $color_primary !important;
+    }
   }
 
   &__submit {
@@ -151,5 +155,9 @@ const handleSubmit = () => {
       height: 5rem;
     }
   }
+}
+
+:global(.no-hover-bg:hover) {
+  background-color: transparent !important;
 }
 </style>
