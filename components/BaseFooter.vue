@@ -70,12 +70,27 @@
     flex-direction: column;
     align-items: center;
     color: $color_text_primary;
+
+    @include mobile {
+      grid-column: 2/12;
+      margin-top: 5rem;
+      padding: 0 2rem;
+    }
   }
 
   &__ul {
     display: flex;
     align-items: center;
     gap: 11.2rem;
+
+    @include mobile {
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    @include tablet {
+      gap: 5rem;
+    }
   }
 
   &__separator {

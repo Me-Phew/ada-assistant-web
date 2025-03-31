@@ -1,19 +1,23 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import LoginContainer from "~/components/LoginContainer.vue";
-import LoginForm from "~/components/LoginForm.vue";
-import LoginGoogleButton from "~/components/LoginGoogleButton.vue";
 import LoginPage from "~/components/LoginPage.vue";
-import LoginSeparator from "~/components/LoginSeparator.vue";
+import ResetPasswordForm from "~/components/ResetPasswordForm.vue";
 
-const email = ref("");
 const password = ref("");
-const rememberMe = ref(false);
+const confirmPassword = ref("");
 const isSubmitting = ref(false);
 const error = ref("");
+const isSuccess = ref(false);
+const token = ref("");
 
 definePageMeta({
   layout: "custom",
+});
+
+const route = useRoute();
+onMounted(() => {
+  token.value = route.params.token as string;
 });
 
 const handleSubmit = async () => {
@@ -21,39 +25,32 @@ const handleSubmit = async () => {
 
   isSubmitting.value = true;
   error.value = "";
+  isSuccess.value = false;
 
   try {
-    // Tu w przyszłości dodam logikę logowania
     await new Promise((resolve) => setTimeout(resolve, 1000));
+    isSuccess.value = true;
   } catch (err) {
-    error.value = "Nieprawidłowy email lub hasło";
+    error.value = "Nie udało się zresetować hasła";
   } finally {
     isSubmitting.value = false;
   }
 };
-
-const handleGoogleLogin = () => {
-  // Tutaj logika logowania przez Google
-  console.log("Google login");
-};
 </script>
 
 <template>
-  <LoginPage withHeader>
+  <LoginPage>
     <LoginContainer>
-      <LoginForm
-        :email="email"
-        @update:email="email = $event"
+      <ResetPasswordForm
         :password="password"
         @update:password="password = $event"
-        :remember-me="rememberMe"
-        @update:remember-me="rememberMe = $event"
+        :confirm-password="confirmPassword"
+        @update:confirm-password="confirmPassword = $event"
         :is-submitting="isSubmitting"
         :error="error"
+        :is-success="isSuccess"
         @submit="handleSubmit"
       />
-      <LoginSeparator />
-      <LoginGoogleButton @click="handleGoogleLogin" />
     </LoginContainer>
   </LoginPage>
 </template>

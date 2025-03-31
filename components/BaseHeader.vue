@@ -33,6 +33,17 @@
   align-items: center;
   justify-content: space-between;
 
+  @include mobile {
+    padding: 1.6rem 2rem;
+    height: auto;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  @include tablet {
+    padding: 1.6rem 3.2rem;
+  }
+
   &__link-home {
     text-decoration: none;
   }
@@ -46,6 +57,12 @@
     display: flex;
     align-items: center;
     gap: 2.4rem;
+
+    @include mobile {
+      width: 100%;
+      justify-content: center;
+      gap: 1.6rem;
+    }
   }
 }
 </style>

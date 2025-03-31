@@ -1,16 +1,13 @@
 <script lang="ts" setup>
 import { ref } from "vue";
+import ForgotPasswordForm from "~/components/ForgotPasswordForm.vue";
 import LoginContainer from "~/components/LoginContainer.vue";
-import LoginForm from "~/components/LoginForm.vue";
-import LoginGoogleButton from "~/components/LoginGoogleButton.vue";
 import LoginPage from "~/components/LoginPage.vue";
-import LoginSeparator from "~/components/LoginSeparator.vue";
 
 const email = ref("");
-const password = ref("");
-const rememberMe = ref(false);
 const isSubmitting = ref(false);
 const error = ref("");
+const isSuccess = ref(false);
 
 definePageMeta({
   layout: "custom",
@@ -21,39 +18,31 @@ const handleSubmit = async () => {
 
   isSubmitting.value = true;
   error.value = "";
+  isSuccess.value = false;
 
   try {
-    // Tu w przyszłości dodam logikę logowania
+    // Tutaj będzie właściwa logika resetowania hasła
     await new Promise((resolve) => setTimeout(resolve, 1000));
+    isSuccess.value = true;
   } catch (err) {
-    error.value = "Nieprawidłowy email lub hasło";
+    error.value = "Nie udało się wysłać linku resetującego hasło";
   } finally {
     isSubmitting.value = false;
   }
 };
-
-const handleGoogleLogin = () => {
-  // Tutaj logika logowania przez Google
-  console.log("Google login");
-};
 </script>
 
 <template>
-  <LoginPage withHeader>
+  <LoginPage>
     <LoginContainer>
-      <LoginForm
+      <ForgotPasswordForm
         :email="email"
         @update:email="email = $event"
-        :password="password"
-        @update:password="password = $event"
-        :remember-me="rememberMe"
-        @update:remember-me="rememberMe = $event"
         :is-submitting="isSubmitting"
         :error="error"
+        :is-success="isSuccess"
         @submit="handleSubmit"
       />
-      <LoginSeparator />
-      <LoginGoogleButton @click="handleGoogleLogin" />
     </LoginContainer>
   </LoginPage>
 </template>

@@ -2,6 +2,10 @@
 export default defineNuxtConfig({
   app: {
     pageTransition: { name: "page", mode: "out-in" },
+    layoutTransition: {
+      name: "layout",
+      mode: "out-in",
+    },
   },
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
@@ -87,13 +91,18 @@ export default defineNuxtConfig({
     classSuffix: "-theme",
   },
   image: {
-    domains: [new URL(process.env.API_BASE_URL!).hostname],
+    domains: process.env.API_BASE_URL ? [new URL(process.env.API_BASE_URL).hostname] : [],
   },
   security: {
     headers: {
       crossOriginEmbedderPolicy: "unsafe-none",
       contentSecurityPolicy: {
-        "img-src": ["'self'", "data:", "blob:", process.env.API_BASE_URL!],
+        "img-src": [
+          "'self'",
+          "data:",
+          "blob:",
+          ...(process.env.API_BASE_URL ? [process.env.API_BASE_URL] : []),
+        ],
       },
       permissionsPolicy: {
         fullscreen: ["self"],
