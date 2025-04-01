@@ -60,6 +60,10 @@ defineProps<{
 
     &:hover {
       transform: scale(1.05);
+
+      .login-page__logo {
+        animation: logo-spin 1s ease-in-out;
+      }
     }
 
     &:active {
@@ -70,6 +74,7 @@ defineProps<{
   &__logo {
     height: 6.4rem;
     width: 6.4rem;
+    transition: transform 0.3s ease-in-out;
 
     @media (max-width: 768px) {
       height: 5.6rem;
@@ -80,6 +85,15 @@ defineProps<{
       height: 4.8rem;
       width: 4.8rem;
     }
+  }
+}
+
+@keyframes logo-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
   }
 }
 </style>
