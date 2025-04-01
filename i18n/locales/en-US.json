@@ -125,6 +125,74 @@
         "quote": "“Your best and wisest refuge from all your troubles is in your science.”",
         "authorName": "Ada Lovelace"
       }
+    },
+    "login": {
+      "title": "Log in",
+      "subtitle": "Enter your login details",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "login": "Log in",
+      "loggingIn": "Logging in...",
+      "noAccount": "Don't have an account yet?",
+      "register": "Sign up",
+      "errors": {
+        "invalidCredentials": "Invalid email or password",
+        "serverError": "An error occurred while logging in. Please try again later."
+      }
+    },
+    "register": {
+      "title": "Sign up",
+      "subtitle": "Create a new account",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm password",
+      "acceptTerms": "I accept the terms and privacy policy",
+      "register": "Sign up",
+      "registering": "Registering...",
+      "haveAccount": "Already have an account?",
+      "login": "Log in",
+      "errors": {
+        "emailInUse": "This email address is already in use",
+        "passwordsNotMatch": "Passwords do not match",
+        "termsNotAccepted": "You must accept the terms of service",
+        "serverError": "An error occurred during registration. Please try again later."
+      }
+    },
+    "forgotPassword": {
+      "title": "Password Reset",
+      "subtitle": "Enter your email address, and we'll send you a password reset link",
+      "emailLabel": "Email",
+      "sendLink": "Send reset link",
+      "sending": "Sending...",
+      "rememberPassword": "Remember your password?",
+      "login": "Log in",
+      "successMessage": "A password reset link has been sent to the provided email address.",
+      "checkEmail": "Check your inbox. If you don't see the email, check your spam folder.",
+      "backToLogin": "Back to login",
+      "errors": {
+        "emailNotFound": "No account found with the provided email address",
+        "tooManyRequests": "Too many password reset requests. Please try again later.",
+        "serverError": "An error occurred while sending the link. Please try again later."
+      }
+    },
+    "resetPassword": {
+      "title": "New Password",
+      "subtitle": "Enter and confirm your new password",
+      "newPasswordLabel": "New password",
+      "confirmPasswordLabel": "Confirm password",
+      "savePassword": "Save new password",
+      "saving": "Saving...",
+      "successMessage": "Your password has been changed",
+      "passwordChangedInfo": "You can now log in using your new password",
+      "backToLogin": "Go to login",
+      "errors": {
+        "passwordsNotMatch": "Passwords do not match",
+        "invalidLink": "The password reset link is invalid or has expired",
+        "passwordTooWeak": "The password is too weak. It should contain at least 8 characters, one uppercase letter, one number, and one special character.",
+        "serverError": "An error occurred while resetting the password. Please try again later."
+      }
     }
   }
 }

@@ -125,6 +125,74 @@
         "quote": "“Najlepszym i najmądrzejszym sposobem na ucieczkę od wszelkich trosk jest nauka.”",
         "authorName": "Ada Lovelace"
       }
+    },
+    "login": {
+      "title": "Zaloguj się",
+      "subtitle": "Wprowadź dane logowania",
+      "emailLabel": "Email",
+      "passwordLabel": "Hasło",
+      "rememberMe": "Zapamiętaj mnie",
+      "forgotPassword": "Zapomniałeś hasła?",
+      "login": "Zaloguj się",
+      "loggingIn": "Logowanie...",
+      "noAccount": "Nie masz jeszcze konta?",
+      "register": "Zarejestruj się",
+      "errors": {
+        "invalidCredentials": "Nieprawidłowy email lub hasło",
+        "serverError": "Wystąpił błąd podczas logowania. Spróbuj ponownie później."
+      }
+    },
+    "register": {
+      "title": "Zarejestruj się",
+      "subtitle": "Utwórz nowe konto",
+      "emailLabel": "Email",
+      "passwordLabel": "Hasło",
+      "confirmPasswordLabel": "Powtórz hasło",
+      "acceptTerms": "Akceptuję regulamin i politykę prywatności",
+      "register": "Zarejestruj się",
+      "registering": "Rejestrowanie...",
+      "haveAccount": "Masz już konto?",
+      "login": "Zaloguj się",
+      "errors": {
+        "emailInUse": "Ten adres email jest już używany",
+        "passwordsNotMatch": "Hasła nie są zgodne",
+        "termsNotAccepted": "Zaakceptuj warunki korzystania z serwisu",
+        "serverError": "Wystąpił błąd podczas rejestracji. Spróbuj ponownie później."
+      }
+    },
+    "forgotPassword": {
+      "title": "Resetowanie hasła",
+      "subtitle": "Podaj swój adres email, a wyślemy Ci link do resetowania hasła",
+      "emailLabel": "Email",
+      "sendLink": "Wyślij link resetujący",
+      "sending": "Wysyłanie...",
+      "rememberPassword": "Pamiętasz swoje hasło?",
+      "login": "Zaloguj się",
+      "successMessage": "Link do resetowania hasła został wysłany na podany adres email.",
+      "checkEmail": "Sprawdź swoją skrzynkę email. Jeśli nie widzisz wiadomości, sprawdź folder spam.",
+      "backToLogin": "Powrót do logowania",
+      "errors": {
+        "emailNotFound": "Konto z podanym adresem email nie istnieje",
+        "tooManyRequests": "Wysłano zbyt wiele próśb o reset hasła. Spróbuj ponownie później.",
+        "serverError": "Wystąpił błąd podczas wysyłania linku. Spróbuj ponownie później."
+      }
+    },
+    "resetPassword": {
+      "title": "Nowe hasło",
+      "subtitle": "Wprowadź i potwierdź nowe hasło",
+      "newPasswordLabel": "Nowe hasło",
+      "confirmPasswordLabel": "Potwierdź hasło",
+      "savePassword": "Zapisz nowe hasło",
+      "saving": "Zapisywanie...",
+      "successMessage": "Twoje hasło zostało zmienione",
+      "passwordChangedInfo": "Możesz teraz zalogować się przy użyciu nowego hasła",
+      "backToLogin": "Przejdź do logowania",
+      "errors": {
+        "passwordsNotMatch": "Hasła nie są zgodne",
+        "invalidLink": "Link do resetowania hasła jest nieprawidłowy lub wygasł",
+        "passwordTooWeak": "Hasło jest zbyt słabe. Powinno zawierać co najmniej 8 znaków, jedną dużą literę, jedną cyfrę i jeden znak specjalny.",
+        "serverError": "Wystąpił błąd podczas resetowania hasła. Spróbuj ponownie później."
+      }
     }
   }
 }
