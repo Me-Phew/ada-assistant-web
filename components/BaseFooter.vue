@@ -59,12 +59,12 @@
 .base-footer {
   @include base-grid;
 
-  min-height: 40rem;
-  padding-bottom: 5.6rem;
+  min-height: 30rem;
+  padding-bottom: 3rem;
   background-color: $color_background_primary;
 
   &__wrapper {
-    margin-top: 10rem;
+    margin-top: 8rem;
     grid-column: 3 / 11;
     display: flex;
     flex-direction: column;
@@ -73,8 +73,8 @@
 
     @include mobile {
       grid-column: 2/12;
-      margin-top: 5rem;
-      padding: 0 2rem;
+      margin-top: 3rem;
+      padding: 0 1rem;
     }
   }
 
@@ -117,14 +117,30 @@
 
   &__privacy-tos {
     @include body-regular-3;
-
     margin-top: 1.6rem;
+
+    @include mobile {
+      text-align: center;
+      width: 100%;
+      padding: 0;
+      white-space: normal;
+      word-wrap: break-word;
+      font-size: 1.2rem;
+    }
   }
 
   &__copyright {
     @include body-regular-3;
+    margin-top: 1rem;
 
-    margin-top: 1.6rem;
+    @include mobile {
+      text-align: center;
+      width: 100%;
+      padding: 0;
+      white-space: normal;
+      word-wrap: break-word;
+      font-size: 1.2rem;
+    }
   }
 }
 </style>
