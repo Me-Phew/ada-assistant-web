@@ -26,12 +26,13 @@ defineProps<{
 
         <slot />
       </section>
+      <LoginPageFooter />
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-@import "~/assets/styles/global/variables/light_effects";
+@use "~/assets/styles/global/variables/light_effects" as *;
 
 .login-page {
   width: 100%;
