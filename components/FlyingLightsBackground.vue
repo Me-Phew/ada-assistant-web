@@ -12,7 +12,7 @@
 </template>
 
 <style lang="scss" scoped>
-@import "~/assets/styles/global/variables/light_effects";
+@use "~/assets/styles/global/variables/light_effects" as *;
 
 .flying-lights-background {
   position: absolute;
