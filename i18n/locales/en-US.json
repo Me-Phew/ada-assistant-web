@@ -92,6 +92,79 @@
       "madeBy": "Made with ❤️ by",
       "privacyTos": "Privacy policy and terms of service",
       "allRightsReserved": "All rights reserved"
+    },
+    "dashboardActivity": {
+      "title": "Activity",
+      "viewAll": "View All",
+      "events": {
+        "connection": {
+          "success": "connected successfully",
+          "error": "failed to connect"
+        },
+        "dataReport": {
+          "success": "sent data report"
+        },
+        "battery": {
+          "warning": "has low battery"
+        },
+        "firmware": {
+          "warning": "needs firmware update"
+        }
+      }
+    },
+    "dashboardServices": {
+      "title": "Connected Services",
+      "manage": "Manage",
+      "connect": "Connect New Service",
+      "actions": {
+        "refresh": "Refresh",
+        "deactivate": "Deactivate",
+        "disconnect": "Disconnect"
+      }
+    },
+    "dashboardDevices": {
+      "title": "Devices",
+      "manage": "Manage"
+    },
+    "dashboardStats": {
+      "title": "Weekly Statistics",
+      "energy": "Energy",
+      "temperature": "Temperature",
+      "loading": "Loading chart data..."
+    },
+    "dashboardActionButtons": {
+      "addDevice": "Add Device",
+      "syncData": "Sync Data",
+      "settings": "Settings"
+    },
+    "dashboardHeader": {
+      "hideEffects": "Hide Effects",
+      "showEffects": "Show Effects",
+      "notifications": "Notifications",
+      "markAllRead": "Mark all as read",
+      "noNotifications": "No notifications",
+      "profile": "Profile",
+      "settings": "Settings",
+      "logout": "Logout"
+    },
+    "dashboardWelcome": {
+      "title": "Welcome back",
+      "subtitle": "Here's what's happening with your devices"
+    },
+    "dashboardTabs": {
+      "overview": "Overview",
+      "devices": "Devices",
+      "activity": "Activity",
+      "settings": "Settings",
+      "services": "Services",
+      "support": "Technical support",
+      "interactions": "History of interaction"
+    },
+    "dashboardQuickControls": {
+      "lights": "Lights",
+      "thermostat": "Thermostat",
+      "security": "Security",
+      "power": "Power"
     }
   },
   "pages": {
@@ -193,6 +266,9 @@
         "passwordTooWeak": "The password is too weak. It should contain at least 8 characters, one uppercase letter, one number, and one special character.",
         "serverError": "An error occurred while resetting the password. Please try again later."
       }
+    },
+    "dashboard": {
+      "title": "Dashboard"
     }
   }
 }
