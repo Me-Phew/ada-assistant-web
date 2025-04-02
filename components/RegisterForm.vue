@@ -76,9 +76,19 @@ const handleSubmit = () => {
 
     <BaseButton
       class="register-form__submit"
+      type="primary"
       :disabled="isSubmitting"
     >
-      {{ isSubmitting ? $t("pages.register.registering") : $t("pages.register.register") }}
+      <div class="register-form__submit-content">
+        <span>{{
+          isSubmitting ? $t("pages.register.registering") : $t("pages.register.register")
+        }}</span>
+        <Icon
+          v-if="isSubmitting"
+          name="mdi:loading"
+          class="register-form__submit-loading"
+        />
+      </div>
     </BaseButton>
   </form>
 </template>
@@ -133,10 +143,78 @@ const handleSubmit = () => {
     min-width: 100% !important;
     max-width: 100% !important;
     margin-top: 1rem;
+    animation: fade-in-up 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    opacity: 0;
+    animation-delay: 0.4s;
+    transition: all 0.3s ease;
+
+    :root.light-theme & {
+      background-color: #0072f5;
+      color: #ffffff;
+
+      &:hover {
+        background-color: #0066df;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 114, 245, 0.3);
+      }
+    }
+
+    :root.dark-theme & {
+      background-color: #00c972;
+      color: #0e131b;
+
+      &:hover {
+        background-color: #00d67b;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 201, 114, 0.3);
+      }
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
 
     @include mobile {
       height: 5rem;
     }
+  }
+
+  &__submit-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+
+  &__submit-loading {
+    animation: spin 1s linear infinite;
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>

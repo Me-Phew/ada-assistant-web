@@ -61,7 +61,6 @@
 
   min-height: 30rem;
   padding-bottom: 3rem;
-  background-color: $color_background_primary;
 
   &__wrapper {
     margin-top: 8rem;

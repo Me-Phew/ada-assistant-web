@@ -12,6 +12,7 @@
           <BaseLink
             to="/login"
             type="secondary"
+            class="no-hover-bg"
             >{{ $t("components.baseHeader.login") }}</BaseLink
           >
         </li>
