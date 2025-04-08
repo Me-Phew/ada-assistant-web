@@ -60,17 +60,11 @@ const togglePasswordVisibility = () => {
         :class="{ 'base-input__field--error': error }"
         @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
       />
-
       <Icon
         v-if="type === 'password'"
-        class="base-input__eye-icon"
         :name="isPasswordVisible ? 'mdi:eye-off' : 'mdi:eye'"
+        class="base-input__eye-icon"
         @click="togglePasswordVisibility"
-        :title="
-          isPasswordVisible
-            ? $t('common.inputs.password.hidePassword')
-            : $t('common.inputs.password.showPassword')
-        "
       />
     </div>
 
@@ -89,10 +83,20 @@ const togglePasswordVisibility = () => {
   margin-bottom: 2rem;
 
   &__label {
-    @include body-medium-2;
+    font-family: "Roboto", sans-serif;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    font-weight: 500;
     display: block;
     margin-bottom: 0.8rem;
-    color: $color_text_primary;
+
+    :root.light-theme & {
+      color: #000000;
+    }
+
+    :root.dark-theme & {
+      color: #ffffff;
+    }
   }
 
   &__field-wrapper {
@@ -104,24 +108,50 @@ const togglePasswordVisibility = () => {
     width: 100%;
     height: 5.6rem;
     padding: 0 1.6rem;
-    border: 1px solid $color_background_secondary;
-    border-radius: $corner_radius_small;
-    background-color: transparent;
-    color: $color_text_primary;
+    border-radius: 0.4rem;
     font-size: 1.6rem;
-    transition: border-color 0.3s;
+    transition: all 0.3s ease;
 
-    &:focus {
-      outline: none;
-      border-color: $color_primary;
+    :root.light-theme & {
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      background-color: rgba(255, 255, 255, 0.8);
+      color: #000000;
+
+      &::placeholder {
+        color: rgba(0, 0, 0, 0.4);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: #0072f5;
+        box-shadow: 0 0 0 3px rgba(0, 114, 245, 0.2);
+        background-color: #ffffff;
+      }
+
+      &--error {
+        border-color: #dc2626;
+      }
     }
 
-    &--error {
-      border-color: $color_error;
-    }
+    :root.dark-theme & {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background-color: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
 
-    &::placeholder {
-      color: $color_text_secondary_tone_1;
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: #00c972;
+        box-shadow: 0 0 0 3px rgba(0, 201, 114, 0.2);
+        background-color: rgba(255, 255, 255, 0.07);
+      }
+
+      &--error {
+        border-color: #dc2626;
+      }
     }
   }
 
@@ -132,19 +162,33 @@ const togglePasswordVisibility = () => {
     transform: translateY(-50%);
     width: 2rem;
     height: 2rem;
-    color: $color_text_secondary;
     cursor: pointer;
     transition: color 0.3s;
 
-    &:hover {
-      color: $color_text_primary;
+    :root.light-theme & {
+      color: rgba(0, 0, 0, 0.6);
+
+      &:hover {
+        color: #000000;
+      }
+    }
+
+    :root.dark-theme & {
+      color: rgba(255, 255, 255, 0.6);
+
+      &:hover {
+        color: #ffffff;
+      }
     }
   }
 
   &__error {
-    @include body-regular-3;
+    font-family: "Roboto", sans-serif;
+    font-size: 1.4rem;
+    line-height: 1.43;
+    font-weight: 400;
     margin-top: 0.4rem;
-    color: $color_error;
+    color: #dc2626;
   }
 }
 </style>

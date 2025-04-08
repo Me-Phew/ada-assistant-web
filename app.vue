@@ -36,5 +36,8 @@ useHead({
 
 body {
   background-color: $color_background_primary;
+  color: $color_text_primary;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 </style>

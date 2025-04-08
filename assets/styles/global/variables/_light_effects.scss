@@ -1,0 +1,29 @@
+// Light theme colors
+$light_theme_glow_color: rgba(0, 114, 245, 0.6);
+$light_theme_glow_shadow: rgba(0, 114, 245, 0.4);
+$light_theme_radial_inner: rgba(0, 114, 245, 0.15);
+$light_theme_radial_outer: rgba(0, 114, 245, 0);
+$light_theme_logo_glow_light: rgba(0, 114, 245, 0.4);
+$light_theme_logo_glow_strong: rgba(0, 114, 245, 0.8);
+
+// Dark theme colors
+$dark_theme_glow_color: rgba(0, 201, 114, 0.6);
+$dark_theme_glow_shadow: rgba(0, 201, 114, 0.4);
+$dark_theme_radial_inner: rgba(0, 201, 114, 0.15);
+$dark_theme_radial_outer: rgba(0, 201, 114, 0);
+$dark_theme_logo_glow_light: rgba(0, 201, 114, 0.4);
+$dark_theme_logo_glow_strong: rgba(0, 201, 114, 0.8);
+
+// Background gradients
+$light_theme_bg_color: #f5f7fa;
+$light_theme_bg_gradient_1: rgba(0, 114, 245, 0.03);
+$light_theme_bg_gradient_2: rgba(0, 114, 245, 0.04);
+
+$dark_theme_bg_color: #0e131b;
+$dark_theme_bg_gradient_1: rgba(0, 201, 114, 0.03);
+$dark_theme_bg_gradient_2: rgba(0, 201, 114, 0.04);
+
+// Animation parameters
+$light_float_duration: 15s;
+$light_pulse_duration: 3s;
+$glow_pulse_duration: 8s;

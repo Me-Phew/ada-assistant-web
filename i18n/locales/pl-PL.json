@@ -92,6 +92,79 @@
       "madeBy": "Stworzone z ❤️ przez",
       "privacyTos": "Polityka prywatności i warunki korzystania",
       "allRightsReserved": "Wszelkie prawa zastrzeżone"
+    },
+    "dashboardActivity": {
+      "title": "Historia Aktywności",
+      "viewAll": "Zobacz wszystko",
+      "events": {
+        "connection": {
+          "success": "połączono pomyślnie",
+          "error": "błąd połączenia"
+        },
+        "dataReport": {
+          "success": "wysłano raport danych"
+        },
+        "battery": {
+          "warning": "ma niski poziom baterii"
+        },
+        "firmware": {
+          "warning": "wymaga aktualizacji firmware"
+        }
+      }
+    },
+    "dashboardServices": {
+      "title": "Podłączone Usługi",
+      "manage": "Zarządzaj",
+      "connect": "Podłącz Nową Usługę",
+      "actions": {
+        "refresh": "Odśwież",
+        "deactivate": "Dezaktywuj",
+        "disconnect": "Odłącz"
+      }
+    },
+    "dashboardDevices": {
+      "title": "Urządzenia",
+      "manage": "Zarządzaj"
+    },
+    "dashboardStats": {
+      "title": "Statystyki Tygodniowe",
+      "energy": "Energia",
+      "temperature": "Temperatura",
+      "loading": "Ładowanie danych wykresu..."
+    },
+    "dashboardActionButtons": {
+      "addDevice": "Dodaj Urządzenie",
+      "syncData": "Synchronizuj Dane",
+      "settings": "Ustawienia"
+    },
+    "dashboardHeader": {
+      "hideEffects": "Ukryj Efekty",
+      "showEffects": "Pokaż Efekty",
+      "notifications": "Powiadomienia",
+      "markAllRead": "Oznacz wszystkie jako przeczytane",
+      "noNotifications": "Brak powiadomień",
+      "profile": "Profil",
+      "settings": "Ustawienia",
+      "logout": "Wyloguj"
+    },
+    "dashboardWelcome": {
+      "title": "Witaj ponownie",
+      "subtitle": "Oto co dzieje się z Twoimi urządzeniami"
+    },
+    "dashboardTabs": {
+      "overview": "Przeglądaj",
+      "devices": "Urządzenia",
+      "activity": "Aktywność",
+      "settings": "Ustawienia",
+      "services": "Usługi",
+      "support": "Pomoc Techniczna",
+      "interactions": "Historia Aktywności"
+    },
+    "dashboardQuickControls": {
+      "lights": "Światła",
+      "thermostat": "Termostat",
+      "security": "Bezpieczeństwo",
+      "power": "Zasilanie"
     }
   },
   "pages": {
@@ -193,6 +266,9 @@
         "passwordTooWeak": "Hasło jest zbyt słabe. Powinno zawierać co najmniej 8 znaków, jedną dużą literę, jedną cyfrę i jeden znak specjalny.",
         "serverError": "Wystąpił błąd podczas resetowania hasła. Spróbuj ponownie później."
       }
+    },
+    "dashboard": {
+      "title": "Panel główny"
     }
   }
 }

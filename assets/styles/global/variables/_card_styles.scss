@@ -1,0 +1,16 @@
+// Light theme card styling
+$light_card_bg: white;
+$light_card_shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+$light_card_border: none;
+$light_card_border_radius: 1.5rem;
+
+// Dark theme card styling
+$dark_card_bg: #080d11;
+$dark_card_shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+$dark_card_border: 1px solid rgba(255, 255, 255, 0.05);
+$dark_card_border_radius: 1.5rem;
+$dark_card_glow: 0 0 30px rgba(0, 201, 114, 0.03);
+
+// Dark theme header/footer styling
+$dark_header_border: rgba(255, 255, 255, 0.05);
+$light_header_border: rgba(0, 0, 0, 0.05);
