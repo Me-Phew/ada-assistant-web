@@ -233,6 +233,57 @@
         "updateFirmware": "Update firmware",
         "systemBackup": "System backup"
       }
+    },
+    "adminDashboardTabs": {
+      "dashboard": "Overview",
+      "devices": "Devices",
+      "users": "Users",
+      "logs": "Logs",
+      "settings": "Settings"
+    },
+    "adminDashboardUsers": {
+      "title": "User Management",
+      "addUser": "Add user",
+      "table": {
+        "id": "ID",
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "lastActive": "Last Active",
+        "actions": "Actions"
+      },
+      "roles": {
+        "admin": "Administrator",
+        "user": "User"
+      },
+      "timeExpressions": {
+        "never": "Never",
+        "minutesAgo": "{n} min ago",
+        "hourAgo": "1 hour ago",
+        "hoursAgo": "{n} hours ago",
+        "dayAgo": "1 day ago",
+        "daysAgo": "{n} days ago"
+      },
+      "modal": {
+        "editTitle": "Edit user",
+        "addTitle": "Add user",
+        "form": {
+          "nameLabel": "Full Name",
+          "namePlaceholder": "Full Name",
+          "emailLabel": "Email",
+          "emailPlaceholder": "User email",
+          "passwordLabel": "Password",
+          "passwordPlaceholder": "Password",
+          "roleLabel": "Role"
+        },
+        "actions": {
+          "cancel": "Cancel",
+          "save": "Save changes",
+          "add": "Add user",
+          "saving": "Saving...",
+          "adding": "Adding..."
+        }
+      }
     }
   },
   "pages": {

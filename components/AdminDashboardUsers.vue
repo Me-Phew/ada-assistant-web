@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 defineProps({
   animationComplete: {
@@ -8,28 +11,28 @@ defineProps({
   },
 });
 
-// Mock danych - użytkownicy
+// Mock data - users
 const users = ref([
   {
     id: 1,
     name: "Administrator",
     email: "admin@example.com",
-    role: "Administrator",
-    lastActive: "2 min temu",
+    role: t("components.adminDashboardUsers.roles.admin"),
+    lastActive: t("components.adminDashboardUsers.timeExpressions.minutesAgo", { n: 2 }),
   },
   {
     id: 2,
     name: "Jan Kowalski",
     email: "jan@example.com",
-    role: "Użytkownik",
-    lastActive: "1 dzień temu",
+    role: t("components.adminDashboardUsers.roles.user"),
+    lastActive: t("components.adminDashboardUsers.timeExpressions.dayAgo"),
   },
   {
     id: 3,
     name: "Anna Nowak",
     email: "anna@example.com",
-    role: "Użytkownik",
-    lastActive: "3 godz. temu",
+    role: t("components.adminDashboardUsers.roles.user"),
+    lastActive: t("components.adminDashboardUsers.timeExpressions.hoursAgo", { n: 3 }),
   },
 ]);
 
@@ -40,7 +43,7 @@ const newUser = ref({
   name: "",
   email: "",
   password: "",
-  role: "Użytkownik",
+  role: t("components.adminDashboardUsers.roles.user"),
 });
 
 const openAddUserModal = () => {
@@ -49,7 +52,7 @@ const openAddUserModal = () => {
     name: "",
     email: "",
     password: "",
-    role: "Użytkownik",
+    role: t("components.adminDashboardUsers.roles.user"),
   };
   showUserModal.value = true;
 };
@@ -74,7 +77,7 @@ const saveUser = async () => {
 
   isAddingUser.value = true;
   try {
-    // Symulacja opóźnienia API
+    // API delay simulation
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     if (currentUser.value) {
@@ -94,7 +97,7 @@ const saveUser = async () => {
         name: newUser.value.name,
         email: newUser.value.email,
         role: newUser.value.role,
-        lastActive: "Nigdy",
+        lastActive: t("components.adminDashboardUsers.timeExpressions.never"),
       });
     }
 
@@ -120,7 +123,7 @@ const deleteUser = (id: number) => {
           name="mdi:account-group"
           class="admin-dashboard-users__icon"
         />
-        Zarządzanie użytkownikami
+        {{ $t("components.adminDashboardUsers.title") }}
       </h2>
       <button
         class="admin-dashboard-users__add-button"
@@ -130,7 +133,7 @@ const deleteUser = (id: number) => {
           name="mdi:account-plus"
           class="admin-dashboard-users__add-icon"
         />
-        Dodaj użytkownika
+        {{ $t("components.adminDashboardUsers.addUser") }}
       </button>
     </div>
 
@@ -138,12 +141,14 @@ const deleteUser = (id: number) => {
       <table class="admin-dashboard-users__table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Imię i nazwisko</th>
-            <th>Email</th>
-            <th>Rola</th>
-            <th>Ostatnia aktywność</th>
-            <th class="admin-dashboard-users__actions-header">Akcje</th>
+            <th>{{ $t("components.adminDashboardUsers.table.id") }}</th>
+            <th>{{ $t("components.adminDashboardUsers.table.name") }}</th>
+            <th>{{ $t("components.adminDashboardUsers.table.email") }}</th>
+            <th>{{ $t("components.adminDashboardUsers.table.role") }}</th>
+            <th>{{ $t("components.adminDashboardUsers.table.lastActive") }}</th>
+            <th class="admin-dashboard-users__actions-header">
+              {{ $t("components.adminDashboardUsers.table.actions") }}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -159,7 +164,8 @@ const deleteUser = (id: number) => {
               <span
                 class="admin-dashboard-users__role-badge"
                 :class="{
-                  'admin-dashboard-users__role-badge--admin': user.role === 'Administrator',
+                  'admin-dashboard-users__role-badge--admin':
+                    user.role === $t('components.adminDashboardUsers.roles.admin'),
                 }"
               >
                 {{ user.role }}
@@ -193,7 +199,7 @@ const deleteUser = (id: number) => {
       </table>
     </div>
 
-    <!-- Modal dodawania/edycji użytkownika -->
+    <!-- User add/edit modal -->
     <Teleport to="body">
       <div
         v-if="showUserModal"
@@ -206,7 +212,11 @@ const deleteUser = (id: number) => {
         >
           <div class="admin-dashboard-users__modal-header">
             <h2 class="admin-dashboard-users__modal-title">
-              {{ currentUser ? "Edytuj użytkownika" : "Dodaj użytkownika" }}
+              {{
+                currentUser
+                  ? $t("components.adminDashboardUsers.modal.editTitle")
+                  : $t("components.adminDashboardUsers.modal.addTitle")
+              }}
             </h2>
             <button
               class="admin-dashboard-users__modal-close"
@@ -225,23 +235,27 @@ const deleteUser = (id: number) => {
               class="admin-dashboard-users__form"
             >
               <div class="admin-dashboard-users__form-group">
-                <label class="admin-dashboard-users__form-label">Imię i nazwisko</label>
+                <label class="admin-dashboard-users__form-label">
+                  {{ $t("components.adminDashboardUsers.modal.form.nameLabel") }}
+                </label>
                 <input
                   v-model="newUser.name"
                   class="admin-dashboard-users__form-input"
                   type="text"
-                  placeholder="Imię i nazwisko"
+                  :placeholder="$t('components.adminDashboardUsers.modal.form.namePlaceholder')"
                   required
                 />
               </div>
 
               <div class="admin-dashboard-users__form-group">
-                <label class="admin-dashboard-users__form-label">Email</label>
+                <label class="admin-dashboard-users__form-label">
+                  {{ $t("components.adminDashboardUsers.modal.form.emailLabel") }}
+                </label>
                 <input
                   v-model="newUser.email"
                   class="admin-dashboard-users__form-input"
                   type="email"
-                  placeholder="Email użytkownika"
+                  :placeholder="$t('components.adminDashboardUsers.modal.form.emailPlaceholder')"
                   required
                 />
               </div>
@@ -250,25 +264,33 @@ const deleteUser = (id: number) => {
                 class="admin-dashboard-users__form-group"
                 v-if="!currentUser"
               >
-                <label class="admin-dashboard-users__form-label">Hasło</label>
+                <label class="admin-dashboard-users__form-label">
+                  {{ $t("components.adminDashboardUsers.modal.form.passwordLabel") }}
+                </label>
                 <input
                   v-model="newUser.password"
                   class="admin-dashboard-users__form-input"
                   type="password"
-                  placeholder="Hasło"
+                  :placeholder="$t('components.adminDashboardUsers.modal.form.passwordPlaceholder')"
                   :required="!currentUser"
                 />
               </div>
 
               <div class="admin-dashboard-users__form-group">
-                <label class="admin-dashboard-users__form-label">Rola</label>
+                <label class="admin-dashboard-users__form-label">
+                  {{ $t("components.adminDashboardUsers.modal.form.roleLabel") }}
+                </label>
                 <div class="admin-dashboard-users__select-wrapper">
                   <select
                     v-model="newUser.role"
                     class="admin-dashboard-users__form-select"
                   >
-                    <option value="Użytkownik">Użytkownik</option>
-                    <option value="Administrator">Administrator</option>
+                    <option :value="$t('components.adminDashboardUsers.roles.user')">
+                      {{ $t("components.adminDashboardUsers.roles.user") }}
+                    </option>
+                    <option :value="$t('components.adminDashboardUsers.roles.admin')">
+                      {{ $t("components.adminDashboardUsers.roles.admin") }}
+                    </option>
                   </select>
                   <Icon
                     name="mdi:chevron-down"
@@ -283,7 +305,7 @@ const deleteUser = (id: number) => {
                   class="admin-dashboard-users__form-button admin-dashboard-users__form-button--secondary"
                   @click="closeUserModal"
                 >
-                  Anuluj
+                  {{ $t("components.adminDashboardUsers.modal.actions.cancel") }}
                 </button>
                 <button
                   type="submit"
@@ -291,7 +313,11 @@ const deleteUser = (id: number) => {
                   :disabled="isAddingUser"
                 >
                   <span v-if="!isAddingUser">
-                    {{ currentUser ? "Zapisz zmiany" : "Dodaj użytkownika" }}
+                    {{
+                      currentUser
+                        ? $t("components.adminDashboardUsers.modal.actions.save")
+                        : $t("components.adminDashboardUsers.modal.actions.add")
+                    }}
                   </span>
                   <span
                     v-else
@@ -301,7 +327,11 @@ const deleteUser = (id: number) => {
                       name="mdi:loading"
                       class="admin-dashboard-users__loading-icon"
                     />
-                    {{ currentUser ? "Zapisywanie..." : "Dodawanie..." }}
+                    {{
+                      currentUser
+                        ? $t("components.adminDashboardUsers.modal.actions.saving")
+                        : $t("components.adminDashboardUsers.modal.actions.adding")
+                    }}
                   </span>
                 </button>
               </div>

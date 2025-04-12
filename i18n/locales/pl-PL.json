@@ -233,6 +233,57 @@
         "updateFirmware": "Aktualizuj firmware",
         "systemBackup": "Kopia zapasowa"
       }
+    },
+    "adminDashboardTabs": {
+      "dashboard": "Przeglądaj",
+      "devices": "Urządzenia",
+      "users": "Użytkownicy",
+      "logs": "Logi",
+      "settings": "Ustawienia"
+    },
+    "adminDashboardUsers": {
+      "title": "Zarządzanie użytkownikami",
+      "addUser": "Dodaj użytkownika",
+      "table": {
+        "id": "ID",
+        "name": "Imię i nazwisko",
+        "email": "Email",
+        "role": "Rola",
+        "lastActive": "Ostatnia aktywność",
+        "actions": "Akcje"
+      },
+      "roles": {
+        "admin": "Administrator",
+        "user": "Użytkownik"
+      },
+      "timeExpressions": {
+        "never": "Nigdy",
+        "minutesAgo": "{n} min temu",
+        "hourAgo": "1 godz. temu",
+        "hoursAgo": "{n} godz. temu",
+        "dayAgo": "1 dzień temu",
+        "daysAgo": "{n} dni temu"
+      },
+      "modal": {
+        "editTitle": "Edytuj użytkownika",
+        "addTitle": "Dodaj użytkownika",
+        "form": {
+          "nameLabel": "Imię i nazwisko",
+          "namePlaceholder": "Imię i nazwisko",
+          "emailLabel": "Email",
+          "emailPlaceholder": "Email użytkownika",
+          "passwordLabel": "Hasło",
+          "passwordPlaceholder": "Hasło",
+          "roleLabel": "Rola"
+        },
+        "actions": {
+          "cancel": "Anuluj",
+          "save": "Zapisz zmiany",
+          "add": "Dodaj użytkownika",
+          "saving": "Zapisywanie...",
+          "adding": "Dodawanie..."
+        }
+      }
     }
   },
   "pages": {
