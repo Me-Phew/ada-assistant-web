@@ -284,6 +284,62 @@
           "adding": "Dodawanie..."
         }
       }
+    },
+    "adminDashboardLogs": {
+      "title": "Logi systemowe",
+      "stats": {
+        "total": "Wszystkie",
+        "errors": "Błędy",
+        "warnings": "Ostrzeżenia",
+        "info": "Informacje"
+      },
+      "actions": {
+        "downloadLogs": "Pobierz logi",
+        "deleteOldLogs": "Usuń stare logi"
+      },
+      "search": {
+        "placeholder": "Szukaj w logach..."
+      },
+      "filters": {
+        "type": "Typ",
+        "from": "Od",
+        "to": "Do",
+        "source": "Źródło",
+        "sourcePlaceholder": "np. System",
+        "clearFilters": "Wyczyść filtry"
+      },
+      "severity": {
+        "all": "Wszystkie",
+        "info": "Info",
+        "warning": "Ostrzeżenie",
+        "error": "Błąd"
+      },
+      "calendar": {
+        "dateFormat": "YYYY-MM-DD",
+        "weekdays": {
+          "sun": "Nd",
+          "mon": "Pn",
+          "tue": "Wt",
+          "wed": "Śr",
+          "thu": "Cz",
+          "fri": "Pt",
+          "sat": "Sb"
+        }
+      },
+      "empty": {
+        "message": "Brak logów spełniających kryteria"
+      },
+      "details": {
+        "label": "Szczegóły:",
+        "copy": "Kopiuj",
+        "export": "Eksportuj"
+      },
+      "deleteModal": {
+        "title": "Usuwanie starych logów",
+        "message": "Czy na pewno chcesz usunąć stare logi? Ta operacja jest nieodwracalna.",
+        "cancel": "Anuluj",
+        "confirm": "Potwierdź"
+      }
     }
   },
   "pages": {
