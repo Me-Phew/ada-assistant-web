@@ -165,6 +165,47 @@
       "thermostat": "Thermostat",
       "security": "Security",
       "power": "Power"
+    },
+    "adminDashboardDevices": {
+      "title": "Device Management",
+      "addDevice": "Register new device",
+      "table": {
+        "id": "ID",
+        "name": "Name",
+        "type": "Type",
+        "status": "Status",
+        "owner": "Owner",
+        "lastActive": "Last Activity",
+        "actions": "Actions"
+      },
+      "status": {
+        "online": "Online",
+        "offline": "Offline",
+        "paused": "Paused",
+        "error": "Error"
+      },
+      "registerModal": {
+        "title": "Register new device",
+        "deviceName": "Device name",
+        "deviceNamePlaceholder": "E.g. ADA-ESP32",
+        "deviceId": "Device ID",
+        "deviceIdPlaceholder": "Unique device identifier",
+        "deviceType": "Device type",
+        "deviceTypes": {
+          "esp32": "ESP32",
+          "phoneApp": "PhoneApp",
+          "other": "Other"
+        },
+        "description": "Description (optional)",
+        "descriptionPlaceholder": "Optional device description",
+        "cancel": "Cancel",
+        "register": "Register device",
+        "registering": "Registering..."
+      }
+    },
+    "adminDashboardWelcome": {
+      "title": "Welcome to the admin panel",
+      "subtitle": "Manage devices, users and monitor system activity"
     }
   },
   "pages": {

@@ -165,6 +165,47 @@
       "thermostat": "Termostat",
       "security": "Bezpieczeństwo",
       "power": "Zasilanie"
+    },
+    "adminDashboardDevices": {
+      "title": "Zarządzanie urządzeniami",
+      "addDevice": "Zarejestruj nowe urządzenie",
+      "table": {
+        "id": "ID",
+        "name": "Nazwa",
+        "type": "Typ",
+        "status": "Status",
+        "owner": "Właściciel",
+        "lastActive": "Ostatnia aktywność",
+        "actions": "Akcje"
+      },
+      "status": {
+        "online": "Online",
+        "offline": "Offline",
+        "paused": "Wstrzymany",
+        "error": "Błąd"
+      },
+      "registerModal": {
+        "title": "Zarejestruj nowe urządzenie",
+        "deviceName": "Nazwa urządzenia",
+        "deviceNamePlaceholder": "Np. ADA-ESP32",
+        "deviceId": "ID urządzenia",
+        "deviceIdPlaceholder": "Unikalny identyfikator urządzenia",
+        "deviceType": "Typ urządzenia",
+        "deviceTypes": {
+          "esp32": "ESP32",
+          "phoneApp": "PhoneApp",
+          "other": "Inne"
+        },
+        "description": "Opis (opcjonalnie)",
+        "descriptionPlaceholder": "Opcjonalny opis urządzenia",
+        "cancel": "Anuluj",
+        "register": "Zarejestruj urządzenie",
+        "registering": "Rejestracja..."
+      }
+    },
+    "adminDashboardWelcome": {
+      "title": "Witaj w panelu administratora",
+      "subtitle": "Zarządzaj urządzeniami, użytkownikami i monitoruj aktywność systemu"
     }
   },
   "pages": {
@@ -172,7 +213,10 @@
       "hero": {
         "title": "Asystent AI XXI wieku",
         "subtitle": "Asystent głosowy, który działa dla Ciebie, a nie na Ciebie. Bez śledzenia, bez zbędnego gromadzenia danych – pełna kontrola w Twoich rękach.",
-        "cta": "Kup teraz"
+        "cta": "Kup teraz",
+        "assistantListening": "Słucham...",
+        "assistantIdle": "Gotowy do pomocy",
+        "assistantCaption": "Zapytaj mnie o cokolwiek, słucham..."
       },
       "integrations": {
         "title": "Płynna integracja z Twoimi ulubionymi usługami"
