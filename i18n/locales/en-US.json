@@ -206,6 +206,33 @@
     "adminDashboardWelcome": {
       "title": "Welcome to the admin panel",
       "subtitle": "Manage devices, users and monitor system activity"
+    },
+    "adminDashboardOverview": {
+      "stats": {
+        "devices": {
+          "title": "Devices",
+          "label": "registered devices"
+        },
+        "users": {
+          "title": "Users",
+          "label": "active users"
+        },
+        "activity": {
+          "title": "Activity",
+          "label": "interactions in 24h"
+        },
+        "alerts": {
+          "title": "Alerts",
+          "label": "active alerts"
+        }
+      },
+      "quickActions": {
+        "title": "Quick actions",
+        "registerDevice": "Register device",
+        "addUser": "Add user",
+        "updateFirmware": "Update firmware",
+        "systemBackup": "System backup"
+      }
     }
   },
   "pages": {

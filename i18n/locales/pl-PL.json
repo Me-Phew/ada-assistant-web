@@ -206,6 +206,33 @@
     "adminDashboardWelcome": {
       "title": "Witaj w panelu administratora",
       "subtitle": "Zarządzaj urządzeniami, użytkownikami i monitoruj aktywność systemu"
+    },
+    "adminDashboardOverview": {
+      "stats": {
+        "devices": {
+          "title": "Urządzenia",
+          "label": "zarejestrowanych urządzeń"
+        },
+        "users": {
+          "title": "Użytkownicy",
+          "label": "aktywnych użytkowników"
+        },
+        "activity": {
+          "title": "Aktywność",
+          "label": "interakcji w ciągu 24h"
+        },
+        "alerts": {
+          "title": "Alerty",
+          "label": "aktywnych alertów"
+        }
+      },
+      "quickActions": {
+        "title": "Szybkie akcje",
+        "registerDevice": "Zarejestruj urządzenie",
+        "addUser": "Dodaj użytkownika",
+        "updateFirmware": "Aktualizuj firmware",
+        "systemBackup": "Kopia zapasowa"
+      }
     }
   },
   "pages": {
