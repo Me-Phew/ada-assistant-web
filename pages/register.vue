@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { navigateTo } from "nuxt/app";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import LoginContainer from "~/components/LoginContainer.vue";
@@ -36,6 +37,7 @@ const handleSubmit = async () => {
   isSubmitting.value = true;
   error.value = "";
 
+  // FIX IT LATER
   try {
     const user = await useRegister({
       email: email.value,
@@ -43,11 +45,11 @@ const handleSubmit = async () => {
       name: email.value.split("@")[0],
     });
 
-    if (user) {
-      router.push("/dashboard");
-    } else {
-      error.value = "Nie udało się utworzyć konta";
-    }
+    navigateTo("/dashboard");
+
+    setTimeout(() => {
+      window.location.href = "/dashboard";
+    }, 500);
   } catch (err: any) {
     console.error("Registration error:", err);
     error.value = err?.data?.message || "Błąd podczas rejestracji";

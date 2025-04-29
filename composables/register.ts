@@ -7,7 +7,7 @@ interface IAuthData {
 export const useUrl = () => {
   const config = useRuntimeConfig();
 
-  return `${config.public.apiBaseUrl}/api`;
+  return `${config.public.apiBaseUrl}api`;
 };
 
 export const useCustomer = () => useState<Customer | null>("customer");
@@ -23,7 +23,7 @@ export const useRegister = async (data: IAuthData) => {
     const baseURL = useUrl();
 
     // send request to create customer
-    const response = await $fetch<any>("/auth/register", {
+    const response = await $fetch<any>("/users/register", {
       method: "POST",
       body: data,
       baseURL,
@@ -54,26 +54,26 @@ export const useRegister = async (data: IAuthData) => {
  */
 export const useLogin = async (data: IAuthData) => {
   try {
-    // get base url
     const baseURL = useUrl();
 
-    // get the logged in customer
     const customer = useCustomer();
 
-    // send request to login
+    const requestBody = {
+      login: data.email,
+      password: data.password,
+    };
+
     const response = await $fetch<any>("/auth/login", {
       method: "POST",
-      body: data,
+      body: requestBody,
       baseURL,
       credentials: "include",
     });
 
-    // Store user and token
     if (response.user) {
       customer.value = response.user;
     }
 
-    // Store token if provided
     if (response.token) {
       localStorage.setItem("authToken", response.token);
     }
