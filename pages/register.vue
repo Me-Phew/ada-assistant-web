@@ -1,5 +1,7 @@
 <script lang="ts" setup>
+import { navigateTo } from "nuxt/app";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import LoginContainer from "~/components/LoginContainer.vue";
 import LoginGoogleButton from "~/components/LoginGoogleButton.vue";
 import LoginPage from "~/components/LoginPage.vue";
@@ -13,6 +15,7 @@ const confirmPassword = ref("");
 const acceptTerms = ref(false);
 const isSubmitting = ref(false);
 const error = ref("");
+const router = useRouter();
 
 definePageMeta({
   layout: "custom",
@@ -21,22 +24,49 @@ definePageMeta({
 const handleSubmit = async () => {
   if (isSubmitting.value) return;
 
+  if (password.value !== confirmPassword.value) {
+    error.value = "Hasła nie są identyczne";
+    return;
+  }
+
+  if (!acceptTerms.value) {
+    error.value = "Musisz zaakceptować warunki korzystania z serwisu";
+    return;
+  }
+
   isSubmitting.value = true;
   error.value = "";
 
+  // FIX IT LATER
   try {
-    // Logika rejestracji
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-  } catch (err) {
-    error.value = "Błąd podczas rejestracji";
+    const user = await useRegister({
+      email: email.value,
+      password: password.value,
+      name: email.value.split("@")[0],
+    });
+
+    navigateTo("/dashboard");
+
+    setTimeout(() => {
+      window.location.href = "/dashboard";
+    }, 500);
+  } catch (err: any) {
+    console.error("Registration error:", err);
+    error.value = err?.data?.message || "Błąd podczas rejestracji";
+
+    if (err?.data?.code === "EMAIL_EXISTS") {
+      error.value = "Ten adres email jest już używany";
+    }
   } finally {
     isSubmitting.value = false;
   }
 };
 
 const handleGoogleRegister = () => {
-  // Logika rejestracji przez Google
-  console.log("Google register");
+  // Get base URL for API
+  const baseURL = useUrl();
+  // Redirect to Google OAuth endpoint
+  window.location.href = `${baseURL}/auth/google`;
 };
 </script>
 

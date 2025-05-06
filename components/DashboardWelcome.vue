@@ -17,7 +17,7 @@ onMounted(() => {
     <div class="dashboard-welcome__content">
       <h1
         ref="titleRef"
-        class="dashboard-welcome__title"
+        class="dashboard-welcome__title animated-gradient"
         :class="{ 'dashboard-welcome__title--loaded': isLoaded }"
       >
         {{ $t("components.dashboardWelcome.title") }}
@@ -73,23 +73,39 @@ onMounted(() => {
     text-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     position: relative;
 
+    &.animated-gradient {
+      background-size: 200% auto;
+
+      :root.light-theme & {
+        background-image: linear-gradient(
+          to right,
+          $color_text_primary 0%,
+          rgba(0, 114, 245, 0.8) 50%,
+          $color_text_primary 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradient-flow 6s linear infinite;
+      }
+
+      :root.dark-theme & {
+        background-image: linear-gradient(
+          to right,
+          $color_text_primary 0%,
+          rgba(0, 201, 114, 0.8) 50%,
+          $color_text_primary 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradient-flow 6s linear infinite;
+      }
+    }
+
     &--loaded {
       opacity: 1;
       transform: translateY(0);
-    }
-
-    :root.light-theme & {
-      background: linear-gradient(to right, $color_text_primary 0%, rgba(0, 114, 245, 0.8) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    :root.dark-theme & {
-      background: linear-gradient(to right, $color_text_primary 0%, rgba(0, 201, 114, 0.8) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
     }
 
     @include mobile {
@@ -167,6 +183,15 @@ onMounted(() => {
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
   }
 }
 </style>

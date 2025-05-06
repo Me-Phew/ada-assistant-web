@@ -165,6 +165,181 @@
       "thermostat": "Termostat",
       "security": "Bezpieczeństwo",
       "power": "Zasilanie"
+    },
+    "adminDashboardDevices": {
+      "title": "Zarządzanie urządzeniami",
+      "addDevice": "Zarejestruj nowe urządzenie",
+      "table": {
+        "id": "ID",
+        "name": "Nazwa",
+        "type": "Typ",
+        "status": "Status",
+        "owner": "Właściciel",
+        "lastActive": "Ostatnia aktywność",
+        "actions": "Akcje"
+      },
+      "status": {
+        "online": "Online",
+        "offline": "Offline",
+        "paused": "Wstrzymany",
+        "error": "Błąd"
+      },
+      "registerModal": {
+        "title": "Zarejestruj nowe urządzenie",
+        "deviceName": "Nazwa urządzenia",
+        "deviceNamePlaceholder": "Np. ADA-ESP32",
+        "deviceId": "ID urządzenia",
+        "deviceIdPlaceholder": "Unikalny identyfikator urządzenia",
+        "deviceType": "Typ urządzenia",
+        "deviceTypes": {
+          "esp32": "ESP32",
+          "phoneApp": "PhoneApp",
+          "other": "Inne"
+        },
+        "description": "Opis (opcjonalnie)",
+        "descriptionPlaceholder": "Opcjonalny opis urządzenia",
+        "cancel": "Anuluj",
+        "register": "Zarejestruj urządzenie",
+        "registering": "Rejestracja..."
+      }
+    },
+    "adminDashboardWelcome": {
+      "title": "Witaj w panelu administratora",
+      "subtitle": "Zarządzaj urządzeniami, użytkownikami i monitoruj aktywność systemu"
+    },
+    "adminDashboardOverview": {
+      "stats": {
+        "devices": {
+          "title": "Urządzenia",
+          "label": "zarejestrowanych urządzeń"
+        },
+        "users": {
+          "title": "Użytkownicy",
+          "label": "aktywnych użytkowników"
+        },
+        "activity": {
+          "title": "Aktywność",
+          "label": "interakcji w ciągu 24h"
+        },
+        "alerts": {
+          "title": "Alerty",
+          "label": "aktywnych alertów"
+        }
+      },
+      "quickActions": {
+        "title": "Szybkie akcje",
+        "registerDevice": "Zarejestruj urządzenie",
+        "addUser": "Dodaj użytkownika",
+        "updateFirmware": "Aktualizuj firmware",
+        "systemBackup": "Kopia zapasowa"
+      }
+    },
+    "adminDashboardTabs": {
+      "dashboard": "Przeglądaj",
+      "devices": "Urządzenia",
+      "users": "Użytkownicy",
+      "logs": "Logi",
+      "settings": "Ustawienia"
+    },
+    "adminDashboardUsers": {
+      "title": "Zarządzanie użytkownikami",
+      "addUser": "Dodaj użytkownika",
+      "table": {
+        "id": "ID",
+        "name": "Imię i nazwisko",
+        "email": "Email",
+        "role": "Rola",
+        "lastActive": "Ostatnia aktywność",
+        "actions": "Akcje"
+      },
+      "roles": {
+        "admin": "Administrator",
+        "user": "Użytkownik"
+      },
+      "timeExpressions": {
+        "never": "Nigdy",
+        "minutesAgo": "{n} min temu",
+        "hourAgo": "1 godz. temu",
+        "hoursAgo": "{n} godz. temu",
+        "dayAgo": "1 dzień temu",
+        "daysAgo": "{n} dni temu"
+      },
+      "modal": {
+        "editTitle": "Edytuj użytkownika",
+        "addTitle": "Dodaj użytkownika",
+        "form": {
+          "nameLabel": "Imię i nazwisko",
+          "namePlaceholder": "Imię i nazwisko",
+          "emailLabel": "Email",
+          "emailPlaceholder": "Email użytkownika",
+          "passwordLabel": "Hasło",
+          "passwordPlaceholder": "Hasło",
+          "roleLabel": "Rola"
+        },
+        "actions": {
+          "cancel": "Anuluj",
+          "save": "Zapisz zmiany",
+          "add": "Dodaj użytkownika",
+          "saving": "Zapisywanie...",
+          "adding": "Dodawanie..."
+        }
+      }
+    },
+    "adminDashboardLogs": {
+      "title": "Logi systemowe",
+      "stats": {
+        "total": "Wszystkie",
+        "errors": "Błędy",
+        "warnings": "Ostrzeżenia",
+        "info": "Informacje"
+      },
+      "actions": {
+        "downloadLogs": "Pobierz logi",
+        "deleteOldLogs": "Usuń stare logi"
+      },
+      "search": {
+        "placeholder": "Szukaj w logach..."
+      },
+      "filters": {
+        "type": "Typ",
+        "from": "Od",
+        "to": "Do",
+        "source": "Źródło",
+        "sourcePlaceholder": "np. System",
+        "clearFilters": "Wyczyść filtry"
+      },
+      "severity": {
+        "all": "Wszystkie",
+        "info": "Info",
+        "warning": "Ostrzeżenie",
+        "error": "Błąd"
+      },
+      "calendar": {
+        "dateFormat": "YYYY-MM-DD",
+        "weekdays": {
+          "sun": "Nd",
+          "mon": "Pn",
+          "tue": "Wt",
+          "wed": "Śr",
+          "thu": "Cz",
+          "fri": "Pt",
+          "sat": "Sb"
+        }
+      },
+      "empty": {
+        "message": "Brak logów spełniających kryteria"
+      },
+      "details": {
+        "label": "Szczegóły:",
+        "copy": "Kopiuj",
+        "export": "Eksportuj"
+      },
+      "deleteModal": {
+        "title": "Usuwanie starych logów",
+        "message": "Czy na pewno chcesz usunąć stare logi? Ta operacja jest nieodwracalna.",
+        "cancel": "Anuluj",
+        "confirm": "Potwierdź"
+      }
     }
   },
   "pages": {
@@ -172,7 +347,10 @@
       "hero": {
         "title": "Asystent AI XXI wieku",
         "subtitle": "Asystent głosowy, który działa dla Ciebie, a nie na Ciebie. Bez śledzenia, bez zbędnego gromadzenia danych – pełna kontrola w Twoich rękach.",
-        "cta": "Kup teraz"
+        "cta": "Kup teraz",
+        "assistantListening": "Słucham...",
+        "assistantIdle": "Gotowy do pomocy",
+        "assistantCaption": "Zapytaj mnie o cokolwiek, słucham..."
       },
       "integrations": {
         "title": "Płynna integracja z Twoimi ulubionymi usługami"

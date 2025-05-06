@@ -165,6 +165,181 @@
       "thermostat": "Thermostat",
       "security": "Security",
       "power": "Power"
+    },
+    "adminDashboardDevices": {
+      "title": "Device Management",
+      "addDevice": "Register new device",
+      "table": {
+        "id": "ID",
+        "name": "Name",
+        "type": "Type",
+        "status": "Status",
+        "owner": "Owner",
+        "lastActive": "Last Activity",
+        "actions": "Actions"
+      },
+      "status": {
+        "online": "Online",
+        "offline": "Offline",
+        "paused": "Paused",
+        "error": "Error"
+      },
+      "registerModal": {
+        "title": "Register new device",
+        "deviceName": "Device name",
+        "deviceNamePlaceholder": "E.g. ADA-ESP32",
+        "deviceId": "Device ID",
+        "deviceIdPlaceholder": "Unique device identifier",
+        "deviceType": "Device type",
+        "deviceTypes": {
+          "esp32": "ESP32",
+          "phoneApp": "PhoneApp",
+          "other": "Other"
+        },
+        "description": "Description (optional)",
+        "descriptionPlaceholder": "Optional device description",
+        "cancel": "Cancel",
+        "register": "Register device",
+        "registering": "Registering..."
+      }
+    },
+    "adminDashboardWelcome": {
+      "title": "Welcome to the admin panel",
+      "subtitle": "Manage devices, users and monitor system activity"
+    },
+    "adminDashboardOverview": {
+      "stats": {
+        "devices": {
+          "title": "Devices",
+          "label": "registered devices"
+        },
+        "users": {
+          "title": "Users",
+          "label": "active users"
+        },
+        "activity": {
+          "title": "Activity",
+          "label": "interactions in 24h"
+        },
+        "alerts": {
+          "title": "Alerts",
+          "label": "active alerts"
+        }
+      },
+      "quickActions": {
+        "title": "Quick actions",
+        "registerDevice": "Register device",
+        "addUser": "Add user",
+        "updateFirmware": "Update firmware",
+        "systemBackup": "System backup"
+      }
+    },
+    "adminDashboardTabs": {
+      "dashboard": "Overview",
+      "devices": "Devices",
+      "users": "Users",
+      "logs": "Logs",
+      "settings": "Settings"
+    },
+    "adminDashboardUsers": {
+      "title": "User Management",
+      "addUser": "Add user",
+      "table": {
+        "id": "ID",
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "lastActive": "Last Active",
+        "actions": "Actions"
+      },
+      "roles": {
+        "admin": "Administrator",
+        "user": "User"
+      },
+      "timeExpressions": {
+        "never": "Never",
+        "minutesAgo": "{n} min ago",
+        "hourAgo": "1 hour ago",
+        "hoursAgo": "{n} hours ago",
+        "dayAgo": "1 day ago",
+        "daysAgo": "{n} days ago"
+      },
+      "modal": {
+        "editTitle": "Edit user",
+        "addTitle": "Add user",
+        "form": {
+          "nameLabel": "Full Name",
+          "namePlaceholder": "Full Name",
+          "emailLabel": "Email",
+          "emailPlaceholder": "User email",
+          "passwordLabel": "Password",
+          "passwordPlaceholder": "Password",
+          "roleLabel": "Role"
+        },
+        "actions": {
+          "cancel": "Cancel",
+          "save": "Save changes",
+          "add": "Add user",
+          "saving": "Saving...",
+          "adding": "Adding..."
+        }
+      }
+    },
+    "adminDashboardLogs": {
+      "title": "System Logs",
+      "stats": {
+        "total": "All",
+        "errors": "Errors",
+        "warnings": "Warnings",
+        "info": "Information"
+      },
+      "actions": {
+        "downloadLogs": "Download logs",
+        "deleteOldLogs": "Delete old logs"
+      },
+      "search": {
+        "placeholder": "Search logs..."
+      },
+      "filters": {
+        "type": "Type",
+        "from": "From",
+        "to": "To",
+        "source": "Source",
+        "sourcePlaceholder": "e.g. System",
+        "clearFilters": "Clear filters"
+      },
+      "severity": {
+        "all": "All",
+        "info": "Info",
+        "warning": "Warning",
+        "error": "Error"
+      },
+      "calendar": {
+        "dateFormat": "YYYY-MM-DD",
+        "weekdays": {
+          "sun": "Sun",
+          "mon": "Mon",
+          "tue": "Tue",
+          "wed": "Wed",
+          "thu": "Thu",
+          "fri": "Fri",
+          "sat": "Sat"
+        }
+      },
+      "empty": {
+        "message": "No logs match your criteria"
+      },
+      "details": {
+        "label": "Details:",
+        "copy": "Copy",
+        "export": "Export"
+      },
+      "deleteModal": {
+        "title": "Delete Old Logs",
+        "message": "Are you sure you want to delete old logs? This action cannot be undone.",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      }
     }
   },
   "pages": {
