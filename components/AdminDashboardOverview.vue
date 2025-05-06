@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+
 defineProps({
   animationComplete: {
     type: Boolean,
@@ -10,33 +14,33 @@ defineProps({
 const stats = [
   {
     id: "devices",
-    title: "Urządzenia",
+    title: t("components.adminDashboardOverview.stats.devices.title"),
     value: 12,
-    label: "zarejestrowanych urządzeń",
+    label: t("components.adminDashboardOverview.stats.devices.label"),
     icon: "mdi:devices",
     colorClass: "devices",
   },
   {
     id: "users",
-    title: "Użytkownicy",
+    title: t("components.adminDashboardOverview.stats.users.title"),
     value: 28,
-    label: "aktywnych użytkowników",
+    label: t("components.adminDashboardOverview.stats.users.label"),
     icon: "mdi:account-group",
     colorClass: "users",
   },
   {
     id: "activity",
-    title: "Aktywność",
+    title: t("components.adminDashboardOverview.stats.activity.title"),
     value: 186,
-    label: "interakcji w ciągu 24h",
+    label: t("components.adminDashboardOverview.stats.activity.label"),
     icon: "mdi:chart-line",
     colorClass: "stats",
   },
   {
     id: "alerts",
-    title: "Alerty",
+    title: t("components.adminDashboardOverview.stats.alerts.title"),
     value: 2,
-    label: "aktywnych alertów",
+    label: t("components.adminDashboardOverview.stats.alerts.label"),
     icon: "mdi:alert-circle-outline",
     colorClass: "alerts",
   },
@@ -46,30 +50,30 @@ const stats = [
 const quickActions = [
   {
     id: "register-device",
-    title: "Zarejestruj urządzenie",
+    title: t("components.adminDashboardOverview.quickActions.registerDevice"),
     icon: "mdi:plus-circle-outline",
-    action: () => console.log("Zarejestruj urządzenie"),
+    action: () => console.log("Register device"),
     colorClass: "theme-color",
   },
   {
     id: "add-user",
-    title: "Dodaj użytkownika",
+    title: t("components.adminDashboardOverview.quickActions.addUser"),
     icon: "mdi:account-plus",
-    action: () => console.log("Dodaj użytkownika"),
+    action: () => console.log("Add user"),
     colorClass: "theme-color",
   },
   {
     id: "update-firmware",
-    title: "Aktualizuj firmware",
+    title: t("components.adminDashboardOverview.quickActions.updateFirmware"),
     icon: "mdi:update",
-    action: () => console.log("Wykonaj kopię"),
+    action: () => console.log("Update firmware"),
     colorClass: "theme-color",
   },
   {
     id: "system-backup",
-    title: "Kopia zapasowa",
+    title: t("components.adminDashboardOverview.quickActions.systemBackup"),
     icon: "mdi:backup-restore",
-    action: () => console.log("Sprawdź system"),
+    action: () => console.log("System backup"),
     colorClass: "theme-color",
   },
 ];

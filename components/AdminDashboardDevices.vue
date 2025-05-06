@@ -49,7 +49,6 @@ const openRegisterDeviceModal = () => {
 
 const closeRegisterDeviceModal = () => {
   showRegisterDeviceModal.value = false;
-  // Reset formularza
   newDevice.value = {
     name: "",
     deviceId: "",
@@ -76,7 +75,6 @@ const registerDevice = async () => {
       lastActive: "Nigdy",
     });
 
-    // Zamknij modal
     closeRegisterDeviceModal();
   } finally {
     isAddingDevice.value = false;
@@ -84,7 +82,6 @@ const registerDevice = async () => {
 };
 
 const deleteDevice = (id: number) => {
-  // Usunięcie urządzenia
   devices.value = devices.value.filter((device) => device.id !== id);
 };
 </script>
@@ -100,7 +97,7 @@ const deleteDevice = (id: number) => {
           name="mdi:devices"
           class="admin-dashboard-devices__title-icon"
         />
-        Zarządzanie urządzeniami
+        {{ $t("components.adminDashboardDevices.title") }}
       </h2>
       <button
         class="admin-dashboard-devices__add-button"
@@ -110,7 +107,7 @@ const deleteDevice = (id: number) => {
           name="mdi:plus"
           class="admin-dashboard-devices__add-icon"
         />
-        Zarejestruj nowe urządzenie
+        {{ $t("components.adminDashboardDevices.addDevice") }}
       </button>
     </div>
 
@@ -118,13 +115,15 @@ const deleteDevice = (id: number) => {
       <table class="admin-dashboard-devices__table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Nazwa</th>
-            <th>Typ</th>
-            <th>Status</th>
-            <th>Właściciel</th>
-            <th>Ostatnia aktywność</th>
-            <th class="admin-dashboard-devices__actions-header">Akcje</th>
+            <th>{{ $t("components.adminDashboardDevices.table.id") }}</th>
+            <th>{{ $t("components.adminDashboardDevices.table.name") }}</th>
+            <th>{{ $t("components.adminDashboardDevices.table.type") }}</th>
+            <th>{{ $t("components.adminDashboardDevices.table.status") }}</th>
+            <th>{{ $t("components.adminDashboardDevices.table.owner") }}</th>
+            <th>{{ $t("components.adminDashboardDevices.table.lastActive") }}</th>
+            <th class="admin-dashboard-devices__actions-header">
+              {{ $t("components.adminDashboardDevices.table.actions") }}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -141,7 +140,7 @@ const deleteDevice = (id: number) => {
                 class="admin-dashboard-devices__status-badge"
                 :class="`admin-dashboard-devices__status-badge--${device.status}`"
               >
-                {{ device.status }}
+                {{ $t(`components.adminDashboardDevices.status.${device.status}`) }}
               </span>
             </td>
             <td>{{ device.owner }}</td>
@@ -182,7 +181,9 @@ const deleteDevice = (id: number) => {
           @click.stop
         >
           <div class="admin-dashboard-devices__modal-header">
-            <h2 class="admin-dashboard-devices__modal-title">Zarejestruj nowe urządzenie</h2>
+            <h2 class="admin-dashboard-devices__modal-title">
+              {{ $t("components.adminDashboardDevices.registerModal.title") }}
+            </h2>
             <button
               class="admin-dashboard-devices__modal-close"
               @click="closeRegisterDeviceModal"
@@ -200,37 +201,55 @@ const deleteDevice = (id: number) => {
               class="admin-dashboard-devices__form"
             >
               <div class="admin-dashboard-devices__form-group">
-                <label class="admin-dashboard-devices__form-label">Nazwa urządzenia</label>
+                <label class="admin-dashboard-devices__form-label">{{
+                  $t("components.adminDashboardDevices.registerModal.deviceName")
+                }}</label>
                 <input
                   v-model="newDevice.name"
                   class="admin-dashboard-devices__form-input"
                   type="text"
-                  placeholder="Np. ADA-ESP32"
+                  :placeholder="
+                    $t('components.adminDashboardDevices.registerModal.deviceNamePlaceholder')
+                  "
                   required
                 />
               </div>
 
               <div class="admin-dashboard-devices__form-group">
-                <label class="admin-dashboard-devices__form-label">ID urządzenia</label>
+                <label class="admin-dashboard-devices__form-label">{{
+                  $t("components.adminDashboardDevices.registerModal.deviceId")
+                }}</label>
                 <input
                   v-model="newDevice.deviceId"
                   class="admin-dashboard-devices__form-input"
                   type="text"
-                  placeholder="Unikalny identyfikator urządzenia"
+                  :placeholder="
+                    $t('components.adminDashboardDevices.registerModal.deviceIdPlaceholder')
+                  "
                   required
                 />
               </div>
 
               <div class="admin-dashboard-devices__form-group">
-                <label class="admin-dashboard-devices__form-label">Typ urządzenia</label>
+                <label class="admin-dashboard-devices__form-label">{{
+                  $t("components.adminDashboardDevices.registerModal.deviceType")
+                }}</label>
                 <div class="admin-dashboard-devices__select-wrapper">
                   <select
                     v-model="newDevice.type"
                     class="admin-dashboard-devices__form-select"
                   >
-                    <option value="ADA-esp32">ESP32</option>
-                    <option value="ADA-Phone">PhoneApp</option>
-                    <option value="ADA-other">Inne</option>
+                    <option value="ADA-esp32">
+                      {{ $t("components.adminDashboardDevices.registerModal.deviceTypes.esp32") }}
+                    </option>
+                    <option value="ADA-Phone">
+                      {{
+                        $t("components.adminDashboardDevices.registerModal.deviceTypes.phoneApp")
+                      }}
+                    </option>
+                    <option value="ADA-other">
+                      {{ $t("components.adminDashboardDevices.registerModal.deviceTypes.other") }}
+                    </option>
                   </select>
                   <Icon
                     name="mdi:chevron-down"
@@ -240,11 +259,15 @@ const deleteDevice = (id: number) => {
               </div>
 
               <div class="admin-dashboard-devices__form-group">
-                <label class="admin-dashboard-devices__form-label">Opis (opcjonalnie)</label>
+                <label class="admin-dashboard-devices__form-label">{{
+                  $t("components.adminDashboardDevices.registerModal.description")
+                }}</label>
                 <textarea
                   v-model="newDevice.description"
                   class="admin-dashboard-devices__form-textarea"
-                  placeholder="Opcjonalny opis urządzenia"
+                  :placeholder="
+                    $t('components.adminDashboardDevices.registerModal.descriptionPlaceholder')
+                  "
                 ></textarea>
               </div>
 
@@ -254,14 +277,16 @@ const deleteDevice = (id: number) => {
                   class="admin-dashboard-devices__form-button admin-dashboard-devices__form-button--secondary"
                   @click="closeRegisterDeviceModal"
                 >
-                  Anuluj
+                  {{ $t("components.adminDashboardDevices.registerModal.cancel") }}
                 </button>
                 <button
                   type="submit"
                   class="admin-dashboard-devices__form-button"
                   :disabled="isAddingDevice"
                 >
-                  <span v-if="!isAddingDevice">Zarejestruj urządzenie</span>
+                  <span v-if="!isAddingDevice">{{
+                    $t("components.adminDashboardDevices.registerModal.register")
+                  }}</span>
                   <span
                     v-else
                     class="admin-dashboard-devices__loading"
@@ -270,7 +295,7 @@ const deleteDevice = (id: number) => {
                       name="mdi:loading"
                       class="admin-dashboard-devices__loading-icon"
                     />
-                    Rejestracja...
+                    {{ $t("components.adminDashboardDevices.registerModal.registering") }}
                   </span>
                 </button>
               </div>

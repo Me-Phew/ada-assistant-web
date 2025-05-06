@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+
 defineProps<{
   activeTab: string;
   animationComplete: boolean;
@@ -9,11 +13,15 @@ const emit = defineEmits<{
 }>();
 
 const tabs = [
-  { id: "dashboard", icon: "mdi:view-dashboard-outline", label: "Przeglądaj" },
-  { id: "devices", icon: "mdi:devices", label: "Urządzenia" },
-  { id: "users", icon: "mdi:account-group", label: "Użytkownicy" },
-  { id: "logs", icon: "mdi:text-box-outline", label: "Logi" },
-  { id: "settings", icon: "mdi:cog-outline", label: "Ustawienia" },
+  {
+    id: "dashboard",
+    icon: "mdi:view-dashboard-outline",
+    label: t("components.adminDashboardTabs.dashboard"),
+  },
+  { id: "devices", icon: "mdi:devices", label: t("components.adminDashboardTabs.devices") },
+  { id: "users", icon: "mdi:account-group", label: t("components.adminDashboardTabs.users") },
+  { id: "logs", icon: "mdi:text-box-outline", label: t("components.adminDashboardTabs.logs") },
+  { id: "settings", icon: "mdi:cog-outline", label: t("components.adminDashboardTabs.settings") },
 ];
 
 const setActiveTab = (tabId: string) => {

@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 defineProps({
   animationComplete: {
@@ -367,7 +370,7 @@ onUnmounted(() => {
           name="mdi:text-box-multiple"
           class="admin-dashboard-logs__icon"
         />
-        Logi systemowe
+        {{ $t("components.adminDashboardLogs.title") }}
       </h2>
 
       <div class="admin-dashboard-logs__header-controls">
@@ -376,23 +379,31 @@ onUnmounted(() => {
             class="admin-dashboard-logs__stat-button admin-dashboard-logs__stat-button--total"
           >
             <span class="admin-dashboard-logs__stat-value">{{ logStats.total }}</span>
-            <span class="admin-dashboard-logs__stat-label">Wszystkie</span>
+            <span class="admin-dashboard-logs__stat-label">{{
+              $t("components.adminDashboardLogs.stats.total")
+            }}</span>
           </button>
           <button
             class="admin-dashboard-logs__stat-button admin-dashboard-logs__stat-button--error"
           >
             <span class="admin-dashboard-logs__stat-value">{{ logStats.errors }}</span>
-            <span class="admin-dashboard-logs__stat-label">Błędy</span>
+            <span class="admin-dashboard-logs__stat-label">{{
+              $t("components.adminDashboardLogs.stats.errors")
+            }}</span>
           </button>
           <button
             class="admin-dashboard-logs__stat-button admin-dashboard-logs__stat-button--warning"
           >
             <span class="admin-dashboard-logs__stat-value">{{ logStats.warnings }}</span>
-            <span class="admin-dashboard-logs__stat-label">Ostrzeżenia</span>
+            <span class="admin-dashboard-logs__stat-label">{{
+              $t("components.adminDashboardLogs.stats.warnings")
+            }}</span>
           </button>
           <button class="admin-dashboard-logs__stat-button admin-dashboard-logs__stat-button--info">
             <span class="admin-dashboard-logs__stat-value">{{ logStats.info }}</span>
-            <span class="admin-dashboard-logs__stat-label">Informacje</span>
+            <span class="admin-dashboard-logs__stat-label">{{
+              $t("components.adminDashboardLogs.stats.info")
+            }}</span>
           </button>
         </div>
 
@@ -405,7 +416,7 @@ onUnmounted(() => {
               name="mdi:download"
               class="admin-dashboard-logs__action-icon"
             />
-            Pobierz logi
+            {{ $t("components.adminDashboardLogs.actions.downloadLogs") }}
           </button>
           <button
             class="admin-dashboard-logs__action-button admin-dashboard-logs__action-button--danger"
@@ -415,7 +426,7 @@ onUnmounted(() => {
               name="mdi:delete-sweep"
               class="admin-dashboard-logs__action-icon"
             />
-            Usuń stare logi
+            {{ $t("components.adminDashboardLogs.actions.deleteOldLogs") }}
           </button>
         </div>
       </div>
@@ -433,7 +444,7 @@ onUnmounted(() => {
             v-model="filters.search"
             type="text"
             class="admin-dashboard-logs__search-input"
-            placeholder="Szukaj w logach..."
+            :placeholder="$t('components.adminDashboardLogs.search.placeholder')"
           />
           <button
             v-if="filters.search"
@@ -447,16 +458,22 @@ onUnmounted(() => {
 
       <div class="admin-dashboard-logs__filters">
         <div class="admin-dashboard-logs__filter">
-          <label class="admin-dashboard-logs__filter-label">Typ</label>
+          <label class="admin-dashboard-logs__filter-label">{{
+            $t("components.adminDashboardLogs.filters.type")
+          }}</label>
           <div class="admin-dashboard-logs__select-wrapper">
             <select
               v-model="filters.severity"
               class="admin-dashboard-logs__select"
             >
-              <option value="all">Wszystkie</option>
-              <option value="info">Info</option>
-              <option value="warning">Ostrzeżenie</option>
-              <option value="error">Błąd</option>
+              <option value="all">{{ $t("components.adminDashboardLogs.severity.all") }}</option>
+              <option value="info">{{ $t("components.adminDashboardLogs.severity.info") }}</option>
+              <option value="warning">
+                {{ $t("components.adminDashboardLogs.severity.warning") }}
+              </option>
+              <option value="error">
+                {{ $t("components.adminDashboardLogs.severity.error") }}
+              </option>
             </select>
             <Icon
               name="mdi:chevron-down"
@@ -466,14 +483,16 @@ onUnmounted(() => {
         </div>
 
         <div class="admin-dashboard-logs__filter">
-          <label class="admin-dashboard-logs__filter-label">Od</label>
+          <label class="admin-dashboard-logs__filter-label">{{
+            $t("components.adminDashboardLogs.filters.from")
+          }}</label>
           <div class="admin-dashboard-logs__date-input-wrapper">
             <input
               ref="fromDateInput"
               v-model="filters.dateFrom"
               type="text"
               class="admin-dashboard-logs__input admin-dashboard-logs__date-input"
-              placeholder="YYYY-MM-DD"
+              :placeholder="$t('components.adminDashboardLogs.calendar.dateFormat')"
               readonly
               @click="toggleFromCalendar"
             />
@@ -513,13 +532,13 @@ onUnmounted(() => {
               </div>
 
               <div class="admin-dashboard-logs__calendar-weekdays">
-                <span>Nd</span>
-                <span>Pn</span>
-                <span>Wt</span>
-                <span>Śr</span>
-                <span>Cz</span>
-                <span>Pt</span>
-                <span>Sb</span>
+                <span>{{ $t("components.adminDashboardLogs.calendar.weekdays.sun") }}</span>
+                <span>{{ $t("components.adminDashboardLogs.calendar.weekdays.mon") }}</span>
+                <span>{{ $t("components.adminDashboardLogs.calendar.weekdays.tue") }}</span>
+                <span>{{ $t("components.adminDashboardLogs.calendar.weekdays.wed") }}</span>
+                <span>{{ $t("components.adminDashboardLogs.calendar.weekdays.thu") }}</span>
+                <span>{{ $t("components.adminDashboardLogs.calendar.weekdays.fri") }}</span>
+                <span>{{ $t("components.adminDashboardLogs.calendar.weekdays.sat") }}</span>
               </div>
 
               <div class="admin-dashboard-logs__calendar-days">
@@ -546,14 +565,16 @@ onUnmounted(() => {
         </div>
 
         <div class="admin-dashboard-logs__filter">
-          <label class="admin-dashboard-logs__filter-label">Do</label>
+          <label class="admin-dashboard-logs__filter-label">{{
+            $t("components.adminDashboardLogs.filters.to")
+          }}</label>
           <div class="admin-dashboard-logs__date-input-wrapper">
             <input
               ref="toDateInput"
               v-model="filters.dateTo"
               type="text"
               class="admin-dashboard-logs__input admin-dashboard-logs__date-input"
-              placeholder="YYYY-MM-DD"
+              :placeholder="$t('components.adminDashboardLogs.calendar.dateFormat')"
               readonly
               @click="toggleToCalendar"
             />
@@ -593,13 +614,13 @@ onUnmounted(() => {
               </div>
 
               <div class="admin-dashboard-logs__calendar-weekdays">
-                <span>Nd</span>
-                <span>Pn</span>
-                <span>Wt</span>
-                <span>Śr</span>
-                <span>Cz</span>
-                <span>Pt</span>
-                <span>Sb</span>
+                <span>{{ $t("components.adminDashboardLogs.calendar.weekdays.sun") }}</span>
+                <span>{{ $t("components.adminDashboardLogs.calendar.weekdays.mon") }}</span>
+                <span>{{ $t("components.adminDashboardLogs.calendar.weekdays.tue") }}</span>
+                <span>{{ $t("components.adminDashboardLogs.calendar.weekdays.wed") }}</span>
+                <span>{{ $t("components.adminDashboardLogs.calendar.weekdays.thu") }}</span>
+                <span>{{ $t("components.adminDashboardLogs.calendar.weekdays.fri") }}</span>
+                <span>{{ $t("components.adminDashboardLogs.calendar.weekdays.sat") }}</span>
               </div>
 
               <div class="admin-dashboard-logs__calendar-days">
@@ -626,12 +647,14 @@ onUnmounted(() => {
         </div>
 
         <div class="admin-dashboard-logs__filter">
-          <label class="admin-dashboard-logs__filter-label">Źródło</label>
+          <label class="admin-dashboard-logs__filter-label">{{
+            $t("components.adminDashboardLogs.filters.source")
+          }}</label>
           <input
             v-model="filters.source"
             type="text"
             class="admin-dashboard-logs__input"
-            placeholder="np. System"
+            :placeholder="$t('components.adminDashboardLogs.filters.sourcePlaceholder')"
           />
         </div>
 
@@ -643,7 +666,7 @@ onUnmounted(() => {
             name="mdi:filter-remove"
             class="admin-dashboard-logs__filter-clear-icon"
           />
-          Wyczyść filtry
+          {{ $t("components.adminDashboardLogs.filters.clearFilters") }}
         </button>
       </div>
     </div>
@@ -657,7 +680,9 @@ onUnmounted(() => {
           name="mdi:text-box-remove"
           class="admin-dashboard-logs__empty-icon"
         />
-        <p class="admin-dashboard-logs__empty-text">Brak logów spełniających kryteria</p>
+        <p class="admin-dashboard-logs__empty-text">
+          {{ $t("components.adminDashboardLogs.empty.message") }}
+        </p>
       </div>
 
       <div
@@ -698,17 +723,19 @@ onUnmounted(() => {
             v-if="expandedLogId === log.id"
             class="admin-dashboard-logs__log-details"
           >
-            <p class="admin-dashboard-logs__details-label">Szczegóły:</p>
+            <p class="admin-dashboard-logs__details-label">
+              {{ $t("components.adminDashboardLogs.details.label") }}
+            </p>
             <p class="admin-dashboard-logs__details-text">{{ log.details }}</p>
 
             <div class="admin-dashboard-logs__details-actions">
               <button class="admin-dashboard-logs__details-button">
                 <Icon name="mdi:content-copy" />
-                Kopiuj
+                {{ $t("components.adminDashboardLogs.details.copy") }}
               </button>
               <button class="admin-dashboard-logs__details-button">
                 <Icon name="mdi:export" />
-                Eksportuj
+                {{ $t("components.adminDashboardLogs.details.export") }}
               </button>
             </div>
           </div>
@@ -725,10 +752,12 @@ onUnmounted(() => {
           name="mdi:alert-circle"
           class="admin-dashboard-logs__modal-icon"
         />
-        <h3 class="admin-dashboard-logs__modal-title">Usuwanie starych logów</h3>
+        <h3 class="admin-dashboard-logs__modal-title">
+          {{ $t("components.adminDashboardLogs.deleteModal.title") }}
+        </h3>
       </div>
       <div class="admin-dashboard-logs__modal-content">
-        <p>Czy na pewno chcesz usunąć stare logi? Ta operacja jest nieodwracalna.</p>
+        <p>{{ $t("components.adminDashboardLogs.deleteModal.message") }}</p>
       </div>
       <div class="admin-dashboard-logs__modal-actions">
         <button
@@ -739,7 +768,7 @@ onUnmounted(() => {
             name="mdi:close"
             class="admin-dashboard-logs__modal-button-icon"
           />
-          Anuluj
+          {{ $t("components.adminDashboardLogs.deleteModal.cancel") }}
         </button>
         <button
           class="admin-dashboard-logs__modal-button admin-dashboard-logs__modal-button--confirm"
@@ -749,7 +778,7 @@ onUnmounted(() => {
             name="mdi:check"
             class="admin-dashboard-logs__modal-button-icon"
           />
-          Potwierdź
+          {{ $t("components.adminDashboardLogs.deleteModal.confirm") }}
         </button>
       </div>
     </div>
