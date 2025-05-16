@@ -1,9 +1,26 @@
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 const titleRef = ref(null);
 const subtitleRef = ref(null);
 const isLoaded = ref(false);
+
+interface Customer {
+  name?: string;
+  email: string;
+}
+
+const customer = useState<Customer>("customer");
+
+const userDisplayName = computed(() => {
+  if (!customer.value) return "";
+
+  if (customer.value.name) {
+    return customer.value.name;
+  }
+
+  return customer.value.email.split("@")[0];
+});
 
 onMounted(() => {
   setTimeout(() => {
@@ -20,7 +37,7 @@ onMounted(() => {
         class="dashboard-welcome__title animated-gradient"
         :class="{ 'dashboard-welcome__title--loaded': isLoaded }"
       >
-        {{ $t("components.dashboardWelcome.title") }}
+        {{ $t("components.dashboardWelcome.title") }}, {{ userDisplayName }}!
       </h1>
       <p
         ref="subtitleRef"

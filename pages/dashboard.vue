@@ -3,11 +3,13 @@ import { onMounted, ref } from "vue";
 
 definePageMeta({
   layout: "dashboard",
+  middleware: ["auth"],
 });
 
 const activeTab = ref<string>("overview");
 const showEffects = ref<boolean>(true);
 const animationComplete = ref<boolean>(false);
+const customer = useState("customer");
 
 const toggleEffects = () => {
   showEffects.value = !showEffects.value;

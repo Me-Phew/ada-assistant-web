@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 import LoginContainer from "~/components/LoginContainer.vue";
 import LoginForm from "~/components/LoginForm.vue";
 import LoginGoogleButton from "~/components/LoginGoogleButton.vue";
@@ -13,7 +12,6 @@ const password = ref("");
 const rememberMe = ref(false);
 const isSubmitting = ref(false);
 const error = ref("");
-const router = useRouter();
 
 definePageMeta({
   layout: "custom",
@@ -32,7 +30,7 @@ const handleSubmit = async () => {
     });
 
     if (user) {
-      router.push("/dashboard");
+      navigateTo("/dashboard");
     } else {
       error.value = "Nieprawidłowy email lub hasło";
     }

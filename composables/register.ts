@@ -4,6 +4,15 @@ interface IAuthData {
   name?: string;
 }
 
+interface Customer {
+  id?: string;
+  email: string;
+  name?: string;
+  avatar?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export const useUrl = () => {
   const config = useRuntimeConfig();
 
@@ -131,37 +140,25 @@ export const useGetCustomer = async () => {
 };
 
 /**
- * Method used to log a customer out
+ * Method used to log a customer out (client-side only)
  */
 export const useLogout = async () => {
   try {
-    const baseURL = useUrl();
-    const customer = useCustomer();
-
-    // Get the authentication token
-    const token = localStorage.getItem("authToken");
-    const headers: Record<string, string> = {};
-
-    if (token) {
-      headers.Authorization = `Bearer ${token}`;
-    }
-
-    await $fetch("/auth/logout", {
-      method: "POST",
-      baseURL,
-      headers,
-      // Include the cookie on the client side
-      credentials: "include",
-    });
-
     // Clear local storage and state
     localStorage.removeItem("authToken");
+    const customer = useCustomer();
     customer.value = null;
+
+    // Navigate to login page
+    return navigateTo("/login");
   } catch (error) {
-    // Even if the request fails, clear local storage and state
+    console.error("Logout error:", error);
+    // Even if an error occurs, still try to clear data
     localStorage.removeItem("authToken");
     const customer = useCustomer();
     customer.value = null;
-    throw error;
+
+    // Navigate to login page even if there's an error
+    return navigateTo("/login");
   }
 };
