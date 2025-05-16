@@ -330,10 +330,10 @@ onMounted(() => {
     }
 
     :root.dark-theme & {
-      background-color: rgba(20, 29, 38, 0.7);
+      background-color: black;
       color: #fff;
       backdrop-filter: blur(10px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 8px black;
     }
 
     &:active {
@@ -374,10 +374,10 @@ onMounted(() => {
     }
 
     :root.dark-theme & {
-      background-color: rgba(20, 29, 38, 0.7);
+      background-color: black;
       color: #fff;
       backdrop-filter: blur(10px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 8px black;
     }
   }
 
@@ -418,7 +418,7 @@ onMounted(() => {
     }
 
     :root.dark-theme & {
-      background-color: #1d2129;
+      background-color: black;
     }
 
     @include mobile {
@@ -534,10 +534,10 @@ onMounted(() => {
     }
 
     :root.dark-theme & {
-      background-color: rgba(20, 29, 38, 0.7);
+      background-color: black;
       color: #fff;
       backdrop-filter: blur(10px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 8px black;
     }
 
     &--loaded {
@@ -575,7 +575,7 @@ onMounted(() => {
     }
 
     :root.dark-theme & {
-      background-color: #1d2129;
+      background-color: black;
     }
   }
 
@@ -607,7 +607,7 @@ onMounted(() => {
     }
 
     :root.dark-theme & {
-      background-color: #2c333f;
+      background-color: #3333;
       color: #fff;
     }
   }
