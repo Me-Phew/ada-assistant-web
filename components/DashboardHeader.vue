@@ -13,7 +13,6 @@ const emit = defineEmits<{
 interface Customer {
   id?: string;
   email: string;
-  name?: string;
   avatar?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -22,25 +21,11 @@ interface Customer {
 const customer = useState<Customer | null>("customer");
 const router = useRouter();
 
-const userDisplayName = computed(() => {
-  if (!customer.value) return "";
-
-  return customer.value.name || customer.value.email.split("@")[0];
-});
-
 const userInitials = computed(() => {
   if (!customer.value) return "";
 
-  if (customer.value.name) {
-    const nameParts = customer.value.name.split(" ");
-    if (nameParts.length > 1) {
-      return (nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0)).toUpperCase();
-    } else {
-      return customer.value.name.substring(0, 2).toUpperCase();
-    }
-  }
-
-  return customer.value.email.charAt(0).toUpperCase();
+  const username = customer.value.email.split("@")[0];
+  return username.substring(0, 2).toUpperCase();
 });
 
 const toggleEffects = () => {
@@ -240,7 +225,6 @@ onMounted(() => {
               <span v-else>{{ userInitials }}</span>
             </div>
             <div class="dashboard-header__profile-info">
-              <div class="dashboard-header__profile-name">{{ userDisplayName }}</div>
               <div class="dashboard-header__profile-email">{{ customer?.email }}</div>
             </div>
           </div>
