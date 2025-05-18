@@ -72,6 +72,7 @@ export const useLogin = async (data: IAuthData) => {
       password: data.password,
     };
 
+    console.log("Sending login request to:", baseURL + "/auth/login");
     const response = await $fetch<any>("/auth/login", {
       method: "POST",
       body: requestBody,
@@ -79,16 +80,28 @@ export const useLogin = async (data: IAuthData) => {
       credentials: "include",
     });
 
+    console.log("Login response received:", response);
+
     if (response.user) {
+      console.log("Setting customer state with user data");
       customer.value = response.user;
+    } else {
+      console.warn("No user data in login response");
     }
 
-    if (response.token) {
+    if (response.accessToken) {
+      console.log("Storing auth token in localStorage");
+      localStorage.setItem("authToken", response.accessToken);
+    } else if (response.token) {
+      console.log("Storing auth token in localStorage (using token field)");
       localStorage.setItem("authToken", response.token);
+    } else {
+      console.warn("No token in login response");
     }
 
     return response.user;
   } catch (error) {
+    console.error("Login function error:", error);
     throw error;
   }
 };
@@ -99,41 +112,47 @@ export const useLogin = async (data: IAuthData) => {
  */
 export const useGetCustomer = async () => {
   const customer = useCustomer();
-  // get base url
   const baseURL = useUrl();
 
   try {
     // Get the authentication token
     const token = localStorage.getItem("authToken");
     if (!token) {
+      console.log("No auth token found in localStorage");
       customer.value = null;
       return null;
     }
 
-    const headers: Record<string, string> = {
-      ...useRequestHeaders(["cookie"]),
+    console.log("Found token, fetching user data");
+
+    const headers = {
       Authorization: `Bearer ${token}`,
     };
 
     const response = await $fetch<any>("/auth/me", {
       method: "GET",
       baseURL,
-      // Include the cookie on the client side
       credentials: "include",
-      // Send Authorization header
       headers,
     });
 
-    // Check if the response has user data
-    if (!response?.user) {
-      customer.value = null;
-      return null;
+    console.log("User data response:", response);
+
+    if (response) {
+      if (response.user) {
+        customer.value = response.user;
+        return response.user;
+      } else if (response.email) {
+        customer.value = response;
+        return response;
+      }
     }
 
-    // set the customer
-    customer.value = response.user;
-    return response.user;
+    console.warn("No user data in response");
+    customer.value = null;
+    return null;
   } catch (error) {
+    console.error("Error fetching user data:", error);
     customer.value = null;
     return null;
   }
@@ -144,21 +163,17 @@ export const useGetCustomer = async () => {
  */
 export const useLogout = async () => {
   try {
-    // Clear local storage and state
     localStorage.removeItem("authToken");
     const customer = useCustomer();
     customer.value = null;
 
-    // Navigate to login page
     return navigateTo("/login");
   } catch (error) {
     console.error("Logout error:", error);
-    // Even if an error occurs, still try to clear data
     localStorage.removeItem("authToken");
     const customer = useCustomer();
     customer.value = null;
 
-    // Navigate to login page even if there's an error
     return navigateTo("/login");
   }
 };

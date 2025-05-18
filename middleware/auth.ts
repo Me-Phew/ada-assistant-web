@@ -6,17 +6,27 @@ export default defineNuxtRouteMiddleware(async (_to, _from) => {
     return;
   }
 
-  try {
-    // Try to get customer data from server/token
-    const user = await useGetCustomer();
+  if (import.meta.client) {
+    const token = localStorage.getItem("authToken");
 
-    // If we couldn't get user data, redirect to login
-    if (!user) {
+    // No token found, redirect to login
+    if (!token) {
       return navigateTo("/login");
     }
-  } catch (error) {
-    // On error, redirect to login
-    console.error("Auth middleware error:", error);
-    return navigateTo("/login");
+
+    try {
+      // Try to get customer data using the token
+      const user = await useGetCustomer();
+
+      // If we couldn't get user data, redirect to login
+      if (!user) {
+        localStorage.removeItem("authToken");
+        return navigateTo("/login");
+      }
+    } catch (error) {
+      console.error("Auth middleware error:", error);
+      localStorage.removeItem("authToken");
+      return navigateTo("/login");
+    }
   }
 });

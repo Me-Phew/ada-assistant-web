@@ -24,13 +24,17 @@ const handleSubmit = async () => {
   error.value = "";
 
   try {
+    console.log("Logging in with:", email.value);
     const user = await useLogin({
       email: email.value,
       password: password.value,
     });
 
+    console.log("Login response:", user ? "Success" : "Failed");
+
     if (user) {
-      navigateTo("/dashboard");
+      localStorage.setItem("justLoggedIn", "true");
+      window.location.href = "/dashboard";
     } else {
       error.value = "Nieprawidłowy email lub hasło";
     }
