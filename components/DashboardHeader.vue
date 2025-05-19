@@ -10,32 +10,17 @@ const emit = defineEmits<{
   (e: "toggle-effects"): void;
 }>();
 
-interface Customer {
-  id?: string;
-  email: string;
-  avatar?: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
-
-const customer = useState<Customer | null>("customer");
 const router = useRouter();
-
-const userInitials = computed(() => {
-  if (!customer.value) return "";
-
-  const username = customer.value.email.split("@")[0];
-  return username.substring(0, 2).toUpperCase();
-});
+const customer = useState("customer");
 
 const toggleEffects = () => {
   emit("toggle-effects");
 };
 
 const notifications = ref([
-  { id: 1, message: "Nowe urządzenie zarejestrowane", time: "2 min temu", read: false },
-  { id: 2, message: "Aktualizacja systemu dostępna", time: "1 godzina temu", read: false },
-  { id: 3, message: "Kopia zapasowa zakończona", time: "5 godzin temu", read: true },
+  { id: 1, message: "New device registered", time: "2 min ago", read: false },
+  { id: 2, message: "System update available", time: "1 hour ago", read: false },
+  { id: 3, message: "Backup completed", time: "5 hours ago", read: true },
 ]);
 
 const showNotifications = ref(false);
@@ -51,6 +36,15 @@ const unreadCount = computed(() => {
 const markAllRead = () => {
   notifications.value = notifications.value.map((n) => ({ ...n, read: true }));
 };
+
+const userEmail = computed(() => customer.value?.email);
+const userInitials = computed(() => {
+  if (customer.value?.email) {
+    const username = customer.value.email.split("@")[0];
+    return username.substring(0, 2).toUpperCase();
+  }
+  return "US";
+});
 
 const showProfileMenu = ref(false);
 const toggleProfileMenu = () => {
@@ -117,10 +111,7 @@ onMounted(() => {
         :class="{ 'dashboard-header__effects-toggle--loaded': headerLoaded }"
         @click="toggleEffects"
       >
-        <Icon
-          :name="showEffects ? 'mdi:eye-off' : 'mdi:eye'"
-          class="dashboard-header__effects-icon"
-        />
+        <Icon :name="showEffects ? 'mdi:sparkles' : 'mdi:sparkles-off'" />
         {{
           showEffects
             ? $t("components.dashboardHeader.hideEffects")
@@ -133,7 +124,7 @@ onMounted(() => {
         <button
           class="dashboard-header__notifications-button"
           :class="{ 'dashboard-header__notifications-button--loaded': headerLoaded }"
-          @click="toggleNotifications"
+          @click.stop="toggleNotifications"
         >
           <Icon
             name="mdi:bell"
@@ -150,6 +141,7 @@ onMounted(() => {
         <div
           v-if="showNotifications"
           class="dashboard-header__notifications-dropdown"
+          @click.stop
         >
           <div class="dashboard-header__notifications-header">
             <h3 class="dashboard-header__notifications-title">
@@ -171,31 +163,34 @@ onMounted(() => {
             >
               {{ $t("components.dashboardHeader.noNotifications") }}
             </div>
-
             <div
               v-for="notification in notifications"
               :key="notification.id"
               class="dashboard-header__notification"
             >
-              <div
+              <span
                 v-if="!notification.read"
                 class="dashboard-header__notification-dot"
-              ></div>
+              ></span>
               <div class="dashboard-header__notification-content">
-                <div class="dashboard-header__notification-message">{{ notification.message }}</div>
-                <div class="dashboard-header__notification-time">{{ notification.time }}</div>
+                <p class="dashboard-header__notification-message">
+                  {{ notification.message }}
+                </p>
+                <p class="dashboard-header__notification-time">
+                  {{ notification.time }}
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- User profile -->
+      <!-- Profile -->
       <div class="dashboard-header__profile">
         <button
           class="dashboard-header__avatar"
           :class="{ 'dashboard-header__avatar--loaded': headerLoaded }"
-          @click="toggleProfileMenu"
+          @click.stop="toggleProfileMenu"
         >
           <img
             v-if="customer?.avatar"
@@ -203,48 +198,28 @@ onMounted(() => {
             alt="User avatar"
             class="dashboard-header__avatar-image"
           />
-          <span
-            v-else
-            class="dashboard-header__avatar-initials"
-            >{{ userInitials }}</span
-          >
+          <span v-else>{{ userInitials }}</span>
         </button>
 
         <div
           v-if="showProfileMenu"
           class="dashboard-header__profile-dropdown"
+          @click.stop
         >
           <div class="dashboard-header__profile-header">
-            <div class="dashboard-header__profile-avatar">
-              <img
-                v-if="customer?.avatar"
-                :src="customer.avatar"
-                alt="User avatar"
-                class="dashboard-header__profile-avatar-image"
+            <div class="dashboard-header__profile-icon">
+              <Icon
+                name="mdi:account"
+                class="dashboard-header__profile-icon-svg"
               />
-              <span v-else>{{ userInitials }}</span>
             </div>
             <div class="dashboard-header__profile-info">
-              <div class="dashboard-header__profile-email">{{ customer?.email }}</div>
+              <p class="dashboard-header__profile-email">{{ userEmail }}</p>
             </div>
           </div>
 
-          <ul class="dashboard-header__profile-menu">
-            <li class="dashboard-header__profile-menu-item">
-              <Icon
-                name="mdi:account"
-                class="dashboard-header__profile-menu-icon"
-              />
-              {{ $t("components.dashboardHeader.profile") }}
-            </li>
-            <li class="dashboard-header__profile-menu-item">
-              <Icon
-                name="mdi:cog"
-                class="dashboard-header__profile-menu-icon"
-              />
-              {{ $t("components.dashboardHeader.settings") }}
-            </li>
-            <li
+          <div class="dashboard-header__profile-menu">
+            <button
               class="dashboard-header__profile-menu-item"
               @click="handleLogout"
             >
@@ -253,8 +228,8 @@ onMounted(() => {
                 class="dashboard-header__profile-menu-icon"
               />
               {{ $t("components.dashboardHeader.logout") }}
-            </li>
-          </ul>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -307,17 +282,21 @@ onMounted(() => {
     }
 
     :root.light-theme & {
-      background-color: rgba(255, 255, 255, 0.8);
-      color: #333;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      background-color: rgba(0, 114, 245, 0.1);
+      color: #0072f5;
+
+      &:hover {
+        background-color: rgba(0, 114, 245, 0.2);
+      }
     }
 
     :root.dark-theme & {
-      background-color: black;
-      color: #fff;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 8px black;
+      background-color: rgba(0, 201, 114, 0.1);
+      color: #00c972;
+
+      &:hover {
+        background-color: rgba(0, 201, 114, 0.2);
+      }
     }
 
     &:active {
@@ -351,17 +330,24 @@ onMounted(() => {
     }
 
     :root.light-theme & {
-      background-color: rgba(255, 255, 255, 0.8);
-      color: #333;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      background-color: white;
+      color: $color_text_primary;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+      &:hover {
+        background-color: color.adjust(white, $lightness: -5%);
+      }
     }
 
     :root.dark-theme & {
-      background-color: black;
-      color: #fff;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 8px black;
+      background-color: #080d11;
+      color: $color_text_primary;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+
+      &:hover {
+        background-color: color.adjust(#080d11, $lightness: 5%);
+      }
     }
   }
 
@@ -383,90 +369,146 @@ onMounted(() => {
     justify-content: center;
     font-size: 1.1rem;
     font-weight: 500;
+    animation: pulseNotification 2s ease-in-out infinite;
+    animation-delay: 0.5s;
   }
 
   &__notifications-dropdown {
     position: absolute;
-    top: 4.5rem;
     right: 0;
+    top: 100%;
+    margin-top: 0.8rem;
     width: 32rem;
-    max-height: 40rem;
-    overflow-y: auto;
     border-radius: 1rem;
+    overflow: hidden;
     z-index: 100;
-    animation: slideDown 0.3s ease-out forwards;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    animation: slideDown 0.2s ease-out forwards;
+
+    @include mobile {
+      width: 90vw;
+      left: 50%;
+      transform: translateX(-50%);
+    }
 
     :root.light-theme & {
       background-color: white;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.05);
     }
 
     :root.dark-theme & {
-      background-color: black;
-    }
-
-    @include mobile {
-      width: 28rem;
-      right: -10rem;
+      background-color: #080d11;
+      box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(0, 201, 114, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
   }
 
   &__notifications-header {
+    padding: 1.6rem;
+    border-bottom: 1px solid;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+    :root.light-theme & {
+      border-color: rgba(0, 0, 0, 0.05);
+    }
 
     :root.dark-theme & {
-      border-bottom-color: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.05);
     }
   }
 
   &__notifications-title {
     font-size: 1.6rem;
     font-weight: 600;
+    color: $color_text_primary;
   }
 
   &__notifications-clear {
     background: none;
     border: none;
     font-size: 1.3rem;
+    color: $color_text_secondary;
     cursor: pointer;
-    color: $color_primary;
-  }
-
-  &__notifications-list {
-    padding: 1rem 0;
-    max-height: 30rem;
-    overflow-y: auto;
-  }
-
-  &__notification {
-    padding: 1rem 1.5rem;
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    transition: background-color 0.2s;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.4rem;
+    transition: all 0.2s ease;
 
     &:hover {
       :root.light-theme & {
-        background-color: rgba(0, 0, 0, 0.03);
+        background-color: rgba(0, 0, 0, 0.05);
+        color: $color_text_primary;
       }
 
       :root.dark-theme & {
-        background-color: rgba(255, 255, 255, 0.03);
+        background-color: rgba(255, 255, 255, 0.05);
+        color: $color_text_primary;
       }
     }
   }
 
+  &__notifications-list {
+    max-height: 40rem;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 0.4rem;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      :root.light-theme & {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+
+      :root.dark-theme & {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+      border-radius: 0.2rem;
+    }
+  }
+
+  &__notification {
+    padding: 1.6rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    border-bottom: 1px solid;
+    transition: background-color 0.2s ease;
+
+    :root.light-theme & {
+      border-color: rgba(0, 0, 0, 0.05);
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+      }
+    }
+
+    :root.dark-theme & {
+      border-color: rgba(255, 255, 255, 0.05);
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.02);
+      }
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
   &__notification-dot {
-    width: 0.8rem;
-    height: 0.8rem;
-    background-color: $color_primary;
+    width: 1rem;
+    height: 1rem;
     border-radius: 50%;
-    margin-top: 0.6rem;
-    animation: pulseNotification 2s infinite;
+    background-color: #00c972;
+    margin-top: 0.4rem;
   }
 
   &__notification-content {
@@ -475,6 +517,7 @@ onMounted(() => {
 
   &__notification-message {
     font-size: 1.4rem;
+    color: $color_text_primary;
     margin-bottom: 0.4rem;
   }
 
@@ -484,7 +527,7 @@ onMounted(() => {
   }
 
   &__no-notifications {
-    padding: 2rem;
+    padding: 2.4rem 1.6rem;
     text-align: center;
     font-size: 1.4rem;
     color: $color_text_secondary;
@@ -501,39 +544,53 @@ onMounted(() => {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.6rem;
-    font-weight: 500;
-    border: none;
     cursor: pointer;
+    border: none;
     transition: all 0.3s ease;
     opacity: 0;
     transform: translateY(-10px);
     transition-delay: 0.2s;
 
-    :root.light-theme & {
-      background-color: rgba(255, 255, 255, 0.8);
-      color: #333;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    :root.dark-theme & {
-      background-color: black;
-      color: #fff;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 8px black;
-    }
-
     &--loaded {
       opacity: 1;
       transform: translateY(0);
     }
-  }
 
-  &__avatar-initials {
-    font-size: 1.6rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    :root.light-theme & {
+      background-color: white;
+      color: $color_primary;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    :root.dark-theme & {
+      background-color: #080d11;
+      color: $color_primary;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    span {
+      font-size: 1.6rem;
+      font-weight: 500;
+
+      :root.light-theme & {
+        color: #0072f5;
+      }
+
+      :root.dark-theme & {
+        color: #00c972;
+      }
+    }
   }
 
   &__avatar-image {
@@ -543,100 +600,118 @@ onMounted(() => {
     object-fit: cover;
   }
 
-  &__profile-dropdown {
-    position: absolute;
-    top: 4.5rem;
-    right: 0;
-    width: 28rem;
-    border-radius: 1rem;
-    overflow: hidden;
-    z-index: 100;
-    animation: slideDown 0.3s ease-out forwards;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  &__profile-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     :root.light-theme & {
-      background-color: white;
+      color: #0072f5;
     }
 
     :root.dark-theme & {
-      background-color: black;
+      color: #00c972;
+    }
+
+    &-svg {
+      font-size: 2.4rem;
+    }
+  }
+
+  &__profile-dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 0.8rem;
+    width: 24rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    z-index: 100;
+    animation: slideDown 0.2s ease-out forwards;
+
+    :root.light-theme & {
+      background-color: white;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    :root.dark-theme & {
+      background-color: #080d11;
+      box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(0, 201, 114, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
   }
 
   &__profile-header {
-    padding: 2rem;
+    padding: 1.6rem;
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-
-    :root.dark-theme & {
-      border-bottom-color: rgba(255, 255, 255, 0.1);
-    }
-  }
-
-  &__profile-avatar {
-    width: 6rem;
-    height: 6rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.4rem;
-    font-weight: 500;
+    gap: 1.2rem;
+    border-bottom: 1px solid;
 
     :root.light-theme & {
-      background-color: #f5f5f5;
-      color: #333;
+      border-color: rgba(0, 0, 0, 0.05);
     }
 
     :root.dark-theme & {
-      background-color: #3333;
-      color: #fff;
+      border-color: rgba(255, 255, 255, 0.05);
     }
   }
 
   &__profile-info {
     flex: 1;
-  }
-
-  &__profile-name {
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 0.4rem;
+    overflow: hidden;
   }
 
   &__profile-email {
-    font-size: 1.4rem;
-    color: $color_text_secondary;
+    font-size: 1.5rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    :root.light-theme & {
+      color: #0072f5;
+    }
+
+    :root.dark-theme & {
+      color: #00c972;
+    }
   }
 
   &__profile-menu {
-    padding: 1rem 0;
+    padding: 0.8rem 0;
   }
 
   &__profile-menu-item {
-    padding: 1.2rem 2rem;
     display: flex;
     align-items: center;
-    gap: 1.2rem;
-    font-size: 1.5rem;
+    width: 100%;
+    padding: 1.2rem 1.6rem;
+    font-size: 1.4rem;
+    color: $color_text_primary;
+    background: none;
+    border: none;
     cursor: pointer;
-    transition: background-color 0.2s;
+    text-align: left;
+    gap: 1rem;
+    transition: background-color 0.2s ease;
 
     &:hover {
       :root.light-theme & {
-        background-color: rgba(0, 0, 0, 0.03);
+        background-color: rgba(0, 0, 0, 0.05);
       }
 
       :root.dark-theme & {
-        background-color: rgba(255, 255, 255, 0.03);
+        background-color: rgba(255, 255, 255, 0.05);
       }
     }
   }
 
   &__profile-menu-icon {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 }
 
@@ -653,16 +728,13 @@ onMounted(() => {
 
 @keyframes pulseNotification {
   0% {
-    transform: scale(1);
-    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
   }
   50% {
-    transform: scale(1.1);
-    opacity: 0.8;
+    box-shadow: 0 0 0 5px rgba(220, 38, 38, 0);
   }
   100% {
-    transform: scale(1);
-    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
   }
 }
 </style>
