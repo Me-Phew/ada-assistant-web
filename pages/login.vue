@@ -1,11 +1,7 @@
 <script lang="ts" setup>
+import { navigateTo } from "#app";
 import { ref } from "vue";
-import LoginContainer from "~/components/LoginContainer.vue";
-import LoginForm from "~/components/LoginForm.vue";
-import LoginGoogleButton from "~/components/LoginGoogleButton.vue";
-import LoginPage from "~/components/LoginPage.vue";
-import LoginSeparator from "~/components/LoginSeparator.vue";
-import { useLogin, useUrl } from "~/composables/register";
+import { useCustomer, useLogin, useUrl } from "~/composables/register";
 
 const email = ref("");
 const password = ref("");
@@ -33,8 +29,19 @@ const handleSubmit = async () => {
     console.log("Login response:", user ? "Success" : "Failed");
 
     if (user) {
+      const customerState = useCustomer();
+      customerState.value = user;
+
+      localStorage.setItem("userRole", user.role || "user");
       localStorage.setItem("justLoggedIn", "true");
-      window.location.href = "/dashboard";
+
+      if (user.role === "admin") {
+        console.log("Admin user detected, navigating to /admin-dashboard via navigateTo()");
+        return navigateTo("/admin-dashboard");
+      } else {
+        console.log("Regular user detected, navigating to /dashboard via navigateTo()");
+        return navigateTo("/dashboard");
+      }
     } else {
       error.value = "Nieprawidłowy email lub hasło";
     }
@@ -53,9 +60,7 @@ const handleSubmit = async () => {
 };
 
 const handleGoogleLogin = () => {
-  // Get base URL for API
   const baseURL = useUrl();
-  // Redirect to Google OAuth endpoint
   window.location.href = `${baseURL}/auth/google`;
 };
 </script>

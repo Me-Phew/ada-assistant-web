@@ -3,6 +3,7 @@ import { onMounted, ref } from "vue";
 
 definePageMeta({
   layout: "dashboard",
+  middleware: ["admin"],
 });
 
 const activeTab = ref<string>("dashboard");
@@ -66,6 +67,15 @@ onMounted(() => {
         class="admin-dashboard__section"
       >
         <AdminDashboardDevices :animation-complete="animationComplete" />
+      </div>
+
+      <!-- Panel firmware -->
+      <div
+        v-else-if="activeTab === 'firmware'"
+        key="firmware"
+        class="admin-dashboard__section"
+      >
+        <AdminDashboardFirmware :animation-complete="animationComplete" />
       </div>
 
       <!-- Panel użytkowników -->

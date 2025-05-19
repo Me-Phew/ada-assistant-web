@@ -19,6 +19,7 @@ const tabs = [
     label: t("components.adminDashboardTabs.dashboard"),
   },
   { id: "devices", icon: "mdi:devices", label: t("components.adminDashboardTabs.devices") },
+  { id: "firmware", icon: "mdi:update", label: "Firmware" },
   { id: "users", icon: "mdi:account-group", label: t("components.adminDashboardTabs.users") },
   { id: "logs", icon: "mdi:text-box-outline", label: t("components.adminDashboardTabs.logs") },
   { id: "settings", icon: "mdi:cog-outline", label: t("components.adminDashboardTabs.settings") },
@@ -128,7 +129,6 @@ const setActiveTab = (tabId: string) => {
       }
     }
 
-    // Po załadowaniu wszystkie są widoczne
     .admin-dashboard-tabs--loaded &--initial-0,
     .admin-dashboard-tabs--loaded &--initial-1,
     .admin-dashboard-tabs--loaded &--initial-2,

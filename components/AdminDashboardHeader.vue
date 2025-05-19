@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref } from "vue";
+import { useLogout } from "~/composables/register";
 
 defineProps<{
   showEffects: boolean;
@@ -9,14 +10,17 @@ const emit = defineEmits<{
   (e: "toggle-effects"): void;
 }>();
 
+const router = useRouter();
+const admin = useState("admin");
+
 const toggleEffects = () => {
   emit("toggle-effects");
 };
 
 const notifications = ref([
-  { id: 1, message: "Nowe urządzenie zarejestrowane", time: "2 min temu", read: false },
-  { id: 2, message: "Aktualizacja systemu dostępna", time: "1 godzina temu", read: false },
-  { id: 3, message: "Kopia zapasowa zakończona", time: "5 godzin temu", read: true },
+  { id: 1, message: "New device registered", time: "2 min ago", read: false },
+  { id: 2, message: "System update available", time: "1 hour ago", read: false },
+  { id: 3, message: "Backup completed", time: "5 hours ago", read: true },
 ]);
 
 const showNotifications = ref(false);
@@ -33,11 +37,14 @@ const markAllRead = () => {
   notifications.value = notifications.value.map((n) => ({ ...n, read: true }));
 };
 
-const user = {
-  name: "Admin",
-  avatar: null,
-  initials: "AD",
-};
+const adminEmail = computed(() => admin.value?.email || "admin@example.com");
+const adminInitials = computed(() => {
+  if (admin.value?.email) {
+    const username = admin.value.email.split("@")[0];
+    return username.substring(0, 2).toUpperCase();
+  }
+  return "AD";
+});
 
 const showProfileMenu = ref(false);
 const toggleProfileMenu = () => {
@@ -45,8 +52,13 @@ const toggleProfileMenu = () => {
   showProfileMenu.value = !showProfileMenu.value;
 };
 
-const handleLogout = () => {
-  console.log("Logging out...");
+const handleLogout = async () => {
+  try {
+    await useLogout();
+    router.push("/login");
+  } catch (error) {
+    console.error("Logout error:", error);
+  }
 };
 
 const closeAllDropdowns = () => {
@@ -181,12 +193,12 @@ onMounted(() => {
           @click.stop="toggleProfileMenu"
         >
           <img
-            v-if="user.avatar"
-            :src="user.avatar"
-            alt="User avatar"
+            v-if="admin?.avatar"
+            :src="admin.avatar"
+            alt="Admin avatar"
             class="dashboard-header__avatar-image"
           />
-          <span v-else>{{ user.initials }}</span>
+          <span v-else>{{ adminInitials }}</span>
         </button>
 
         <div
@@ -197,21 +209,22 @@ onMounted(() => {
           <div class="dashboard-header__profile-header">
             <div class="dashboard-header__profile-avatar">
               <img
-                v-if="user.avatar"
-                :src="user.avatar"
-                alt="User avatar"
+                v-if="admin?.avatar"
+                :src="admin.avatar"
+                alt="Admin avatar"
               />
-              <span v-else>{{ user.initials }}</span>
+              <span v-else>{{ adminInitials }}</span>
             </div>
             <div class="dashboard-header__profile-info">
-              <p class="dashboard-header__profile-name">{{ user.name }}</p>
+              <p class="dashboard-header__profile-name">Administrator</p>
+              <p class="dashboard-header__profile-email">{{ adminEmail }}</p>
             </div>
           </div>
 
           <div class="dashboard-header__profile-menu">
             <button
               class="dashboard-header__profile-menu-item"
-              @click="$router.push('/profile')"
+              @click="$router.push('/admin/profile')"
             >
               <Icon
                 name="mdi:account"
@@ -221,7 +234,7 @@ onMounted(() => {
             </button>
             <button
               class="dashboard-header__profile-menu-item"
-              @click="$router.push('/settings')"
+              @click="$router.push('/admin/settings')"
             >
               <Icon
                 name="mdi:cog"

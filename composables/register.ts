@@ -115,45 +115,57 @@ export const useGetCustomer = async () => {
   const baseURL = useUrl();
 
   try {
-    // Get the authentication token
     const token = localStorage.getItem("authToken");
     if (!token) {
-      console.log("No auth token found in localStorage");
-      customer.value = null;
+      console.log("[useGetCustomer] No auth token found in localStorage.");
+      if (customer.value !== null) customer.value = null;
       return null;
     }
 
-    console.log("Found token, fetching user data");
+    console.log("[useGetCustomer] Found token, fetching user data from /auth/me");
 
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
-    const response = await $fetch<any>("/auth/me", {
+    const response = await $fetch<{ user: Customer | null }>("/auth/me", {
       method: "GET",
       baseURL,
       credentials: "include",
       headers,
     });
 
-    console.log("User data response:", response);
+    console.log("[useGetCustomer] User data response:", response);
 
-    if (response) {
-      if (response.user) {
-        customer.value = response.user;
-        return response.user;
-      } else if (response.email) {
-        customer.value = response;
-        return response;
+    if (response && response.user) {
+      customer.value = response.user;
+      console.log(
+        "[useGetCustomer] Customer state set with user data:",
+        JSON.stringify(response.user),
+      );
+      if (response.user.role) {
+        localStorage.setItem("userRole", response.user.role);
       }
+      return response.user;
+    } else {
+      console.warn(
+        "[useGetCustomer] No user data in response or response structure unexpected. Clearing customer state and token.",
+      );
+      customer.value = null;
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("userRole");
+      return null;
     }
+  } catch (error: any) {
+    console.error("[useGetCustomer] Error fetching user data:", error.message);
+    if (customer.value !== null) customer.value = null;
 
-    console.warn("No user data in response");
-    customer.value = null;
-    return null;
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-    customer.value = null;
+    const status = error?.response?.status;
+    if (status === 401 || status === 403) {
+      console.log(`[useGetCustomer] Authentication error (${status}), removing token.`);
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("userRole");
+    }
     return null;
   }
 };
