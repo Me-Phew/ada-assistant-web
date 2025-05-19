@@ -11,7 +11,7 @@ const emit = defineEmits<{
 }>();
 
 const router = useRouter();
-const admin = useState("admin");
+const customer = useState("customer");
 
 const toggleEffects = () => {
   emit("toggle-effects");
@@ -37,10 +37,10 @@ const markAllRead = () => {
   notifications.value = notifications.value.map((n) => ({ ...n, read: true }));
 };
 
-const adminEmail = computed(() => admin.value?.email || "admin@example.com");
+const adminEmail = computed(() => customer.value?.email);
 const adminInitials = computed(() => {
-  if (admin.value?.email) {
-    const username = admin.value.email.split("@")[0];
+  if (customer.value?.email) {
+    const username = customer.value.email.split("@")[0];
     return username.substring(0, 2).toUpperCase();
   }
   return "AD";
@@ -193,8 +193,8 @@ onMounted(() => {
           @click.stop="toggleProfileMenu"
         >
           <img
-            v-if="admin?.avatar"
-            :src="admin.avatar"
+            v-if="customer?.avatar"
+            :src="customer.avatar"
             alt="Admin avatar"
             class="dashboard-header__avatar-image"
           />
@@ -207,41 +207,18 @@ onMounted(() => {
           @click.stop
         >
           <div class="dashboard-header__profile-header">
-            <div class="dashboard-header__profile-avatar">
-              <img
-                v-if="admin?.avatar"
-                :src="admin.avatar"
-                alt="Admin avatar"
+            <div class="dashboard-header__profile-icon">
+              <Icon
+                name="mdi:account"
+                class="dashboard-header__profile-icon-svg"
               />
-              <span v-else>{{ adminInitials }}</span>
             </div>
             <div class="dashboard-header__profile-info">
-              <p class="dashboard-header__profile-name">Administrator</p>
               <p class="dashboard-header__profile-email">{{ adminEmail }}</p>
             </div>
           </div>
 
           <div class="dashboard-header__profile-menu">
-            <button
-              class="dashboard-header__profile-menu-item"
-              @click="$router.push('/admin/profile')"
-            >
-              <Icon
-                name="mdi:account"
-                class="dashboard-header__profile-menu-icon"
-              />
-              {{ $t("components.dashboardHeader.profile") }}
-            </button>
-            <button
-              class="dashboard-header__profile-menu-item"
-              @click="$router.push('/admin/settings')"
-            >
-              <Icon
-                name="mdi:cog"
-                class="dashboard-header__profile-menu-icon"
-              />
-              {{ $t("components.dashboardHeader.settings") }}
-            </button>
             <button
               class="dashboard-header__profile-menu-item"
               @click="handleLogout"
@@ -605,6 +582,14 @@ onMounted(() => {
     span {
       font-size: 1.6rem;
       font-weight: 500;
+
+      :root.light-theme & {
+        color: #0072f5;
+      }
+
+      :root.dark-theme & {
+        color: #00c972;
+      }
     }
   }
 
@@ -613,6 +598,24 @@ onMounted(() => {
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
+  }
+
+  &__profile-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    :root.light-theme & {
+      color: #0072f5;
+    }
+
+    :root.dark-theme & {
+      color: #00c972;
+    }
+
+    &-svg {
+      font-size: 2.4rem;
+    }
   }
 
   &__profile-dropdown {
@@ -657,49 +660,25 @@ onMounted(() => {
     }
   }
 
-  &__profile-avatar {
-    width: 4rem;
-    height: 4rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    :root.light-theme & {
-      background-color: rgba(0, 114, 245, 0.1);
-      color: #0072f5;
-    }
-
-    :root.dark-theme & {
-      background-color: rgba(0, 201, 114, 0.1);
-      color: #00c972;
-    }
-
-    img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    span {
-      font-size: 1.6rem;
-      font-weight: 500;
-    }
-  }
-
   &__profile-info {
     flex: 1;
     overflow: hidden;
   }
 
-  &__profile-name {
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: $color_text_primary;
+  &__profile-email {
+    font-size: 1.5rem;
+    font-weight: 500;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    :root.light-theme & {
+      color: #0072f5;
+    }
+
+    :root.dark-theme & {
+      color: #00c972;
+    }
   }
 
   &__profile-menu {
