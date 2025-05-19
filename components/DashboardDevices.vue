@@ -17,19 +17,11 @@ interface DeviceItem {
 const deviceStats = ref<DeviceItem[]>([
   {
     id: 1,
-    name: "Ada ESP",
+    name: "ESP32",
     status: "online",
     battery: "85%",
     icon: "mdi:chip",
     lastActive: "Now",
-  },
-  {
-    id: 2,
-    name: "Ada Phone",
-    status: "online",
-    battery: "76%",
-    icon: "mdi:cellphone",
-    lastActive: "2m ago",
   },
 ]);
 </script>

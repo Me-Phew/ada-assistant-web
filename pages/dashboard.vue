@@ -17,10 +17,6 @@ const setActiveTab = (tab: string) => {
   activeTab.value = tab;
 };
 
-const handleSyncData = () => {
-  console.log("Sync data clicked");
-};
-
 onMounted(() => {
   setTimeout(() => {
     animationComplete.value = true;
@@ -49,19 +45,55 @@ onMounted(() => {
       @set-active-tab="setActiveTab"
     />
 
-    <div class="dashboard__grid">
-      <!-- Devices Section -->
-      <DashboardDevices :animation-complete="animationComplete" />
+    <transition
+      name="tab-transition"
+      mode="out-in"
+    >
+      <!-- Overview Tab -->
+      <div
+        v-if="activeTab === 'overview'"
+        key="overview"
+        class="dashboard__section"
+      >
+        <div class="dashboard__grid">
+          <!-- Devices Section -->
+          <DashboardDevices :animation-complete="animationComplete" />
 
-      <!-- Activity Section -->
-      <DashboardActivity :animation-complete="animationComplete" />
+          <!-- Activity Section -->
+          <DashboardActivity :animation-complete="animationComplete" />
 
-      <!-- Services Section -->
-      <DashboardServices :animation-complete="animationComplete" />
-    </div>
+          <!-- Services Section -->
+          <DashboardServices :animation-complete="animationComplete" />
+        </div>
+      </div>
 
-    <!-- Action Buttons -->
-    <DashboardActionButtons @sync-data="handleSyncData" />
+      <!-- Devices Tab -->
+      <div
+        v-else-if="activeTab === 'devices'"
+        key="devices"
+        class="dashboard__section"
+      >
+        <!-- <DevicesPage :animation-complete="animationComplete" /> -->
+      </div>
+
+      <!-- Interactions Tab -->
+      <div
+        v-else-if="activeTab === 'interactions'"
+        key="interactions"
+        class="dashboard__section"
+      >
+        <InteractionsPage :animation-complete="animationComplete" />
+      </div>
+
+      <!-- Settings Tab -->
+      <div
+        v-else-if="activeTab === 'settings'"
+        key="settings"
+        class="dashboard__section"
+      >
+        <SettingsPage :animation-complete="animationComplete" />
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -100,5 +132,24 @@ onMounted(() => {
       gap: 1.5rem;
     }
   }
+
+  &__section {
+    margin-bottom: 2rem;
+  }
+}
+
+.tab-transition-enter-active,
+.tab-transition-leave-active {
+  transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.tab-transition-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.tab-transition-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
 }
 </style>

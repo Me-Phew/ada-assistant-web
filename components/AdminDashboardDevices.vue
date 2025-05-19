@@ -152,7 +152,19 @@ const fetchUsers = async () => {
       },
     });
 
-    users.value = response.users || [];
+    console.log("Users API response:", response);
+
+    if (response.users) {
+      users.value = response.users;
+    } else if (Array.isArray(response)) {
+      users.value = response;
+    } else if (response.data) {
+      users.value = Array.isArray(response.data) ? response.data : [response.data];
+    } else {
+      users.value = [response];
+    }
+
+    console.log("Fetched users:", users.value);
   } catch (error) {
     console.error("Failed to fetch users:", error);
   }
@@ -464,7 +476,7 @@ defineExpose({
         >
           <div class="admin-dashboard-devices__modal-header">
             <h3 class="admin-dashboard-devices__modal-title">
-              {{ $t("components.adminDashboardDevices.registerModal.title") }}
+              {{ selectedDevice ? "Edit Device" : "Register New Device" }}
             </h3>
             <button
               class="admin-dashboard-devices__modal-close"
@@ -500,7 +512,6 @@ defineExpose({
                   required
                 >
                   <option value="ESP32">ESP32</option>
-                  <option value="PhoneApp">Phone App</option>
                 </select>
               </div>
 
@@ -516,20 +527,32 @@ defineExpose({
               </div>
 
               <div class="admin-dashboard-devices__form-group">
-                <label class="admin-dashboard-devices__form-label">Assign to User (Optional)</label>
-                <select
-                  v-model="newDevice.userId"
-                  class="admin-dashboard-devices__form-select"
-                >
-                  <option value="">Unassigned</option>
-                  <option
-                    v-for="user in users"
-                    :key="user.id"
-                    :value="user.id"
+                <label class="admin-dashboard-devices__form-label">Assign to User</label>
+                <div class="admin-dashboard-devices__select-wrapper">
+                  <select
+                    v-model="newDevice.userId"
+                    class="admin-dashboard-devices__form-select"
                   >
-                    {{ user.email }}
-                  </option>
-                </select>
+                    <option value="">Unassigned</option>
+                    <option
+                      v-for="user in users"
+                      :key="user.id"
+                      :value="user.id"
+                    >
+                      {{ user.email }}
+                    </option>
+                  </select>
+                  <Icon
+                    name="mdi:chevron-down"
+                    class="admin-dashboard-devices__select-icon"
+                  />
+                </div>
+                <p
+                  class="admin-dashboard-devices__form-help"
+                  v-if="users.length === 0"
+                >
+                  No users available. Please add users first.
+                </p>
               </div>
 
               <div class="admin-dashboard-devices__form-group">
@@ -619,7 +642,9 @@ defineExpose({
                     />
                     Registering...
                   </div>
-                  <span v-else>Register Device</span>
+                  <span v-else>
+                    {{ selectedDevice ? "Update Device" : "Register Device" }}
+                  </span>
                 </button>
               </div>
             </form>

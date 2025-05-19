@@ -12,9 +12,7 @@ const tabs = [
   { id: "overview", icon: "mdi:view-dashboard-outline" },
   { id: "devices", icon: "mdi:devices" },
   { id: "interactions", icon: "mdi:history" },
-  { id: "services", icon: "mdi:connection" },
   { id: "settings", icon: "mdi:cog-outline" },
-  { id: "support", icon: "mdi:lifebuoy" },
 ];
 
 const setActiveTab = (tabId: string) => {
