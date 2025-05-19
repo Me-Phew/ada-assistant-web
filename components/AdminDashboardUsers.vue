@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { useUrl } from "~/composables/register";
 
 const { t } = useI18n();
 
@@ -11,48 +12,87 @@ defineProps({
   },
 });
 
-// Mock data - users
-const users = ref([
-  {
-    id: 1,
-    name: "Administrator",
-    email: "admin@example.com",
-    role: t("components.adminDashboardUsers.roles.admin"),
-    lastActive: t("components.adminDashboardUsers.timeExpressions.minutesAgo", { n: 2 }),
-  },
-  {
-    id: 2,
-    name: "Jan Kowalski",
-    email: "jan@example.com",
-    role: t("components.adminDashboardUsers.roles.user"),
-    lastActive: t("components.adminDashboardUsers.timeExpressions.dayAgo"),
-  },
-  {
-    id: 3,
-    name: "Anna Nowak",
-    email: "anna@example.com",
-    role: t("components.adminDashboardUsers.roles.user"),
-    lastActive: t("components.adminDashboardUsers.timeExpressions.hoursAgo", { n: 3 }),
-  },
-]);
-
+const users = ref([]);
 const showUserModal = ref(false);
 const currentUser = ref(null);
+const isLoading = ref(false);
 const isAddingUser = ref(false);
+const isDeleting = ref(false);
+const errorMessage = ref("");
+const successMessage = ref("");
+
 const newUser = ref({
-  name: "",
   email: "",
   password: "",
-  role: t("components.adminDashboardUsers.roles.user"),
+  role: "user",
+  verified: true,
 });
+
+const showDeleteConfirmModal = ref(false);
+const userToDelete = ref(null);
+
+const showToast = (message, isError = false) => {
+  if (isError) {
+    errorMessage.value = message;
+    setTimeout(() => {
+      errorMessage.value = "";
+    }, 7000);
+  } else {
+    successMessage.value = message;
+    setTimeout(() => {
+      successMessage.value = "";
+    }, 7000);
+  }
+};
+
+const fetchUsers = async () => {
+  isLoading.value = true;
+  errorMessage.value = "";
+
+  try {
+    const baseURL = useUrl();
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      showToast("No authentication token found. Please login again.", true);
+      return;
+    }
+
+    const response = await $fetch("/admin/users", {
+      method: "GET",
+      baseURL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("Users API response:", response);
+
+    if (response.users) {
+      users.value = response.users;
+    } else if (Array.isArray(response)) {
+      users.value = response;
+    } else if (response.data) {
+      users.value = Array.isArray(response.data) ? response.data : [response.data];
+    } else {
+      users.value = [response];
+    }
+  } catch (error) {
+    console.error("Failed to fetch users:", error);
+    showToast("Failed to load users. Please try again later.", true);
+    users.value = [];
+  } finally {
+    isLoading.value = false;
+  }
+};
 
 const openAddUserModal = () => {
   currentUser.value = null;
   newUser.value = {
-    name: "",
     email: "",
     password: "",
-    role: t("components.adminDashboardUsers.roles.user"),
+    role: "user",
+    verified: true,
   };
   showUserModal.value = true;
 };
@@ -60,10 +100,10 @@ const openAddUserModal = () => {
 const openEditUserModal = (user) => {
   currentUser.value = user;
   newUser.value = {
-    name: user.name,
     email: user.email,
     password: "",
     role: user.role,
+    verified: user.verified !== false,
   };
   showUserModal.value = true;
 };
@@ -76,40 +116,180 @@ const saveUser = async () => {
   if (isAddingUser.value) return;
 
   isAddingUser.value = true;
-  try {
-    // API delay simulation
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+  errorMessage.value = "";
 
-    if (currentUser.value) {
-      const index = users.value.findIndex((u) => u.id === currentUser.value.id);
-      if (index !== -1) {
-        users.value[index] = {
-          ...users.value[index],
-          name: newUser.value.name,
-          email: newUser.value.email,
-          role: newUser.value.role,
-        };
-      }
-    } else {
-      const id = users.value.length + 1;
-      users.value.push({
-        id,
-        name: newUser.value.name,
-        email: newUser.value.email,
-        role: newUser.value.role,
-        lastActive: t("components.adminDashboardUsers.timeExpressions.never"),
-      });
+  try {
+    const baseURL = useUrl();
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      showToast("No authentication token found. Please login again.", true);
+      return;
     }
 
+    const payload = {
+      email: newUser.value.email,
+      role: newUser.value.role,
+      verified: newUser.value.verified,
+    };
+
+    if (!currentUser.value && newUser.value.password) {
+      payload.password = newUser.value.password;
+    }
+
+    if (currentUser.value) {
+      await $fetch(`/admin/users/${currentUser.value.id}`, {
+        method: "PUT",
+        baseURL,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: payload,
+      });
+
+      showToast("User updated successfully");
+    } else {
+      await $fetch("/admin/users", {
+        method: "POST",
+        baseURL,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: payload,
+      });
+
+      showToast("User created successfully");
+    }
+
+    await fetchUsers();
     closeUserModal();
+  } catch (error) {
+    console.error("Failed to save user:", error);
+
+    let errorMsg = "Failed to save user. Please try again.";
+    if (error.response) {
+      try {
+        const errorData = await error.response.json();
+        errorMsg = errorData.message || errorData.error || errorMsg;
+      } catch (e) {
+        errorMsg = `Error: ${error.response.statusText || error.message}`;
+      }
+    }
+
+    showToast(errorMsg, true);
   } finally {
     isAddingUser.value = false;
   }
 };
 
-const deleteUser = (id: number) => {
-  users.value = users.value.filter((user) => user.id !== id);
+const openDeleteConfirmModal = (user) => {
+  userToDelete.value = user;
+  showDeleteConfirmModal.value = true;
 };
+
+const confirmDelete = async () => {
+  if (!userToDelete.value || isDeleting.value) return;
+
+  isDeleting.value = true;
+  errorMessage.value = "";
+
+  try {
+    const baseURL = useUrl();
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      showToast("No authentication token found. Please login again.", true);
+      return;
+    }
+
+    await $fetch(`/admin/users/${userToDelete.value.id}`, {
+      method: "DELETE",
+      baseURL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    showToast(`User ${userToDelete.value.email} deleted successfully`);
+    await fetchUsers();
+  } catch (error) {
+    console.error("Failed to delete user:", error);
+    showToast("Failed to delete user. Please try again.", true);
+  } finally {
+    isDeleting.value = false;
+    closeDeleteConfirmModal();
+  }
+};
+
+const closeDeleteConfirmModal = () => {
+  showDeleteConfirmModal.value = false;
+  userToDelete.value = null;
+};
+
+const promoteUser = async (user) => {
+  try {
+    const baseURL = useUrl();
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      showToast("No authentication token found. Please login again.", true);
+      return;
+    }
+
+    await $fetch(`/admin/users/${user.id}/promote`, {
+      method: "PUT",
+      baseURL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    showToast(`${user.name || user.email} promoted to admin`);
+    await fetchUsers();
+  } catch (error) {
+    console.error("Failed to promote user:", error);
+    showToast("Failed to promote user. Please try again.", true);
+  }
+};
+
+const demoteUser = async (user) => {
+  try {
+    const baseURL = useUrl();
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      showToast("No authentication token found. Please login again.", true);
+      return;
+    }
+
+    await $fetch(`/admin/users/${user.id}/demote`, {
+      method: "PUT",
+      baseURL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    showToast(`${user.name || user.email} demoted to user`);
+    await fetchUsers();
+  } catch (error) {
+    console.error("Failed to demote user:", error);
+    showToast("Failed to demote user. Please try again.", true);
+  }
+};
+
+const formatDate = (dateString) => {
+  if (!dateString) return "Never";
+
+  const date = new Date(dateString);
+  return date.toLocaleString();
+};
+
+onMounted(() => {
+  fetchUsers();
+});
 </script>
 
 <template>
@@ -117,6 +297,7 @@ const deleteUser = (id: number) => {
     class="admin-dashboard-users"
     :class="{ 'admin-dashboard-users--loaded': animationComplete }"
   >
+    <!-- Header section -->
     <div class="admin-dashboard-users__header">
       <h2 class="admin-dashboard-users__title">
         <Icon
@@ -137,55 +318,146 @@ const deleteUser = (id: number) => {
       </button>
     </div>
 
+    <!-- Alert messages -->
+    <div
+      v-if="errorMessage"
+      class="admin-dashboard-users__alert admin-dashboard-users__alert--error"
+    >
+      <Icon
+        name="mdi:alert-circle"
+        class="admin-dashboard-users__alert-icon"
+      />
+      {{ errorMessage }}
+    </div>
+
+    <div
+      v-if="successMessage"
+      class="admin-dashboard-users__alert admin-dashboard-users__alert--success"
+    >
+      <Icon
+        name="mdi:check-circle"
+        class="admin-dashboard-users__alert-icon"
+      />
+      {{ successMessage }}
+    </div>
+
+    <!-- Users data table -->
     <div class="admin-dashboard-users__card">
       <table class="admin-dashboard-users__table">
         <thead>
           <tr>
-            <th>{{ $t("components.adminDashboardUsers.table.id") }}</th>
-            <th>{{ $t("components.adminDashboardUsers.table.name") }}</th>
-            <th>{{ $t("components.adminDashboardUsers.table.email") }}</th>
-            <th>{{ $t("components.adminDashboardUsers.table.role") }}</th>
-            <th>{{ $t("components.adminDashboardUsers.table.lastActive") }}</th>
-            <th class="admin-dashboard-users__actions-header">
-              {{ $t("components.adminDashboardUsers.table.actions") }}
-            </th>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th class="admin-dashboard-users__actions-header">Actions</th>
           </tr>
         </thead>
         <tbody>
+          <!-- Loading state -->
+          <tr
+            v-if="isLoading"
+            class="admin-dashboard-users__loading-row"
+          >
+            <td
+              colspan="6"
+              class="admin-dashboard-users__loading-cell"
+            >
+              <div class="admin-dashboard-users__loading">
+                <Icon
+                  name="mdi:loading"
+                  class="admin-dashboard-users__loading-icon"
+                />
+                Loading users...
+              </div>
+            </td>
+          </tr>
+
+          <!-- Empty state -->
+          <tr
+            v-else-if="users.length === 0"
+            class="admin-dashboard-users__empty-row"
+          >
+            <td
+              colspan="6"
+              class="admin-dashboard-users__empty-cell"
+            >
+              No users found. Click "Add User" to create one.
+            </td>
+          </tr>
+
+          <!-- User rows -->
           <tr
             v-for="user in users"
             :key="user.id"
             class="admin-dashboard-users__table-row"
           >
-            <td>{{ user.id }}</td>
-            <td>{{ user.name }}</td>
+            <td>{{ user.id.substring(0, 8) }}...</td>
             <td>{{ user.email }}</td>
             <td>
               <span
                 class="admin-dashboard-users__role-badge"
                 :class="{
-                  'admin-dashboard-users__role-badge--admin':
-                    user.role === $t('components.adminDashboardUsers.roles.admin'),
+                  'admin-dashboard-users__role-badge--admin': user.role === 'admin',
                 }"
               >
                 {{ user.role }}
               </span>
             </td>
-            <td>{{ user.lastActive }}</td>
+            <td>
+              <span
+                class="admin-dashboard-users__status-badge"
+                :class="`admin-dashboard-users__status-badge--${user.verified ? 'verified' : 'unverified'}`"
+              >
+                {{ user.verified ? "Verified" : "Unverified" }}
+              </span>
+            </td>
+            <td>{{ formatDate(user.createdAt) }}</td>
             <td class="admin-dashboard-users__actions-cell">
               <div class="admin-dashboard-users__actions">
+                <!-- Edit button -->
                 <button
                   class="admin-dashboard-users__action-button"
                   @click="openEditUserModal(user)"
+                  title="Edit user"
                 >
                   <Icon
                     name="mdi:pencil"
                     class="admin-dashboard-users__action-icon"
                   />
                 </button>
+
+                <!-- Promote/Demote button -->
+                <button
+                  v-if="user.role === 'user'"
+                  class="admin-dashboard-users__action-button admin-dashboard-users__action-button--promote"
+                  @click="promoteUser(user)"
+                  title="Promote to admin"
+                >
+                  <Icon
+                    name="mdi:arrow-up-bold"
+                    class="admin-dashboard-users__action-icon"
+                  />
+                </button>
+                <button
+                  v-else
+                  class="admin-dashboard-users__action-button admin-dashboard-users__action-button--demote"
+                  @click="demoteUser(user)"
+                  title="Demote to user"
+                >
+                  <Icon
+                    name="mdi:arrow-down-bold"
+                    class="admin-dashboard-users__action-icon"
+                  />
+                </button>
+
+                <!-- Delete button -->
                 <button
                   class="admin-dashboard-users__action-button admin-dashboard-users__action-button--danger"
-                  @click="deleteUser(user.id)"
+                  @click="openDeleteConfirmModal(user)"
+                  :disabled="isDeleting"
+                  title="Delete user"
                 >
                   <Icon
                     name="mdi:delete"
@@ -212,11 +484,7 @@ const deleteUser = (id: number) => {
         >
           <div class="admin-dashboard-users__modal-header">
             <h2 class="admin-dashboard-users__modal-title">
-              {{
-                currentUser
-                  ? $t("components.adminDashboardUsers.modal.editTitle")
-                  : $t("components.adminDashboardUsers.modal.addTitle")
-              }}
+              {{ currentUser ? "Edit User" : "Add New User" }}
             </h2>
             <button
               class="admin-dashboard-users__modal-close"
@@ -235,67 +503,60 @@ const deleteUser = (id: number) => {
               class="admin-dashboard-users__form"
             >
               <div class="admin-dashboard-users__form-group">
-                <label class="admin-dashboard-users__form-label">
-                  {{ $t("components.adminDashboardUsers.modal.form.nameLabel") }}
-                </label>
-                <input
-                  v-model="newUser.name"
-                  class="admin-dashboard-users__form-input"
-                  type="text"
-                  :placeholder="$t('components.adminDashboardUsers.modal.form.namePlaceholder')"
-                  required
-                />
-              </div>
-
-              <div class="admin-dashboard-users__form-group">
-                <label class="admin-dashboard-users__form-label">
-                  {{ $t("components.adminDashboardUsers.modal.form.emailLabel") }}
-                </label>
+                <label class="admin-dashboard-users__form-label">Email</label>
                 <input
                   v-model="newUser.email"
                   class="admin-dashboard-users__form-input"
                   type="email"
-                  :placeholder="$t('components.adminDashboardUsers.modal.form.emailPlaceholder')"
+                  placeholder="Enter email address"
                   required
                 />
               </div>
 
               <div
-                class="admin-dashboard-users__form-group"
                 v-if="!currentUser"
+                class="admin-dashboard-users__form-group"
               >
-                <label class="admin-dashboard-users__form-label">
-                  {{ $t("components.adminDashboardUsers.modal.form.passwordLabel") }}
-                </label>
+                <label class="admin-dashboard-users__form-label">Password</label>
                 <input
                   v-model="newUser.password"
                   class="admin-dashboard-users__form-input"
                   type="password"
-                  :placeholder="$t('components.adminDashboardUsers.modal.form.passwordPlaceholder')"
-                  :required="!currentUser"
+                  placeholder="Enter password"
+                  required
                 />
               </div>
 
               <div class="admin-dashboard-users__form-group">
-                <label class="admin-dashboard-users__form-label">
-                  {{ $t("components.adminDashboardUsers.modal.form.roleLabel") }}
-                </label>
+                <label class="admin-dashboard-users__form-label">Role</label>
                 <div class="admin-dashboard-users__select-wrapper">
                   <select
                     v-model="newUser.role"
                     class="admin-dashboard-users__form-select"
                   >
-                    <option :value="$t('components.adminDashboardUsers.roles.user')">
-                      {{ $t("components.adminDashboardUsers.roles.user") }}
-                    </option>
-                    <option :value="$t('components.adminDashboardUsers.roles.admin')">
-                      {{ $t("components.adminDashboardUsers.roles.admin") }}
-                    </option>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
                   </select>
                   <Icon
                     name="mdi:chevron-down"
                     class="admin-dashboard-users__select-icon"
                   />
+                </div>
+              </div>
+
+              <div class="admin-dashboard-users__form-group">
+                <label class="admin-dashboard-users__form-label">Verification Status</label>
+                <div class="admin-dashboard-users__toggle-wrapper">
+                  <label class="admin-dashboard-users__toggle">
+                    <input
+                      type="checkbox"
+                      v-model="newUser.verified"
+                    />
+                    <span class="admin-dashboard-users__toggle-slider"></span>
+                  </label>
+                  <span class="admin-dashboard-users__toggle-label">
+                    {{ newUser.verified ? "Verified" : "Unverified" }}
+                  </span>
                 </div>
               </div>
 
@@ -305,7 +566,7 @@ const deleteUser = (id: number) => {
                   class="admin-dashboard-users__form-button admin-dashboard-users__form-button--secondary"
                   @click="closeUserModal"
                 >
-                  {{ $t("components.adminDashboardUsers.modal.actions.cancel") }}
+                  Cancel
                 </button>
                 <button
                   type="submit"
@@ -313,11 +574,7 @@ const deleteUser = (id: number) => {
                   :disabled="isAddingUser"
                 >
                   <span v-if="!isAddingUser">
-                    {{
-                      currentUser
-                        ? $t("components.adminDashboardUsers.modal.actions.save")
-                        : $t("components.adminDashboardUsers.modal.actions.add")
-                    }}
+                    {{ currentUser ? "Save Changes" : "Add User" }}
                   </span>
                   <span
                     v-else
@@ -327,15 +584,87 @@ const deleteUser = (id: number) => {
                       name="mdi:loading"
                       class="admin-dashboard-users__loading-icon"
                     />
-                    {{
-                      currentUser
-                        ? $t("components.adminDashboardUsers.modal.actions.saving")
-                        : $t("components.adminDashboardUsers.modal.actions.adding")
-                    }}
+                    {{ currentUser ? "Saving..." : "Adding..." }}
                   </span>
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      </div>
+    </Teleport>
+
+    <!-- Delete confirmation modal -->
+    <Teleport to="body">
+      <div
+        v-if="showDeleteConfirmModal"
+        class="admin-dashboard-users__modal-overlay"
+        @click="closeDeleteConfirmModal"
+      >
+        <div
+          class="admin-dashboard-users__modal admin-dashboard-users__modal--confirm"
+          @click.stop
+        >
+          <div
+            class="admin-dashboard-users__modal-header admin-dashboard-users__modal-header--warning"
+          >
+            <h2 class="admin-dashboard-users__modal-title">
+              <Icon
+                name="mdi:alert-circle"
+                class="admin-dashboard-users__modal-icon"
+              />
+              Confirm Deletion
+            </h2>
+            <button
+              class="admin-dashboard-users__modal-close"
+              @click="closeDeleteConfirmModal"
+            >
+              <Icon
+                name="mdi:close"
+                class="admin-dashboard-users__modal-close-icon"
+              />
+            </button>
+          </div>
+
+          <div class="admin-dashboard-users__modal-body">
+            <div class="admin-dashboard-users__warning-message">
+              <p><strong>Warning:</strong> You are about to delete the following user:</p>
+              <div class="admin-dashboard-users__user-info">
+                <span class="admin-dashboard-users__user-email">{{ userToDelete?.email }}</span>
+              </div>
+              <p>
+                This action cannot be undone. All data associated with this user account will be
+                permanently removed.
+              </p>
+            </div>
+
+            <div class="admin-dashboard-users__form-actions">
+              <button
+                type="button"
+                class="admin-dashboard-users__form-button admin-dashboard-users__form-button--secondary"
+                @click="closeDeleteConfirmModal"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="admin-dashboard-users__form-button admin-dashboard-users__form-button--danger"
+                :disabled="isDeleting"
+                @click="confirmDelete"
+              >
+                <span v-if="!isDeleting">Delete User</span>
+                <span
+                  v-else
+                  class="admin-dashboard-users__loading"
+                >
+                  <Icon
+                    name="mdi:loading"
+                    class="admin-dashboard-users__loading-icon"
+                  />
+                  Deleting...
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -441,6 +770,33 @@ const deleteUser = (id: number) => {
     font-size: 2rem;
   }
 
+  &__alert {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: 0.8rem;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    animation: fadeIn 0.3s ease-out;
+
+    &--error {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+      border-left: 4px solid #ef4444;
+    }
+
+    &--success {
+      background-color: rgba(34, 197, 94, 0.1);
+      color: #22c55e;
+      border-left: 4px solid #22c55e;
+    }
+  }
+
+  &__alert-icon {
+    font-size: 2.2rem;
+  }
+
   &__card {
     border-radius: $dark_card_border_radius;
     overflow: hidden;
@@ -532,6 +888,25 @@ const deleteUser = (id: number) => {
     }
   }
 
+  &__status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    font-size: 1.3rem;
+    font-weight: 500;
+
+    &--verified {
+      background-color: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+    }
+
+    &--unverified {
+      background-color: rgba(234, 179, 8, 0.2);
+      color: #eab308;
+    }
+  }
+
   &__actions {
     display: flex;
     align-items: center;
@@ -555,7 +930,7 @@ const deleteUser = (id: number) => {
       background-color: rgba(0, 114, 245, 0.1);
       color: #0072f5;
 
-      &:hover {
+      &:hover:not(:disabled) {
         background-color: #0072f5;
         color: white;
       }
@@ -564,8 +939,28 @@ const deleteUser = (id: number) => {
         background-color: rgba(220, 38, 38, 0.1);
         color: #dc2626;
 
-        &:hover {
+        &:hover:not(:disabled) {
           background-color: #dc2626;
+          color: white;
+        }
+      }
+
+      &--promote {
+        background-color: rgba(34, 197, 94, 0.1);
+        color: #22c55e;
+
+        &:hover:not(:disabled) {
+          background-color: #22c55e;
+          color: white;
+        }
+      }
+
+      &--demote {
+        background-color: rgba(234, 179, 8, 0.1);
+        color: #eab308;
+
+        &:hover:not(:disabled) {
+          background-color: #eab308;
           color: white;
         }
       }
@@ -575,7 +970,7 @@ const deleteUser = (id: number) => {
       background-color: rgba(0, 201, 114, 0.1);
       color: #00c972;
 
-      &:hover {
+      &:hover:not(:disabled) {
         background-color: #00c972;
         color: #0e131b;
       }
@@ -584,11 +979,36 @@ const deleteUser = (id: number) => {
         background-color: rgba(220, 38, 38, 0.1);
         color: #dc2626;
 
-        &:hover {
+        &:hover:not(:disabled) {
           background-color: #dc2626;
           color: white;
         }
       }
+
+      &--promote {
+        background-color: rgba(34, 197, 94, 0.1);
+        color: #22c55e;
+
+        &:hover:not(:disabled) {
+          background-color: #22c55e;
+          color: #0e131b;
+        }
+      }
+
+      &--demote {
+        background-color: rgba(234, 179, 8, 0.1);
+        color: #eab308;
+
+        &:hover:not(:disabled) {
+          background-color: #eab308;
+          color: #0e131b;
+        }
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 
@@ -619,7 +1039,79 @@ const deleteUser = (id: number) => {
     }
   }
 
-  // Modal styles
+  &__toggle-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__toggle {
+    position: relative;
+    display: inline-block;
+    width: 5rem;
+    height: 2.6rem;
+
+    input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+
+      &:checked + .admin-dashboard-users__toggle-slider {
+        :root.light-theme & {
+          background-color: #0072f5;
+        }
+
+        :root.dark-theme & {
+          background-color: #00c972;
+        }
+      }
+
+      &:checked + .admin-dashboard-users__toggle-slider:before {
+        transform: translateX(2.4rem);
+      }
+    }
+  }
+
+  &__toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.3s;
+    border-radius: 3.4rem;
+
+    &:before {
+      position: absolute;
+      content: "";
+      height: 2rem;
+      width: 2rem;
+      left: 0.3rem;
+      bottom: 0.3rem;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+  }
+
+  &__toggle-label {
+    font-size: 1.4rem;
+    color: $color_text_primary;
+  }
+
+  &__loading-row td {
+    padding: 3rem 0;
+  }
+
+  &__loading-cell,
+  &__empty-cell {
+    text-align: center !important;
+    padding: 4rem 2rem !important;
+    color: $color_text_secondary;
+  }
+
   &__modal-overlay {
     position: fixed;
     top: 0;
@@ -652,6 +1144,10 @@ const deleteUser = (id: number) => {
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
+
+    &--confirm {
+      width: 460px;
+    }
   }
 
   &__modal-header {
@@ -666,6 +1162,16 @@ const deleteUser = (id: number) => {
 
     :root.dark-theme & {
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    &--warning {
+      :root.light-theme & {
+        background-color: rgba(239, 68, 68, 0.1);
+      }
+
+      :root.dark-theme & {
+        background-color: rgba(239, 68, 68, 0.15);
+      }
     }
   }
 
@@ -708,8 +1214,55 @@ const deleteUser = (id: number) => {
     font-size: 2.4rem;
   }
 
+  &__modal-icon {
+    margin-right: 0.8rem;
+    font-size: 2.2rem;
+
+    :root.light-theme & {
+      color: #dc2626;
+    }
+
+    :root.dark-theme & {
+      color: #ef4444;
+    }
+  }
+
   &__modal-body {
     padding: 2rem;
+  }
+
+  &__warning-message {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+
+    p {
+      margin: 1rem 0;
+    }
+  }
+
+  &__user-info {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    border-radius: 0.8rem;
+    margin: 1.5rem 0;
+
+    :root.dark-theme & {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  &__user-email {
+    font-weight: 600;
+    word-break: break-all;
+
+    :root.light-theme & {
+      color: #dc2626;
+    }
+
+    :root.dark-theme & {
+      color: #ef4444;
+    }
   }
 
   &__form {
@@ -820,6 +1373,18 @@ const deleteUser = (id: number) => {
           box-shadow: none;
         }
       }
+
+      &--danger {
+        background-color: #dc2626;
+
+        &:hover:not(:disabled) {
+          background-color: color.adjust(#dc2626, $lightness: -5%);
+        }
+
+        &:disabled {
+          background-color: color.adjust(#dc2626, $lightness: 20%);
+        }
+      }
     }
 
     :root.dark-theme & {
@@ -846,6 +1411,18 @@ const deleteUser = (id: number) => {
           background-color: rgba(255, 255, 255, 0.05);
           transform: none;
           box-shadow: none;
+        }
+      }
+
+      &--danger {
+        background-color: #ef4444;
+
+        &:hover:not(:disabled) {
+          background-color: color.adjust(#ef4444, $lightness: -5%);
+        }
+
+        &:disabled {
+          background-color: color.adjust(#ef4444, $lightness: -20%);
         }
       }
     }
