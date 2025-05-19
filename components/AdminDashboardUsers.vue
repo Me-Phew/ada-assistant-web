@@ -290,6 +290,10 @@ const formatDate = (dateString) => {
 onMounted(() => {
   fetchUsers();
 });
+
+defineExpose({
+  openAddUserModal,
+});
 </script>
 
 <template>

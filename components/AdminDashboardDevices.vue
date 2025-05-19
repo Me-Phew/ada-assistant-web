@@ -318,6 +318,10 @@ onMounted(async () => {
   await fetchUsers();
   await fetchDevices();
 });
+
+defineExpose({
+  openRegisterDeviceModal,
+});
 </script>
 
 <template>

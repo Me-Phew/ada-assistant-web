@@ -208,6 +208,10 @@ const formatDate = (dateString) => {
 onMounted(async () => {
   await fetchFirmware();
 });
+
+defineExpose({
+  openAddFirmwareModal,
+});
 </script>
 
 <template>

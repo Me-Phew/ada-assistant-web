@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { useUrl } from "~/composables/register";
 
 const { t } = useI18n();
+const router = useRouter();
 
 defineProps({
   animationComplete: {
@@ -10,12 +13,11 @@ defineProps({
   },
 });
 
-// Dane statystyk
-const stats = [
+const stats = ref([
   {
     id: "devices",
     title: t("components.adminDashboardOverview.stats.devices.title"),
-    value: 12,
+    value: 0,
     label: t("components.adminDashboardOverview.stats.devices.label"),
     icon: "mdi:devices",
     colorClass: "devices",
@@ -23,17 +25,17 @@ const stats = [
   {
     id: "users",
     title: t("components.adminDashboardOverview.stats.users.title"),
-    value: 28,
+    value: 0,
     label: t("components.adminDashboardOverview.stats.users.label"),
     icon: "mdi:account-group",
     colorClass: "users",
   },
   {
-    id: "activity",
-    title: t("components.adminDashboardOverview.stats.activity.title"),
-    value: 186,
-    label: t("components.adminDashboardOverview.stats.activity.label"),
-    icon: "mdi:chart-line",
+    id: "firmware",
+    title: "Firmware Versions",
+    value: 0,
+    label: "Total versions",
+    icon: "mdi:update",
     colorClass: "stats",
   },
   {
@@ -44,42 +46,40 @@ const stats = [
     icon: "mdi:alert-circle-outline",
     colorClass: "alerts",
   },
-];
+]);
 
-// Szybkie akcje
-const quickActions = [
+const quickActions = ref([
   {
     id: "register-device",
     title: t("components.adminDashboardOverview.quickActions.registerDevice"),
     icon: "mdi:plus-circle-outline",
-    action: () => console.log("Register device"),
+    action: () => navigateAndOpenModal("devices", "openRegisterDeviceModal"),
     colorClass: "theme-color",
   },
   {
     id: "add-user",
     title: t("components.adminDashboardOverview.quickActions.addUser"),
     icon: "mdi:account-plus",
-    action: () => console.log("Add user"),
+    action: () => navigateAndOpenModal("users", "openAddUserModal"),
     colorClass: "theme-color",
   },
   {
     id: "update-firmware",
     title: t("components.adminDashboardOverview.quickActions.updateFirmware"),
     icon: "mdi:update",
-    action: () => console.log("Update firmware"),
+    action: () => navigateAndOpenModal("firmware", "openAddFirmwareModal"),
     colorClass: "theme-color",
   },
   {
     id: "system-backup",
     title: t("components.adminDashboardOverview.quickActions.systemBackup"),
     icon: "mdi:backup-restore",
-    action: () => console.log("System backup"),
+    action: () => console.log("System backup - not implemented yet"),
     colorClass: "theme-color",
   },
-];
+]);
 
-// Ostatnie aktywności
-const recentActivities = [
+const recentActivities = ref([
   {
     id: 1,
     type: "device",
@@ -112,7 +112,153 @@ const recentActivities = [
     time: "3 godziny temu",
     icon: "mdi:alert",
   },
-];
+]);
+
+const fetchDeviceCount = async () => {
+  try {
+    const baseURL = useUrl();
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      console.error("No auth token found");
+      return;
+    }
+
+    const response = await $fetch("/admin/devices", {
+      method: "GET",
+      baseURL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (Array.isArray(response)) {
+      updateStatCount("devices", response.length);
+    } else if (response.devices) {
+      updateStatCount("devices", response.devices.length);
+    } else if (response.data) {
+      const deviceData = Array.isArray(response.data) ? response.data : [response.data];
+      updateStatCount("devices", deviceData.length);
+    } else if (response.items) {
+      updateStatCount("devices", response.items.length);
+    } else {
+      updateStatCount("devices", 1);
+    }
+  } catch (error) {
+    console.error("Failed to fetch device count:", error);
+    try {
+      const baseURL = useUrl();
+      const token = localStorage.getItem("authToken");
+      const altResponse = await $fetch("/admin/devices/all", {
+        method: "GET",
+        baseURL,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (Array.isArray(altResponse)) {
+        updateStatCount("devices", altResponse.length);
+      } else if (altResponse.devices) {
+        updateStatCount("devices", altResponse.devices.length);
+      }
+    } catch (altError) {
+      console.error("Alternative device fetch failed:", altError);
+    }
+  }
+};
+
+const fetchUserCount = async () => {
+  try {
+    const baseURL = useUrl();
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      console.error("No auth token found");
+      return;
+    }
+
+    const response = await $fetch("/admin/users", {
+      method: "GET",
+      baseURL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.users) {
+      updateStatCount("users", response.users.length);
+    } else if (Array.isArray(response)) {
+      updateStatCount("users", response.length);
+    } else if (response.data) {
+      const userData = Array.isArray(response.data) ? response.data : [response.data];
+      updateStatCount("users", userData.length);
+    } else {
+      updateStatCount("users", 1);
+    }
+  } catch (error) {
+    console.error("Failed to fetch user count:", error);
+  }
+};
+
+const fetchFirmwareCount = async () => {
+  try {
+    const baseURL = useUrl();
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      console.error("No auth token found");
+      return;
+    }
+
+    const response = await $fetch("/admin/firmware", {
+      method: "GET",
+      baseURL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (Array.isArray(response)) {
+      updateStatCount("firmware", response.length);
+    } else if (response.firmwareVersions) {
+      updateStatCount("firmware", response.firmwareVersions.length);
+    } else if (response.data) {
+      const firmwareData = Array.isArray(response.data) ? response.data : [response.data];
+      updateStatCount("firmware", firmwareData.length);
+    } else {
+      updateStatCount("firmware", 0);
+    }
+  } catch (error) {
+    console.error("Failed to fetch firmware count:", error);
+  }
+};
+
+const updateStatCount = (statId, count) => {
+  const statIndex = stats.value.findIndex((stat) => stat.id === statId);
+  if (statIndex !== -1) {
+    stats.value[statIndex].value = count;
+  }
+};
+
+const navigateAndOpenModal = (tab, modalFunction) => {
+  const currentRoute = router.currentRoute.value.path;
+
+  if (currentRoute === "/admin-dashboard") {
+    window.sessionStorage.setItem("adminDashboardAction", modalFunction);
+    emit("set-active-tab", tab);
+  } else {
+    sessionStorage.setItem("adminDashboardTab", tab);
+    sessionStorage.setItem("adminDashboardAction", modalFunction);
+    router.push("/admin-dashboard");
+  }
+};
+
+const emit = defineEmits(["set-active-tab"]);
+
+onMounted(async () => {
+  await Promise.all([fetchDeviceCount(), fetchUserCount(), fetchFirmwareCount()]);
+});
 </script>
 
 <template>
@@ -159,6 +305,7 @@ const recentActivities = [
             :key="action.id"
             class="admin-dashboard-overview__quick-action"
             :class="`admin-dashboard-overview__quick-action--${action.colorClass}`"
+            @click="action.action"
           >
             <Icon
               :name="action.icon"
@@ -288,23 +435,23 @@ const recentActivities = [
     font-size: 2.4rem;
 
     &--devices {
-      background-color: rgba(0, 114, 245, 0.1);
-      color: #0072f5;
+      background-color: white;
+      color: black;
     }
 
     &--users {
-      background-color: rgba(132, 204, 22, 0.1);
-      color: #84cc16;
+      background-color: white;
+      color: black;
     }
 
     &--stats {
-      background-color: rgba(232, 121, 249, 0.1);
-      color: #e879f9;
+      background-color: white;
+      color: black;
     }
 
     &--alerts {
-      background-color: rgba(251, 113, 133, 0.1);
-      color: #fb7185;
+      background-color: white;
+      color: black;
     }
   }
 
@@ -547,7 +694,6 @@ const recentActivities = [
 }
 
 .custom-scrollbar {
-  /* WebKit browsers (Chrome, Safari) */
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -560,7 +706,6 @@ const recentActivities = [
     border-radius: 6px;
   }
 
-  /* Firefox */
   scrollbar-width: thin;
 
   :root.light-theme & {
