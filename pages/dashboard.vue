@@ -67,15 +67,6 @@ onMounted(() => {
         </div>
       </div>
 
-      <!-- Devices Tab -->
-      <div
-        v-else-if="activeTab === 'devices'"
-        key="devices"
-        class="dashboard__section"
-      >
-        <!-- <DevicesPage :animation-complete="animationComplete" /> -->
-      </div>
-
       <!-- Interactions Tab -->
       <div
         v-else-if="activeTab === 'interactions'"
