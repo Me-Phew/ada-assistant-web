@@ -10,7 +10,6 @@ const emit = defineEmits<{
 
 const tabs = [
   { id: "overview", icon: "mdi:view-dashboard-outline" },
-  { id: "interactions", icon: "mdi:history" },
   { id: "settings", icon: "mdi:cog-outline" },
 ];
 

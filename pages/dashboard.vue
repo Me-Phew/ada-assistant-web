@@ -66,16 +66,6 @@ onMounted(() => {
           <DashboardServices :animation-complete="animationComplete" />
         </div>
       </div>
-
-      <!-- Interactions Tab -->
-      <div
-        v-else-if="activeTab === 'interactions'"
-        key="interactions"
-        class="dashboard__section"
-      >
-        <InteractionsPage :animation-complete="animationComplete" />
-      </div>
-
       <!-- Settings Tab -->
       <div
         v-else-if="activeTab === 'settings'"
