@@ -72,7 +72,7 @@ onMounted(() => {
         key="settings"
         class="dashboard__section"
       >
-        <SettingsPage :animation-complete="animationComplete" />
+        <DashboardSettings :animation-complete="animationComplete" />
       </div>
     </transition>
   </div>

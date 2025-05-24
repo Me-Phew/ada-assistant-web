@@ -134,7 +134,6 @@
     },
     "dashboardActionButtons": {
       "addDevice": "Dodaj Urządzenie",
-      "syncData": "Synchronizuj Dane",
       "settings": "Ustawienia"
     },
     "dashboardHeader": {
@@ -339,6 +338,38 @@
         "message": "Czy na pewno chcesz usunąć stare logi? Ta operacja jest nieodwracalna.",
         "cancel": "Anuluj",
         "confirm": "Potwierdź"
+      }
+    },
+    "dashboardSettings": {
+      "title": "Ustawienia",
+      "sections": {
+        "account": "Konto",
+        "appearance": "Wygląd",
+        "language": "Język"
+      },
+      "account": {
+        "title": "Ustawienia konta",
+        "passwordTitle": "Zmień hasło",
+        "currentPassword": "Obecne hasło",
+        "currentPasswordPlaceholder": "Wprowadź obecne hasło",
+        "newPassword": "Nowe hasło",
+        "newPasswordPlaceholder": "Wprowadź nowe hasło",
+        "confirmPassword": "Potwierdź hasło",
+        "confirmPasswordPlaceholder": "Potwierdź nowe hasło",
+        "savePassword": "Zapisz hasło",
+        "saving": "Zapisywanie...",
+        "passwordSuccess": "Hasło zostało zmienione pomyślnie"
+      },
+      "appearance": {
+        "title": "Wygląd",
+        "themeTitle": "Motyw",
+        "lightTheme": "Jasny",
+        "darkTheme": "Ciemny"
+      },
+      "language": {
+        "title": "Język",
+        "selectTitle": "Wybierz język",
+        "info": "Zmiany języka zostaną zastosowane natychmiast w całej aplikacji."
       }
     }
   },
