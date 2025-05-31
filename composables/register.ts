@@ -39,17 +39,6 @@ export const useRegister = async (data: IAuthData) => {
       credentials: "include",
     });
 
-    // Store user data and token
-    const customer = useCustomer();
-    if (response.user) {
-      customer.value = response.user;
-
-      // Store token if provided
-      if (response.token) {
-        localStorage.setItem("authToken", response.token);
-      }
-    }
-
     return response.user;
   } catch (error) {
     throw error;
