@@ -134,7 +134,6 @@
     },
     "dashboardActionButtons": {
       "addDevice": "Add Device",
-      "syncData": "Sync Data",
       "settings": "Settings"
     },
     "dashboardHeader": {
@@ -339,6 +338,38 @@
         "message": "Are you sure you want to delete old logs? This action cannot be undone.",
         "cancel": "Cancel",
         "confirm": "Confirm"
+      }
+    },
+    "dashboardSettings": {
+      "title": "Settings",
+      "sections": {
+        "account": "Account",
+        "appearance": "Appearance",
+        "language": "Language"
+      },
+      "account": {
+        "title": "Account Settings",
+        "passwordTitle": "Change Password",
+        "currentPassword": "Current Password",
+        "currentPasswordPlaceholder": "Enter your current password",
+        "newPassword": "New Password",
+        "newPasswordPlaceholder": "Enter your new password",
+        "confirmPassword": "Confirm Password",
+        "confirmPasswordPlaceholder": "Confirm your new password",
+        "savePassword": "Save Password",
+        "saving": "Saving...",
+        "passwordSuccess": "Password changed successfully"
+      },
+      "appearance": {
+        "title": "Appearance",
+        "themeTitle": "Theme",
+        "lightTheme": "Light",
+        "darkTheme": "Dark"
+      },
+      "language": {
+        "title": "Language",
+        "selectTitle": "Select Language",
+        "info": "Changes to language will take effect immediately throughout the application."
       }
     }
   },

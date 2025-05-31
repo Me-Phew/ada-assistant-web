@@ -3,6 +3,7 @@ import { ref } from "vue";
 import ForgotPasswordForm from "~/components/ForgotPasswordForm.vue";
 import LoginContainer from "~/components/LoginContainer.vue";
 import LoginPage from "~/components/LoginPage.vue";
+import { useUrl } from "~/composables/register";
 
 const email = ref("");
 const isSubmitting = ref(false);
@@ -21,11 +22,23 @@ const handleSubmit = async () => {
   isSuccess.value = false;
 
   try {
-    // Tutaj będzie właściwa logika resetowania hasła
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const baseURL = useUrl();
+
+    await $fetch("/auth/forgot-password", {
+      method: "POST",
+      body: { email: email.value },
+      baseURL,
+    });
+
     isSuccess.value = true;
-  } catch (err) {
-    error.value = "Nie udało się wysłać linku resetującego hasło";
+  } catch (err: any) {
+    console.error("Password reset request error:", err);
+
+    if (err?.data?.message) {
+      error.value = err.data.message;
+    } else {
+      error.value = "Nie udało się wysłać linku resetującego hasło";
+    }
   } finally {
     isSubmitting.value = false;
   }

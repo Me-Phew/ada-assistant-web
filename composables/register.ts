@@ -4,6 +4,15 @@ interface IAuthData {
   name?: string;
 }
 
+interface Customer {
+  id?: string;
+  email: string;
+  name?: string;
+  avatar?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export const useUrl = () => {
   const config = useRuntimeConfig();
 
@@ -30,17 +39,6 @@ export const useRegister = async (data: IAuthData) => {
       credentials: "include",
     });
 
-    // Store user data and token
-    const customer = useCustomer();
-    if (response.user) {
-      customer.value = response.user;
-
-      // Store token if provided
-      if (response.token) {
-        localStorage.setItem("authToken", response.token);
-      }
-    }
-
     return response.user;
   } catch (error) {
     throw error;
@@ -63,6 +61,7 @@ export const useLogin = async (data: IAuthData) => {
       password: data.password,
     };
 
+    console.log("Sending login request to:", baseURL + "/auth/login");
     const response = await $fetch<any>("/auth/login", {
       method: "POST",
       body: requestBody,
@@ -70,16 +69,28 @@ export const useLogin = async (data: IAuthData) => {
       credentials: "include",
     });
 
+    console.log("Login response received:", response);
+
     if (response.user) {
+      console.log("Setting customer state with user data");
       customer.value = response.user;
+    } else {
+      console.warn("No user data in login response");
     }
 
-    if (response.token) {
+    if (response.accessToken) {
+      console.log("Storing auth token in localStorage");
+      localStorage.setItem("authToken", response.accessToken);
+    } else if (response.token) {
+      console.log("Storing auth token in localStorage (using token field)");
       localStorage.setItem("authToken", response.token);
+    } else {
+      console.warn("No token in login response");
     }
 
     return response.user;
   } catch (error) {
+    console.error("Login function error:", error);
     throw error;
   }
 };
@@ -90,78 +101,80 @@ export const useLogin = async (data: IAuthData) => {
  */
 export const useGetCustomer = async () => {
   const customer = useCustomer();
-  // get base url
   const baseURL = useUrl();
 
   try {
-    // Get the authentication token
     const token = localStorage.getItem("authToken");
     if (!token) {
-      customer.value = null;
+      console.log("[useGetCustomer] No auth token found in localStorage.");
+      if (customer.value !== null) customer.value = null;
       return null;
     }
 
-    const headers: Record<string, string> = {
-      ...useRequestHeaders(["cookie"]),
+    console.log("[useGetCustomer] Found token, fetching user data from /auth/me");
+
+    const headers = {
       Authorization: `Bearer ${token}`,
     };
 
-    const response = await $fetch<any>("/auth/me", {
+    const { data } = await useFetch<{ user: Customer | null }>("/auth/me", {
       method: "GET",
       baseURL,
-      // Include the cookie on the client side
       credentials: "include",
-      // Send Authorization header
       headers,
     });
 
-    // Check if the response has user data
-    if (!response?.user) {
+    console.log("[useGetCustomer] User data response:", data.value);
+
+    if (data.value && data.value.user) {
+      customer.value = data.value.user;
+      console.log(
+        "[useGetCustomer] Customer state set with user data:",
+        JSON.stringify(data.value.user),
+      );
+      if (data.value.user.role) {
+        localStorage.setItem("userRole", data.value.user.role);
+      }
+      return data.value.user;
+    } else {
+      console.warn(
+        "[useGetCustomer] No user data in response or response structure unexpected. Clearing customer state and token.",
+      );
       customer.value = null;
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("userRole");
       return null;
     }
+  } catch (error: any) {
+    console.error("[useGetCustomer] Error fetching user data:", error.message);
+    if (customer.value !== null) customer.value = null;
 
-    // set the customer
-    customer.value = response.user;
-    return response.user;
-  } catch (error) {
-    customer.value = null;
+    const status = error?.response?.status;
+    if (status === 401 || status === 403) {
+      console.log(`[useGetCustomer] Authentication error (${status}), removing token.`);
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("userRole");
+    }
     return null;
   }
 };
 
 /**
- * Method used to log a customer out
+ * Method used to log a customer out (client-side only)
  */
 export const useLogout = async () => {
   try {
-    const baseURL = useUrl();
-    const customer = useCustomer();
-
-    // Get the authentication token
-    const token = localStorage.getItem("authToken");
-    const headers: Record<string, string> = {};
-
-    if (token) {
-      headers.Authorization = `Bearer ${token}`;
-    }
-
-    await $fetch("/auth/logout", {
-      method: "POST",
-      baseURL,
-      headers,
-      // Include the cookie on the client side
-      credentials: "include",
-    });
-
-    // Clear local storage and state
     localStorage.removeItem("authToken");
+    const customer = useCustomer();
     customer.value = null;
+
+    return navigateTo("/login");
   } catch (error) {
-    // Even if the request fails, clear local storage and state
+    console.error("Logout error:", error);
     localStorage.removeItem("authToken");
     const customer = useCustomer();
     customer.value = null;
-    throw error;
+
+    return navigateTo("/login");
   }
 };

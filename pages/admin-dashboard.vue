@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 definePageMeta({
   layout: "dashboard",
+  middleware: ["admin"],
 });
 
 const activeTab = ref<string>("dashboard");
@@ -17,11 +18,49 @@ const setActiveTab = (tab: string) => {
   activeTab.value = tab;
 };
 
+const devicesComponentRef = ref(null);
+const usersComponentRef = ref(null);
+const firmwareComponentRef = ref(null);
+
 onMounted(() => {
   setTimeout(() => {
     animationComplete.value = true;
   }, 1000);
+
+  const storedTab = sessionStorage.getItem("adminDashboardTab");
+  if (storedTab) {
+    activeTab.value = storedTab;
+    sessionStorage.removeItem("adminDashboardTab");
+  }
+
+  const storedAction = sessionStorage.getItem("adminDashboardAction");
+  if (storedAction) {
+    setTimeout(() => {
+      triggerComponentAction(storedAction);
+      sessionStorage.removeItem("adminDashboardAction");
+    }, 500);
+  }
 });
+
+watch(activeTab, (newTab) => {
+  const storedAction = sessionStorage.getItem("adminDashboardAction");
+  if (storedAction) {
+    setTimeout(() => {
+      triggerComponentAction(storedAction);
+      sessionStorage.removeItem("adminDashboardAction");
+    }, 500);
+  }
+});
+
+const triggerComponentAction = (actionName: string) => {
+  if (actionName === "openRegisterDeviceModal" && devicesComponentRef.value) {
+    devicesComponentRef.value.openRegisterDeviceModal();
+  } else if (actionName === "openAddUserModal" && usersComponentRef.value) {
+    usersComponentRef.value.openAddUserModal();
+  } else if (actionName === "openAddFirmwareModal" && firmwareComponentRef.value) {
+    firmwareComponentRef.value.openAddFirmwareModal();
+  }
+};
 </script>
 
 <template>
@@ -56,7 +95,10 @@ onMounted(() => {
         key="dashboard"
         class="admin-dashboard__section"
       >
-        <AdminDashboardOverview :animation-complete="animationComplete" />
+        <AdminDashboardOverview
+          :animation-complete="animationComplete"
+          @set-active-tab="setActiveTab"
+        />
       </div>
 
       <!-- Panel urządzeń -->
@@ -65,7 +107,22 @@ onMounted(() => {
         key="devices"
         class="admin-dashboard__section"
       >
-        <AdminDashboardDevices :animation-complete="animationComplete" />
+        <AdminDashboardDevices
+          ref="devicesComponentRef"
+          :animation-complete="animationComplete"
+        />
+      </div>
+
+      <!-- Panel firmware -->
+      <div
+        v-else-if="activeTab === 'firmware'"
+        key="firmware"
+        class="admin-dashboard__section"
+      >
+        <AdminDashboardFirmware
+          ref="firmwareComponentRef"
+          :animation-complete="animationComplete"
+        />
       </div>
 
       <!-- Panel użytkowników -->
@@ -74,7 +131,10 @@ onMounted(() => {
         key="users"
         class="admin-dashboard__section"
       >
-        <AdminDashboardUsers :animation-complete="animationComplete" />
+        <AdminDashboardUsers
+          ref="usersComponentRef"
+          :animation-complete="animationComplete"
+        />
       </div>
 
       <!-- Panel logów -->
