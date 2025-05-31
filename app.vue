@@ -1,38 +1,15 @@
 <template>
   <div class="app">
-    <div
-      v-if="isAuthCheckPending"
-      class="auth-loading-overlay"
-    >
-      <p>Loading session...</p>
-      <Icon
-        name="mdi:loading"
-        class="auth-loading-spinner"
-      />
-    </div>
-    <NuxtLayout v-if="!isAuthCheckPending">
+    <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
-
 useHead({
   meta: [{ name: "viewport", content: "width=device-width, initial-scale=1" }],
 });
-
-const initialAuthCheckCompleted = useState<boolean>("initialAuthCheckCompleted", () => false);
-const isAuthCheckPending = ref(!initialAuthCheckCompleted.value);
-
-watch(
-  initialAuthCheckCompleted,
-  (newValue) => {
-    isAuthCheckPending.value = !newValue;
-  },
-  { immediate: true },
-);
 </script>
 
 <style lang="scss">

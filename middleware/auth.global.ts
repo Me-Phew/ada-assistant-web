@@ -7,6 +7,14 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const publicPages = ["/", "/login", "/register", "/forgot-password", "/spotifycallback"];
   const isPublicPage = publicPages.includes(to.path) || to.path.startsWith("/reset-password");
 
+  const initialAuthCheckCompleted = useState<boolean>("initialAuthCheckCompleted", () => false);
+
+  if (!initialAuthCheckCompleted.value) {
+    console.log(from.fullPath, to.fullPath);
+    console.log("[Auth Global Middleware] Initial auth check not completed. Allowing navigation.");
+    return;
+  }
+
   if (!customer.value) {
     if (!isPublicPage) {
       console.log(

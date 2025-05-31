@@ -1,4 +1,4 @@
-export default defineNuxtPlugin(async (nuxtApp) => {
+export default defineNuxtPlugin(async (_nuxtApp) => {
   console.log("[Auth.client Plugin] Running...");
   const customerState = useCustomer();
   const token = localStorage.getItem("authToken");

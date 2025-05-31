@@ -128,25 +128,25 @@ export const useGetCustomer = async () => {
       Authorization: `Bearer ${token}`,
     };
 
-    const response = await $fetch<{ user: Customer | null }>("/auth/me", {
+    const { data } = await useFetch<{ user: Customer | null }>("/auth/me", {
       method: "GET",
       baseURL,
       credentials: "include",
       headers,
     });
 
-    console.log("[useGetCustomer] User data response:", response);
+    console.log("[useGetCustomer] User data response:", data.value);
 
-    if (response && response.user) {
-      customer.value = response.user;
+    if (data.value && data.value.user) {
+      customer.value = data.value.user;
       console.log(
         "[useGetCustomer] Customer state set with user data:",
-        JSON.stringify(response.user),
+        JSON.stringify(data.value.user),
       );
-      if (response.user.role) {
-        localStorage.setItem("userRole", response.user.role);
+      if (data.value.user.role) {
+        localStorage.setItem("userRole", data.value.user.role);
       }
-      return response.user;
+      return data.value.user;
     } else {
       console.warn(
         "[useGetCustomer] No user data in response or response structure unexpected. Clearing customer state and token.",
