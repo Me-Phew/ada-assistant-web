@@ -1,15 +1,13 @@
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import ShapeChangingBall from "~/components/ShapeChangingBall.vue";
 
 const { t } = useI18n();
 
 const displayedText = ref("");
-const isTyping = ref(true);
 const typingInterval = ref<number | null>(null);
 const typingSpeed = 50;
-const pauseBeforeErasing = 2000;
-const pauseBeforeTyping = 500;
 const cursorVisible = ref(true);
 
 const fullText = computed(() => t("pages.home.hero.subtitle"));
@@ -24,23 +22,13 @@ const startTypingEffect = () => {
   let currentIndex = 0;
 
   const runTypingEffect = () => {
-    if (isTyping.value) {
-      if (currentIndex < fullText.value.length) {
-        displayedText.value = fullText.value.substring(0, currentIndex + 1);
-        currentIndex++;
-      } else {
-        setTimeout(() => {
-          isTyping.value = false;
-        }, pauseBeforeErasing);
-      }
+    if (currentIndex < fullText.value.length) {
+      displayedText.value = fullText.value.substring(0, currentIndex + 1);
+      currentIndex++;
     } else {
-      if (currentIndex > 0) {
-        displayedText.value = fullText.value.substring(0, currentIndex - 1);
-        currentIndex--;
-      } else {
-        setTimeout(() => {
-          isTyping.value = true;
-        }, pauseBeforeTyping);
+      if (typingInterval.value !== null) {
+        clearInterval(typingInterval.value);
+        typingInterval.value = null;
       }
     }
   };
@@ -78,6 +66,15 @@ onUnmounted(() => {
 
       <BaseButton class="home-hero__cta-button">{{ $t("pages.home.hero.cta") }}</BaseButton>
     </aside>
+
+    <div class="home-hero__ball-wrapper">
+      <ShapeChangingBall
+        :size="260"
+        :enableBounce="true"
+        :bounceHeight="18"
+        :bounceDuration="1800"
+      />
+    </div>
   </section>
 </template>
 
@@ -85,8 +82,9 @@ onUnmounted(() => {
 .home-hero {
   @include base-grid;
 
-  min-height: 100vh;
+  min-height: 70vh;
   background-color: $color_background_primary;
+  position: relative;
 
   &__text-wrapper {
     margin-top: 12rem;
@@ -101,6 +99,22 @@ onUnmounted(() => {
       display: flex;
       flex-direction: column;
       align-items: center;
+    }
+  }
+
+  &__ball-wrapper {
+    grid-column: 6/10;
+    margin-top: 16rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    @include tablet-and-below {
+      display: none;
+    }
+
+    @include mobile {
+      display: none;
     }
   }
 
