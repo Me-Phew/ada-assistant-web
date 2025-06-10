@@ -31,7 +31,7 @@
   &__photo {
     margin-top: 5.6rem;
     grid-column: 3/6;
-    border-radius: 8rem;
+    border-radius: 6rem;
     overflow: hidden;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     max-width: 70%;

@@ -78,6 +78,7 @@ interface ServiceItem {
   color: string;
   connected: boolean;
   description?: string;
+  realTime?: boolean; // Add realTime flag for services that sync in real-time
 }
 
 const connectedServices = ref<ServiceItem[]>([
@@ -92,23 +93,14 @@ const connectedServices = ref<ServiceItem[]>([
     description: "Connect to Spotify to control music playback and access your playlists",
   },
   {
-    id: "gcalendar",
-    name: "Google Calendar",
-    icon: "mdi:calendar-month",
-    status: "Connected",
-    lastSync: "34 min ago",
-    color: "#4285F4",
-    connected: true,
-    description: "Access your Google Calendar events and create new appointments",
-  },
-  {
     id: "weather",
     name: "Weather API",
     icon: "mdi:weather-partly-cloudy",
     status: "Connected",
-    lastSync: "1 hour ago",
+    lastSync: "Real-time", // Changed from "1 hour ago" to "Real-time"
     color: "#FF9800",
     connected: true,
+    realTime: true, // Add flag for real-time sync
     description: "Get real-time weather information for your location",
   },
 ]);
@@ -239,19 +231,27 @@ watch(spotifyConnected, (newValue) => {
           </div>
         </div>
 
-        <div
-          class="dashboard-services__last-sync"
-          v-if="service.connected"
-        >
-          {{ service.lastSync }}
-        </div>
+        <template v-if="service.connected">
+          <div
+            v-if="service.realTime"
+            class="dashboard-services__real-time"
+          >
+            <span class="dashboard-services__real-time-badge">Real-time</span>
+          </div>
+          <div
+            v-else
+            class="dashboard-services__last-sync"
+          >
+            {{ service.lastSync }}
+          </div>
+        </template>
 
         <div
           class="dashboard-services__actions"
           @click.stop
         >
           <button
-            v-if="service.connected"
+            v-if="service.connected && !service.realTime"
             class="dashboard-services__menu-trigger"
             @click="toggleDropdown(service.id)"
           >
@@ -259,7 +259,7 @@ watch(spotifyConnected, (newValue) => {
           </button>
 
           <button
-            v-else
+            v-if="!service.connected"
             class="dashboard-services__connect-button"
             @click="service.id === 'spotify' ? connectSpotify() : null"
             :disabled="isLoading && service.id === 'spotify'"
@@ -278,6 +278,7 @@ watch(spotifyConnected, (newValue) => {
             class="dashboard-services__dropdown"
           >
             <button
+              v-if="!service.realTime"
               class="dashboard-services__dropdown-item"
               @click="refreshService(service.id)"
             >
@@ -655,6 +656,32 @@ watch(spotifyConnected, (newValue) => {
 
   &__add-icon {
     font-size: 1.8rem;
+  }
+
+  &__real-time {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+  }
+
+  &__real-time-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.7rem;
+    border-radius: 1rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    white-space: nowrap;
+
+    :root.light-theme & {
+      background-color: rgba(0, 114, 245, 0.1);
+      color: #0072f5;
+    }
+
+    :root.dark-theme & {
+      background-color: rgba(0, 201, 114, 0.1);
+      color: #00c972;
+    }
   }
 }
 
