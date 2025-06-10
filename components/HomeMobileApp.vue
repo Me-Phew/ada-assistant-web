@@ -2,7 +2,7 @@
   <section class="home-mobile-app">
     <img
       class="home-mobile-app__photo"
-      src="@/assets/img/mobile_app.png"
+      src="@/assets/img/mobile_app_gif.gif"
       alt="Aplikacja mobilna Ada"
     />
 
@@ -31,12 +31,18 @@
   &__photo {
     margin-top: 5.6rem;
     grid-column: 3/6;
+    border-radius: 8rem;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 
     @include tablet-and-below {
       grid-column: 2/12;
-      max-width: 100%;
+      max-width: 50%;
       margin: 5.6rem auto 0;
-      display: block;
     }
   }
 
